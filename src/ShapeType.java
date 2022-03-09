@@ -1,2 +1,3 @@
-package PACKAGE_NAME;public enum ShapeType {
+public enum ShapeType {
+  RECTANGLE, CIRCLE;
 }
