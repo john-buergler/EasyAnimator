@@ -1,3 +1,5 @@
+package model;
+
 /**
  * Represents the position of an object.
  */
@@ -6,7 +8,7 @@ public class Posn {
   private int y;
 
   /**
-   * Constructs a Posn with given x and y coordinates.
+   * Constructs a model.Posn with given x and y coordinates.
    * @param x represents the x coord.
    * @param y represents the y coord.
    */
