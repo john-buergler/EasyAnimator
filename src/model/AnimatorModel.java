@@ -25,8 +25,9 @@ public interface AnimatorModel {
    * @param width the width of the new shape.
    * @param color the color of the new shape.
    * @param posn the position of the new shape.
-   * @throws IllegalArgumentException if the height or width are negative values.
+   * @throws IllegalArgumentException if the height or width are negative or zero values.
    * @throws IllegalArgumentException if the position is outside the scene.
+   * @throws IllegalArgumentException if the shapeID has already been used.
    *
    */
   public void addShape(ShapeType shapeType, int height, int width, Color color,
@@ -47,6 +48,7 @@ public interface AnimatorModel {
   /**
    * Gets the model Shape from a given model.Shape ID.
    * @param shapeId the shape's ID.
+   * @throws IllegalArgumentException if given shapeID doesn't correspond to any shape in the animation.
    */
   public Shape getShape(String shapeId);
 
@@ -66,10 +68,11 @@ public interface AnimatorModel {
    * @param startTime when to start changing the color.
    * @param endTime when the color finishes changing.
    * @param shapeID the shape to change the color of.
+   * @param color the new color of the shape.
    * @throws IllegalArgumentException if start or end time are negative values.
    * @throws IllegalArgumentException if endTime - startTime <= 0.
    */
-  public void changeColor(String shapeID, int startTime, int endTime);
+  public void changeColor(String shapeID, int startTime, int endTime, Color color);
 
   /**
    * Gets the number of Shapes in the animation.

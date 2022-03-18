@@ -27,8 +27,23 @@ public class EasyAnimatorModel implements AnimatorModel {
                        Posn posn, String shapeID) {
     boolean incorrectX = posn.getX() < sceneWidth || posn.getX() > sceneWidth;
     boolean incorrectY = posn.getY() < sceneHeight || posn.getY() > sceneHeight;
+    boolean heightWidthBad = height <= 0 || width <= 0;
     if (incorrectX || incorrectY) {
       throw new IllegalArgumentException("Shape position not within model scene.");
+    }
+    if (heightWidthBad) {
+      throw new IllegalArgumentException("Height or width can't be negative or zero values.");
+    }
+
+    boolean isIdUsed = false;
+    for (Shape s : shapes) {
+      if (s.getShapeID().equals(shapeID)) {
+        isIdUsed = true;
+      }
+    }
+
+    if (isIdUsed) {
+      throw new IllegalArgumentException("Shape Id has already been used.");
     }
 
     Shape shape;
@@ -46,11 +61,18 @@ public class EasyAnimatorModel implements AnimatorModel {
     if (startTime - endTime <= 0) {
       throw new IllegalArgumentException();
     }
+
+    getShape(shapeID).moveShape(startPos, endPos);
   }
 
   @Override
   public Shape getShape(String shapeId) {
-    return null;
+    for (Shape s : shapes) {
+      if (s.getShapeID().equals(shapeId)) {
+        return s;
+      }
+    }
+    throw new IllegalArgumentException("No shape found for this ID.");
   }
 
   @Override
@@ -64,8 +86,8 @@ public class EasyAnimatorModel implements AnimatorModel {
   }
 
   @Override
-  public void changeColor(String shapeID, int startTime, int endTime) {
-
+  public void changeColor(String shapeID, int startTime, int endTime, Color color) {
+    getShape(shapeID).changeColor(color);
   }
 
   @Override

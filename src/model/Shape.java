@@ -18,4 +18,17 @@ public interface Shape {
    */
   public void changeColor(Color color);
 
+  /**
+   * Changes the dimensions of the shape.
+   * @param height the new height for the shape.
+   * @param width the new width for the shape.
+   * @throws IllegalArgumentException if height or width are negative or zero values.
+   */
+  public void changeShapeDimensions(int height, int width);
+
+  /**
+   * Returns the shapeId of the shape.
+   * @return the shapeID as a string.
+   */
+  public String getShapeID();
 }

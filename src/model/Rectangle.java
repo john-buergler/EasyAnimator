@@ -2,8 +2,6 @@ package model;
 
 import java.awt.*;
 
-import model.AbstractShape;
-
 public class Rectangle extends AbstractShape {
 
   public Rectangle(int height, int width, Color color, Posn position, String shapeID){

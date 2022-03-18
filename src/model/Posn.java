@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 /**
  * Represents the position of an object.
  */
@@ -24,4 +26,20 @@ public class Posn {
   public int getY() {
     return y;
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof Posn other) {
+      return this.x == other.x
+              && this.y == other.y;
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(this.x, this.y);
+  }
+
 }
