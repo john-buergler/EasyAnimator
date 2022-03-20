@@ -92,6 +92,6 @@ public class EasyAnimatorModel implements AnimatorModel {
 
   @Override
   public int getNumShapes() {
-    return 0;
+    return shapes.size();
   }
 }

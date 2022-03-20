@@ -31,4 +31,10 @@ public interface Shape {
    * @return the shapeID as a string.
    */
   public String getShapeID();
+
+  /**
+   * Gets the position of the shape.
+   * @return the position of the shape as a Posn.
+   */
+  public Posn getShapePosn();
 }

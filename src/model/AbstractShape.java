@@ -42,8 +42,12 @@ public abstract class AbstractShape implements Shape {
 
   @Override
   public String getShapeID() {
-    return shapeID;
+    return this.shapeID;
   }
 
+  @Override
+  public Posn getShapePosn() {
+    return this.position;
+  }
 
 }
