@@ -18,12 +18,8 @@ public abstract class AbstractShape implements Shape {
   }
 
   @Override
-  public void moveShape(Posn startPos, Posn endPos) {
-    if (!startPos.equals(this.position)) {
-      throw new IllegalArgumentException("Start position of the move isn't the shapes current position.");
-    }
-
-    this.position = endPos;
+  public void moveShape(int xChange, int yChange) {
+    this.position.move(xChange, yChange);
   }
 
   @Override

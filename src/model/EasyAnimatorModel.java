@@ -25,8 +25,8 @@ public class EasyAnimatorModel implements AnimatorModel {
   @Override
   public void addShape(ShapeType shapeType, int height, int width, Color color,
                        Posn posn, String shapeID) {
-    boolean incorrectX = posn.getX() < sceneWidth || posn.getX() > sceneWidth;
-    boolean incorrectY = posn.getY() < sceneHeight || posn.getY() > sceneHeight;
+    boolean incorrectX = posn.getX() < 0 || posn.getX() > sceneWidth;
+    boolean incorrectY = posn.getY() < 0 || posn.getY() > sceneHeight;
     boolean heightWidthBad = height <= 0 || width <= 0;
     if (incorrectX || incorrectY) {
       throw new IllegalArgumentException("Shape position not within model scene.");
@@ -58,11 +58,21 @@ public class EasyAnimatorModel implements AnimatorModel {
 
   @Override
   public void moveShape(int startTime, int endTime, Posn startPos, Posn endPos, String shapeID) {
-    if (startTime - endTime <= 0) {
-      throw new IllegalArgumentException();
+    int time = endTime - startTime;
+    Posn dist = new Posn(endPos.getX() - startPos.getX(), endPos.getY() - startPos.getY());
+    int xPerTick = dist.getX() / time;
+    int yPerTick = dist.getY() / time;
+    if (time <= 0) {
+      throw new IllegalArgumentException("Time can't be negative.");
+    }
+    for (int t = 1; t <= time; t++) {
+      Shape movingShape = getShape(shapeID);
+      movingShape.moveShape(xPerTick, yPerTick);
     }
 
-    getShape(shapeID).moveShape(startPos, endPos);
+    // Need more info on the functionality of ticks in Java when animating. with this functionality,
+    // the ticks will easily be incorporated with the t variable within the loop.
+
   }
 
   @Override
@@ -77,12 +87,18 @@ public class EasyAnimatorModel implements AnimatorModel {
 
   @Override
   public List<Shape> getShapes() {
-    return null;
+    return shapes;
   }
 
   @Override
   public List<Shape> getShapeAt(Posn posn) {
-    return null;
+    List<Shape> shapes = new ArrayList<Shape>();
+    for (Shape s : shapes) {
+      if (s.getShapePosn().equals(posn)) {
+        shapes.add(s);
+      }
+    }
+    return shapes;
   }
 
   @Override

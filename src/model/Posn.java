@@ -27,11 +27,16 @@ public class Posn {
     return y;
   }
 
+  public void move(int xChange, int yChange) {
+    x = x + xChange;
+    y = y + yChange;
+  }
+
   @Override
   public boolean equals(Object o) {
-    if (o instanceof Posn other) {
-      return this.x == other.x
-              && this.y == other.y;
+    if (o instanceof Posn) {
+      return this.x == ((Posn) o).getX()
+              && this.y == ((Posn) o).getY();
     } else {
       return false;
     }
