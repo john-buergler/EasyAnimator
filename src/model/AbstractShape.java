@@ -46,4 +46,8 @@ public abstract class AbstractShape implements Shape {
     return this.position;
   }
 
+  @Override
+  public Color getColor() {
+    return this.color;
+  }
 }

@@ -8,9 +8,11 @@ public class EasyAnimatorModel implements AnimatorModel {
   private int sceneHeight;
   private int sceneWidth;
   private final List<Shape> shapes;
+  private final StringBuilder log;
 
   public EasyAnimatorModel() {
     this.shapes = new ArrayList<>();
+    this.log = new StringBuilder();
   }
 
   @Override
@@ -54,6 +56,7 @@ public class EasyAnimatorModel implements AnimatorModel {
       shape = new Oval(height, width, color, posn, shapeID);
     }
     shapes.add(shape);
+    log.append("Shape " + shapeID + " " + shapeType.toString());
   }
 
   @Override
@@ -68,6 +71,9 @@ public class EasyAnimatorModel implements AnimatorModel {
     for (int t = 1; t <= time; t++) {
       Shape movingShape = getShape(shapeID);
       movingShape.moveShape(xPerTick, yPerTick);
+      log.append("Motion " + shapeID + "Starts: " + startTime + ", " + "Ends: " + endTime + ", "
+      + "moves from x= " + startPos.getX() + "to x= " + endPos.getX() + ", and y= " +
+              startPos.getY() + " to y= " + endPos.getY());
     }
 
     // Need more info on the functionality of ticks in Java when animating. with this functionality,
@@ -104,6 +110,8 @@ public class EasyAnimatorModel implements AnimatorModel {
   @Override
   public void changeColor(String shapeID, int startTime, int endTime, Color color) {
     getShape(shapeID).changeColor(color);
+    log.append("Motion " + shapeID + " from color " + getShape(shapeID).getColor() + " to color "
+    + color + " from time = " + startTime + " to time = " + endTime);
   }
 
   @Override

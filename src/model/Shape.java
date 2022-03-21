@@ -37,4 +37,10 @@ public interface Shape {
    * @return the position of the shape as a Posn.
    */
   public Posn getShapePosn();
+
+  /**
+   * Gets the color of the shape.
+   * @return the color of the shape as a Color.
+   */
+  public Color getColor();
 }
