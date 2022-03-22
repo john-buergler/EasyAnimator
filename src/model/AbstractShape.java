@@ -9,6 +9,9 @@ public abstract class AbstractShape implements Shape {
   protected Color color;
   protected Posn position;
   protected ShapeType type;
+  protected boolean isMoving;
+  protected boolean isChangingColor;
+  protected boolean isChangingSize;
 
   public AbstractShape(int height,
                        int width,
@@ -22,16 +25,21 @@ public abstract class AbstractShape implements Shape {
     this.color = color;
     this.position = position;
     this.type = type;
+    this.isMoving = false;
+    this.isChangingColor = false;
+    this.isChangingSize = false;
   }
 
   @Override
   public void moveShape(int xChange, int yChange) {
     this.position.move(xChange, yChange);
+    //this.isMoving = true;
   }
 
   @Override
   public void changeColor(Color color) {
     this.color = color;
+    //this.isChangingColor = true;
   }
 
   @Override
@@ -41,6 +49,7 @@ public abstract class AbstractShape implements Shape {
     }
     this.height = height;
     this.width = width;
+    //this.isChangingSize = true;
   }
 
   @Override
@@ -71,5 +80,20 @@ public abstract class AbstractShape implements Shape {
   @Override
   public ShapeType getShapeType() {
     return this.type;
+  }
+
+  @Override
+  public boolean getMovingStatus() {
+    return this.isMoving;
+  }
+
+  @Override
+  public boolean getChangingColorStatus() {
+    return this.isChangingColor;
+  }
+
+  @Override
+  public boolean getChangingSizeStatus() {
+    return this.isChangingSize;
   }
 }

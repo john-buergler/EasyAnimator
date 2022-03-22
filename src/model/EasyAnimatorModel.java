@@ -9,12 +9,10 @@ public class EasyAnimatorModel implements AnimatorModel {
   private int sceneHeight;
   private int sceneWidth;
   private final List<Shape> shapes;
-  private ArrayList<ArrayList<Shape>> shapesPerTick;
-  private final StringBuilder log;
+  private final List<ArrayList<Shape>> shapesPerTick;
 
   public EasyAnimatorModel() {
     this.shapes = new ArrayList<>();
-    this.log = new StringBuilder();
     this.shapesPerTick = new ArrayList<ArrayList<Shape>>();
 
   }
@@ -63,7 +61,6 @@ public class EasyAnimatorModel implements AnimatorModel {
       shape = new Oval(height, width, color, posn, shapeID, shapeType);
     }
     shapes.add(shape);
-    log.append("Shape " + shapeID + " " + shapeType.toString() + '\n');
   }
 
   @Override
@@ -85,11 +82,14 @@ public class EasyAnimatorModel implements AnimatorModel {
      */
 
     for (int t = startTime + 1; t <= endTime; t++) {
-      if (shapesPerTick.get(t).stream().anyMatch(s -> s.getShapeID() == shapeID)) {
+      if (shapesPerTick.get(t).stream().anyMatch(s -> s.getShapeID().equals(shapeID))) {
         Optional<Shape> optional =
-                shapesPerTick.get(t).stream().filter(s -> s.getShapeID() == shapeID).findFirst();
+                shapesPerTick.get(t).stream().filter(s -> s.getShapeID().equals(shapeID)).findFirst();
         if (optional.isPresent()) {
           Shape movingShape = optional.get();
+          if (movingShape.getMovingStatus()) {
+            throw new IllegalArgumentException("Shape is already moving.");
+          }
           movingShape.moveShape(xPerTick, yPerTick);
         }
       }
@@ -116,9 +116,6 @@ public class EasyAnimatorModel implements AnimatorModel {
         shape.moveShape(xPerTick, yPerTick);
       }
     }
-    log.append("Motion " + shapeID + " Starts: " + startTime + ", " + "Ends: " + endTime + ", "
-            + "moves from x= " + startPos.getX() + " to x= " + endPos.getX() + ", and y= " +
-            startPos.getY() + " to y= " + endPos.getY() + '\n');
 
   }
 
@@ -150,9 +147,62 @@ public class EasyAnimatorModel implements AnimatorModel {
 
   @Override
   public void changeColor(String shapeID, int startTime, int endTime, Color color) {
-    getShape(shapeID).changeColor(color);
-    log.append("Motion " + shapeID + " from color " + getShape(shapeID).getColor() + " to color "
-    + color + " from time = " + startTime + " to time = " + endTime + '\n');
+    int time = endTime - startTime;
+    if (time <= 0) {
+      throw new IllegalArgumentException("Time can't be negative.");
+    }
+
+
+
+  }
+
+  @Override
+  public void changeSize(String shapeID, int startTime, int endTime,
+                         int startHeight, int startWidth, int endHeight, int endWidth) {
+    if (startHeight <= 0 || startWidth <= 0 || endHeight <= 0 || endWidth <= 0) {
+      throw new IllegalArgumentException("Invalid height or width arguments");
+    }
+
+    int time = endTime - startTime;
+    if (time <= 0) {
+      throw new IllegalArgumentException("Time can't be negative.");
+    }
+
+    int changeHeight = endHeight - startHeight;
+    int changeWidth = endWidth - startWidth;
+    int changeHRate = changeHeight / time;
+    int changeWRate = changeWidth / time;
+
+    for (int t = startTime + 1; t <= endTime; t++) {
+      if (shapesPerTick.get(t).stream().anyMatch(s -> s.getShapeID().equals(shapeID))) {
+        Optional<Shape> optional =
+                shapesPerTick.get(t).stream().filter(s -> s.getShapeID().equals(shapeID)).findFirst();
+        if (optional.isPresent()) {
+          Shape changingShape = optional.get();
+          if (changingShape.getChangingSizeStatus()) {
+            throw new IllegalArgumentException("Shape is already changing size.");
+          }
+          int newHeight = changingShape.getHeight() + changeHRate;
+          int newWidth = changingShape.getWidth() + changeWRate;
+          changingShape.changeShapeDimensions(newHeight, newWidth);
+        }
+      }
+      else {
+        Shape originalShape = getShape(shapeID);
+        int newHeight = originalShape.getHeight() + changeHRate;
+        int newWidth = originalShape.getWidth() + changeWRate;
+        if (originalShape.getShapeType() == ShapeType.OVAL) {
+          shapesPerTick.get(t).add(new Oval(newHeight, newWidth, originalShape.getColor(),
+                  originalShape.getShapePosn(), shapeID, ShapeType.OVAL));
+        }
+        if (originalShape.getShapeType() == ShapeType.RECTANGLE) {
+          shapesPerTick.get(t).add(new Rectangle(newHeight, newWidth, originalShape.getColor(),
+                  originalShape.getShapePosn(), shapeID, ShapeType.RECTANGLE));
+        }
+        originalShape.changeShapeDimensions(newHeight, newWidth);
+      }
+    }
+
   }
 
   @Override
@@ -161,11 +211,12 @@ public class EasyAnimatorModel implements AnimatorModel {
   }
 
   @Override
-  public ArrayList<ArrayList<Shape>> getShapesPerTick() {
+  public List<ArrayList<Shape>> getShapesPerTick() {
     return this.shapesPerTick;
   }
+
   @Override
-  public StringBuilder getLog() {
-    return this.log;
+  public String toString() {
+    return "";
   }
 }

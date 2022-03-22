@@ -77,17 +77,33 @@ public interface AnimatorModel {
   public void changeColor(String shapeID, int startTime, int endTime, Color color);
 
   /**
+   * Changes the size of the shape.
+   * @param shapeID the ID of the shape that wants to be changed.
+   * @param startTime the start time of the transformation.
+   * @param endTime the end time of the transformation.
+   * @param height the new height of the shape.
+   * @param width the new width of the shape.
+   * @throws IllegalArgumentException if the heigt or width values are negative or zero.
+   * @throws IllegalArgumentException if the change in time is negative.
+   * @throws IllegalArgumentException if the start dimensions are not the current shape dimensions.
+   */
+  public void changeSize(String shapeID, int startTime, int endTime,
+                         int startHeight, int startWidth, int endHeight, int endWidth);
+
+  /**
    * Gets the number of Shapes in the animation.
    */
   public int getNumShapes();
 
   /**
    * Gets the timeline.
+   * @return
    */
-  public ArrayList<ArrayList<Shape>> getShapesPerTick();
+  public List<ArrayList<Shape>> getShapesPerTick();
 
   /**
-   * Gets the log of moves and other transformations.
+   * Renders the current state of the model as a string.
+   * @return the state of the model as a string.
    */
-  public StringBuilder getLog();
+  public String toString();
 }

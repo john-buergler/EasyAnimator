@@ -26,4 +26,5 @@ public class Oval extends AbstractShape {
   public int hashCode() {
     return Objects.hash(this.height, this.width, this.position, this.color, this.shapeID);
   }
+
 }

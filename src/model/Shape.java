@@ -61,4 +61,22 @@ public interface Shape {
    * @return the width of shape as an int.
    */
   public int getWidth();
+
+  /**
+   * Looks if the shape is currently moving.
+   * @return true if the shape is moving, false otherwise.
+   */
+  public boolean getMovingStatus();
+
+  /**
+   * Looks if the shape is currently changing color.
+   * @return true if it is changing color, false otherwise.
+   */
+  public boolean getChangingColorStatus();
+
+  /**
+   * Looks if the shape is currently changing size.
+   * @return true if it is changing size, false otherwise.
+   */
+  public boolean getChangingSizeStatus();
 }
