@@ -69,6 +69,7 @@ public class EasyAnimatorModel implements AnimatorModel {
     Posn dist = new Posn(endPos.getX() - startPos.getX(), endPos.getY() - startPos.getY());
     int xPerTick = dist.getX() / time;
     int yPerTick = dist.getY() / time;
+
     if (time <= 0) {
       throw new IllegalArgumentException("Time can't be negative.");
     }

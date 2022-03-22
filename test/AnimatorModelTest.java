@@ -29,6 +29,7 @@ public class AnimatorModelTest {
             model.getShapes().get(0));
   }
 
+
   @Test
   public void testMoveShape() {
     EasyAnimatorModel model = new EasyAnimatorModel();
@@ -54,6 +55,30 @@ public class AnimatorModelTest {
     assertEquals("Shape redov1 OVAL\n" +
             "Motion redov1 Starts: 10, Ends: 12, " +
             "moves from x= 50 to x= 100, and y= 50 to y= 100\n", model.getLog().toString());
+  }
+
+  @Test
+  public void testMoveShapeStandsStill() {
+    EasyAnimatorModel model = new EasyAnimatorModel();
+    model.buildScene(200, 200, 30);
+    model.addShape(ShapeType.OVAL,
+            10,
+            10,
+            Color.RED,
+            new Posn(50, 50),
+            "redov1");
+    model.moveShape(0,
+            12,
+            new Posn(50, 50),
+            new Posn(50, 50),
+            "redov1");
+    assertEquals(model.getShape("redov1").getShapePosn(), new Posn(50, 50));
+    assertEquals(model.getShapesPerTick().get(11).get(0).getShapePosn(), new Posn(50, 50));
+    assertEquals(model.getShapesPerTick().get(12).get(0).getShapePosn(), new Posn(50, 50));
+    assertEquals("Shape redov1 OVAL\n" +
+            "Motion redov1 Starts: 0, Ends: 12, " +
+            "moves from x= 50 to x= 50, and y= 50 to y= 50\n", model.getLog().toString());
+
   }
 
   @Test

@@ -79,4 +79,10 @@ public interface Shape {
    * @return true if it is changing size, false otherwise.
    */
   public boolean getChangingSizeStatus();
+
+  /**
+   * Sets the position of a shape object.
+   * @param startPos the position being set
+   */
+  public void setPos(Posn startPos);
 }

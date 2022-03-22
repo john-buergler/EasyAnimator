@@ -96,4 +96,11 @@ public abstract class AbstractShape implements Shape {
   public boolean getChangingSizeStatus() {
     return this.isChangingSize;
   }
+
+  @Override
+  public void setPos(Posn pos) {
+    this.position = pos;
+  }
+
 }
+
