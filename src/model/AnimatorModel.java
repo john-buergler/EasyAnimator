@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,9 +15,10 @@ public interface AnimatorModel {
    * Creates the location at which the animation takes place.
    * @param height the height dimension of the scene.
    * @param width the width of the scene.
+   * @param time the duration of the animation.
    * @throws IllegalArgumentException if width or height are negative values.
    */
-  public void buildScene(int width, int height);
+  public void buildScene(int width, int height, int time);
 
   /**
    * Creates and adds shape to a scene based on user input.
@@ -78,4 +80,14 @@ public interface AnimatorModel {
    * Gets the number of Shapes in the animation.
    */
   public int getNumShapes();
+
+  /**
+   * Gets the timeline.
+   */
+  public ArrayList<ArrayList<Shape>> getShapesPerTick();
+
+  /**
+   * Gets the log of moves and other transformations.
+   */
+  public StringBuilder getLog();
 }

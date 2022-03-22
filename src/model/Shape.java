@@ -43,4 +43,22 @@ public interface Shape {
    * @return the color of the shape as a Color.
    */
   public Color getColor();
+
+  /**
+   * Gets the type of the shape.
+   * @return the ShapeType of the shape.
+   */
+  public ShapeType getShapeType();
+
+  /**
+   * Gets the height of the shape.
+   * @return the height of shape as an int.
+   */
+  public int getHeight();
+
+  /**
+   * Gets the width of the shape.
+   * @return the width of shape as an int.
+   */
+  public int getWidth();
 }
