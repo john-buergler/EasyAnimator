@@ -72,4 +72,9 @@ public abstract class AbstractShape implements Shape {
   public ShapeType getShapeType() {
     return this.type;
   }
+
+  @Override
+  public void setPos(Posn pos) {
+    this.position = pos;
+  }
 }

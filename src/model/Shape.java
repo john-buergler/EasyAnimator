@@ -61,4 +61,10 @@ public interface Shape {
    * @return the width of shape as an int.
    */
   public int getWidth();
+
+  /**
+   * Sets the position of a shape object.
+   * @param startPos the position being set
+   */
+  public void setPos(Posn startPos);
 }
