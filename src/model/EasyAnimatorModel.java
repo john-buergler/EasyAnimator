@@ -55,7 +55,7 @@ public class EasyAnimatorModel implements AnimatorModel {
 
     Shape shape;
     if (shapeType == ShapeType.RECTANGLE) {
-      shape = new Rectangle(height, width, color, posn, shapeID, shapeType);
+      shape = new Rect(height, width, color, posn, shapeID, shapeType);
     }
     else {
       shape = new Oval(height, width, color, posn, shapeID, shapeType);
@@ -107,12 +107,12 @@ public class EasyAnimatorModel implements AnimatorModel {
                   ((Oval) shape).shapeID,
                   ShapeType.OVAL));
         }
-        if (shape instanceof Rectangle) {
-          shapesPerTick.get(t).add(new Rectangle(((Rectangle) shape).height,
-                  ((Rectangle) shape).width,
+        if (shape instanceof Rect) {
+          shapesPerTick.get(t).add(new Rect(((Rect) shape).height,
+                  ((Rect) shape).width,
                   shape.getColor(),
                   moved,
-                  ((Rectangle) shape).shapeID,
+                  ((Rect) shape).shapeID,
                   ShapeType.OVAL));
         }
         shape.moveShape(xPerTick, yPerTick);
@@ -155,7 +155,7 @@ public class EasyAnimatorModel implements AnimatorModel {
       throw new IllegalArgumentException("Time can't be negative.");
     }
 
-    int rgb = startColor.getRGB();
+    int rgb = endColor.getRGB() - startColor.getRGB();
     int rgbRate = rgb / time;
 
     for (int t = startTime + 1; t <= endTime; t++) {
@@ -180,7 +180,7 @@ public class EasyAnimatorModel implements AnimatorModel {
                     shapeID, ShapeType.OVAL));
           }
           if (originalShape.getShapeType() == ShapeType.RECTANGLE) {
-            shapesPerTick.get(t).add(new Rectangle(originalShape.getHeight(), originalShape.getWidth(),
+            shapesPerTick.get(t).add(new Rect(originalShape.getHeight(), originalShape.getWidth(),
                     new Color(newRGB), originalShape.getShapePosn(),
                     shapeID, ShapeType.RECTANGLE));
           }
@@ -232,7 +232,7 @@ public class EasyAnimatorModel implements AnimatorModel {
                   originalShape.getShapePosn(), shapeID, ShapeType.OVAL));
         }
         if (originalShape.getShapeType() == ShapeType.RECTANGLE) {
-          shapesPerTick.get(t).add(new Rectangle(newHeight, newWidth, originalShape.getColor(),
+          shapesPerTick.get(t).add(new Rect(newHeight, newWidth, originalShape.getColor(),
                   originalShape.getShapePosn(), shapeID, ShapeType.RECTANGLE));
         }
         originalShape.changeShapeDimensions(newHeight, newWidth);
