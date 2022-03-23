@@ -31,8 +31,7 @@ Functionalities of the model include:
 **buildScene**: Must be called before the animation to establish the size of the scene along with the animation's duration in ticks. It is being assumed here that there
 will be a scene creation for the animation that has specific dimensions. As for the duration, it is necessary to initialize the amount of ticks that the animation will
 go on for in order to create our shapesPerTick field that is included in the model. This field is a sort of "Timeline" for the animation. When it comes to rendering
-the animation, it will run through this List of Lists. Each list will represent a tick and as it works its way through it will render the shapes that are included in
-ticks. This is the heart of the animation.
+the animation, it will run through this List of Lists. Each list will represent a tick and as it works its way through the timeline it will render the shapes that are included in each tick. This is the heart of the animation.
 
 **addShape**: Adds a shape with given specifications along with a unique ShapeID. This ShapeID will be utilized often to tell the model which shape to perform
 a certain functionality on.
