@@ -140,29 +140,39 @@ public class EasyAnimatorModel implements AnimatorModel {
         Optional<Shape> optional =
                 shapesPerTick.get(t).stream().filter(s -> s.getShapeID().equals(shapeID)).findFirst();
         if (optional.isPresent()) {
-          Shape movingShape = optional.get();
-          movingShape.moveShape(xPerTick, yPerTick);
-          getActualShape(shapeID).moveShape(xPerTick, yPerTick);
+          if (t == endTime) {
+            Shape movingShape = optional.get();
+            movingShape.moveShape(endPos.getX() - movingShape.getShapePosn().getX(),
+                    endPos.getY() - movingShape.getShapePosn().getY());
+            getActualShape(shapeID).moveShape(xPerTick, yPerTick);
+          } else {
+            Shape movingShape = optional.get();
+            movingShape.moveShape(xPerTick, yPerTick);
+            getActualShape(shapeID).moveShape(xPerTick, yPerTick);
+          }
         }
       }
       else {
         Shape shape = getShape(shapeID);
         Posn pos = shape.getShapePosn();
         Posn moved = new Posn(pos.getX() + xPerTick, pos.getY() + yPerTick);
+        if (t == endTime) {
+          moved = endPos;
+        }
         if (shape instanceof Oval) {
-          shapesPerTick.get(t).add(new Oval(((Oval) shape).height,
-                  ((Oval) shape).width,
+          shapesPerTick.get(t).add(new Oval(shape.getHeight(),
+                  shape.getWidth(),
                   shape.getColor(),
                   moved,
-                  ((Oval) shape).shapeID,
+                  shape.getShapeID(),
                   ShapeType.OVAL));
         }
         if (shape instanceof Rect) {
-          shapesPerTick.get(t).add(new Rect(((Rect) shape).height,
-                  ((Rect) shape).width,
+          shapesPerTick.get(t).add(new Rect(shape.getHeight(),
+                  shape.getWidth(),
                   shape.getColor(),
                   moved,
-                  ((Rect) shape).shapeID,
+                  shape.getShapeID(),
                   ShapeType.RECTANGLE));
         }
         getActualShape(shapeID).moveShape(xPerTick, yPerTick);
@@ -244,14 +254,22 @@ public class EasyAnimatorModel implements AnimatorModel {
                 shapesPerTick.get(t).stream().filter(s -> s.getShapeID().equals(shapeID)).findFirst();
         if (optional.isPresent()) {
           Shape changingColor = optional.get();
-          int newRGB = rgb + rgbRate;
-          changingColor.changeColor(new Color(newRGB));
-          getShape(shapeID).changeColor(new Color(newRGB));
+          if (t == endTime) {
+            changingColor.changeColor(endColor);
+            getShape(shapeID).changeColor(endColor);
+          } else {
+            int newRGB = rgb + rgbRate;
+            changingColor.changeColor(new Color(newRGB));
+            getShape(shapeID).changeColor(new Color(newRGB));
+          }
         }
       }
         else {
           Shape originalShape = getShape(shapeID);
           int newRGB = originalShape.getColor().getRGB() + rgbRate;
+        if (t == endTime) {
+           newRGB = endColor.getRGB();
+          }
           if (originalShape.getShapeType() == ShapeType.OVAL) {
             shapesPerTick.get(t).add(new Oval(originalShape.getHeight(), originalShape.getWidth(),
                     new Color(newRGB), originalShape.getShapePosn(),
@@ -332,7 +350,6 @@ public class EasyAnimatorModel implements AnimatorModel {
     }
 
   }
-
   @Override
   public int getNumShapes() {
     return shapes.size();

@@ -373,7 +373,7 @@ public class AnimatorModelTest {
     model.changeSize("bitBlueR", 4, 6, 5,
             5, 15, 10);
     assertEquals(10, model.getShapesPerTick().get(5).get(0).getHeight());
-    assertEquals(8, model.getShapesPerTick().get(5).get(0).getWidth());
+    assertEquals(7, model.getShapesPerTick().get(5).get(0).getWidth());
   }
 
   @Test
@@ -407,7 +407,7 @@ public class AnimatorModelTest {
             "x=100 y=100 w=5 h=5 color=java.awt.Color[r=0,g=0,b=255]\n" +
             "At time t = 2:\n" +
             "Shape bitBlueR RECTANGLE\n" +
-            "x=150 y=150 w=5 h=5 color=java.awt.Color[r=253,g=254,b=2]\n";
+            "x=150 y=150 w=5 h=5 color=java.awt.Color[r=255,g=0,b=0]\n";
     assertEquals(str, model.toString());
   }
 

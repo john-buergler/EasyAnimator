@@ -80,9 +80,7 @@ public abstract class AbstractShape implements Shape {
   }
 
   @Override
-  public Color getColor() {
-    return new Color(this.color.getRGB());
-  }
+  public Color getColor() { return new Color(this.color.getRGB()); }
 
   @Override
   public ShapeType getShapeType() {
