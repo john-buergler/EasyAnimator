@@ -4,13 +4,14 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.AbstractShape;
 import model.EasyAnimatorModel;
 import model.Oval;
 import model.Posn;
 import model.ShapeType;
+import model.Shape;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class AnimatorModelTest {
   @Test
@@ -24,6 +25,12 @@ public class AnimatorModelTest {
             Color.RED,
             new Posn(50, 50),
             "redov1");
+    model.addShape(ShapeType.RECTANGLE,
+            10,
+            10,
+            Color.RED,
+            new Posn(50, 50),
+            "redrec1");
     assertEquals(new Oval(10, 10, Color.RED, new Posn(50, 50), "redov1",
                     ShapeType.OVAL),
             model.getShapes().get(0));
@@ -52,9 +59,49 @@ public class AnimatorModelTest {
     assertEquals(x, 75);
     assertEquals(x2, 100);
     assertEquals(model.getShapesPerTick().get(12).get(0).getShapePosn(), new Posn(100, 100));
-    assertEquals("Shape redov1 OVAL\n" +
-            "Motion redov1 Starts: 10, Ends: 12, " +
-            "moves from x= 50 to x= 100, and y= 50 to y= 100\n", model.getLog().toString());
+  }
+
+  @Test
+  public void testDeleteShape() {
+    EasyAnimatorModel model = new EasyAnimatorModel();
+    model.buildScene(200, 200, 30);
+    model.addShape(ShapeType.OVAL,
+            10,
+            10,
+            Color.RED,
+            new Posn(50, 50),
+            "redov1");
+    model.moveShape(10,
+            12,
+            new Posn(50, 50),
+            new Posn(100, 100),
+            "redov1");
+    model.deleteShape("redov1");
+    assertTrue(model.getShapes().isEmpty());
+    assertTrue(model.getShapesPerTick().get(11).isEmpty());
+    assertTrue(model.getShapesPerTick().get(12).isEmpty());
+  }
+
+  @Test
+  public void testDisappearShape() {
+    EasyAnimatorModel model = new EasyAnimatorModel();
+    model.buildScene(200, 200, 30);
+    model.addShape(ShapeType.OVAL,
+            10,
+            10,
+            Color.RED,
+            new Posn(50, 50),
+            "redov1");
+    model.moveShape(10,
+            12,
+            new Posn(50, 50),
+            new Posn(100, 100),
+            "redov1");
+    model.disappearShape(10, 11, "redov1");
+    assertTrue(model.getShapes().get(0) instanceof Shape);
+    assertTrue(model.getShapesPerTick().get(10).isEmpty());
+    assertTrue(model.getShapesPerTick().get(11).isEmpty());
+    assertTrue(model.getShapesPerTick().get(12).get(0) instanceof Shape);
   }
 
   @Test
@@ -75,9 +122,6 @@ public class AnimatorModelTest {
     assertEquals(model.getShape("redov1").getShapePosn(), new Posn(50, 50));
     assertEquals(model.getShapesPerTick().get(11).get(0).getShapePosn(), new Posn(50, 50));
     assertEquals(model.getShapesPerTick().get(12).get(0).getShapePosn(), new Posn(50, 50));
-    assertEquals("Shape redov1 OVAL\n" +
-            "Motion redov1 Starts: 0, Ends: 12, " +
-            "moves from x= 50 to x= 50, and y= 50 to y= 50\n", model.getLog().toString());
 
   }
 
@@ -106,11 +150,6 @@ public class AnimatorModelTest {
     assertEquals(model.getShapesPerTick().get(12).get(0).getShapePosn(), new Posn(100, 100));
     assertEquals(model.getShapesPerTick().get(14).get(0).getShapePosn(), new Posn(75, 75));
     assertEquals(model.getShapesPerTick().get(15).get(0).getShapePosn(), new Posn(50, 50));
-    assertEquals("Shape redov1 OVAL\n" +
-            "Motion redov1 Starts: 10, Ends: 12, " +
-            "moves from x= 50 to x= 100, and y= 50 to y= 100\n" +
-            "Motion redov1 Starts: 13, Ends: 15, " +
-            "moves from x= 100 to x= 50, and y= 100 to y= 50\n", model.getLog().toString());
   }
 
   @Test (expected = IllegalArgumentException.class)
@@ -211,7 +250,7 @@ public class AnimatorModelTest {
 
   @Test
   public void testGetShapes() {
-    AbstractShape exShape = new Oval(10,
+    Shape exShape = new Oval(10,
             10,
             Color.RED,
             new Posn(50, 50),
@@ -219,7 +258,7 @@ public class AnimatorModelTest {
             ShapeType.OVAL);
     EasyAnimatorModel model = new EasyAnimatorModel();
     model.buildScene(200, 200, 30);
-    List<AbstractShape> shapelist = new ArrayList<AbstractShape>();
+    List<Shape> shapelist = new ArrayList<>();
     shapelist.add(exShape);
     model.addShape(ShapeType.OVAL,
             10,
