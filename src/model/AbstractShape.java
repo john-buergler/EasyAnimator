@@ -69,12 +69,12 @@ public abstract class AbstractShape implements Shape {
 
   @Override
   public Posn getShapePosn() {
-    return this.position;
+    return new Posn(this.position.getX(), this.position.getY());
   }
 
   @Override
   public Color getColor() {
-    return this.color;
+    return new Color(this.color.getRGB());
   }
 
   @Override

@@ -85,4 +85,5 @@ public interface Shape {
    * @param startPos the position being set
    */
   public void setPos(Posn startPos);
+
 }

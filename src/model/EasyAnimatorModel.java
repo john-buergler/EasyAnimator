@@ -92,6 +92,7 @@ public class EasyAnimatorModel implements AnimatorModel {
             throw new IllegalArgumentException("Shape is already moving.");
           }
           movingShape.moveShape(xPerTick, yPerTick);
+          getShape(shapeID).moveShape(xPerTick, yPerTick);
         }
       }
       else {
@@ -147,14 +148,46 @@ public class EasyAnimatorModel implements AnimatorModel {
   }
 
   @Override
-  public void changeColor(String shapeID, int startTime, int endTime, Color color) {
+  public void changeColor(String shapeID, int startTime, int endTime,
+                          Color startColor, Color endColor) {
     int time = endTime - startTime;
     if (time <= 0) {
       throw new IllegalArgumentException("Time can't be negative.");
     }
 
+    int rgb = startColor.getRGB();
+    int rgbRate = rgb / time;
 
-
+    for (int t = startTime + 1; t <= endTime; t++) {
+      if (shapesPerTick.get(t).stream().anyMatch(s -> s.getShapeID().equals(shapeID))) {
+        Optional<Shape> optional =
+                shapesPerTick.get(t).stream().filter(s -> s.getShapeID().equals(shapeID)).findFirst();
+        if (optional.isPresent()) {
+          Shape changingColor = optional.get();
+          if (changingColor.getChangingColorStatus()) {
+            throw new IllegalArgumentException("Shape is already changing color.");
+          }
+          int newRGB = rgb + rgbRate;
+          changingColor.changeColor(new Color(newRGB));
+          getShape(shapeID).changeColor(new Color(newRGB));
+        }
+        else {
+          Shape originalShape = getShape(shapeID);
+          int newRGB = originalShape.getColor().getRGB() + rgbRate;
+          if (originalShape.getShapeType() == ShapeType.OVAL) {
+            shapesPerTick.get(t).add(new Oval(originalShape.getHeight(), originalShape.getWidth(),
+                    new Color(newRGB), originalShape.getShapePosn(),
+                    shapeID, ShapeType.OVAL));
+          }
+          if (originalShape.getShapeType() == ShapeType.RECTANGLE) {
+            shapesPerTick.get(t).add(new Rectangle(originalShape.getHeight(), originalShape.getWidth(),
+                    new Color(newRGB), originalShape.getShapePosn(),
+                    shapeID, ShapeType.RECTANGLE));
+          }
+          originalShape.changeColor(new Color(newRGB));
+        }
+      }
+    }
   }
 
   @Override
@@ -168,6 +201,7 @@ public class EasyAnimatorModel implements AnimatorModel {
     if (time <= 0) {
       throw new IllegalArgumentException("Time can't be negative.");
     }
+
 
     int changeHeight = endHeight - startHeight;
     int changeWidth = endWidth - startWidth;
@@ -186,6 +220,7 @@ public class EasyAnimatorModel implements AnimatorModel {
           int newHeight = changingShape.getHeight() + changeHRate;
           int newWidth = changingShape.getWidth() + changeWRate;
           changingShape.changeShapeDimensions(newHeight, newWidth);
+          getShape(shapeID).changeShapeDimensions(newHeight, newWidth);
         }
       }
       else {

@@ -70,11 +70,12 @@ public interface AnimatorModel {
    * @param startTime when to start changing the color.
    * @param endTime when the color finishes changing.
    * @param shapeID the shape to change the color of.
-   * @param color the new color of the shape.
+   * @param startColor the color we want to change from.
+   * @param endColor the new color we want the shape to be.
    * @throws IllegalArgumentException if start or end time are negative values.
    * @throws IllegalArgumentException if endTime - startTime <= 0.
    */
-  public void changeColor(String shapeID, int startTime, int endTime, Color color);
+  public void changeColor(String shapeID, int startTime, int endTime, Color startColor, Color endColor);
 
   /**
    * Changes the size of the shape.
