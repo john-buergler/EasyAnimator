@@ -36,6 +36,21 @@ public interface AnimatorModel {
                        Posn posn, String shapeID);
 
   /**
+   * Deletes a shape from the model and animation.
+   * @param shapeID the shapeID of the shape to delete.
+   */
+  public void deleteShape(String shapeID);
+
+  /**
+   * A motion method that allows a Shape to disappear for a given amount of time.
+   * @param startTime The time that the disappear begins.
+   * @param endTime The time that the disappear ends.
+   * @param shapeID The ID of the shape that will disappear.
+   */
+  public void disappearShape(int startTime, int endTime, String shapeID);
+
+
+  /**
    * Moves provided shape ID.
    * @param endPos the ending position of the shape.
    * @param shapeID the shape being chosen to move.
@@ -72,8 +87,9 @@ public interface AnimatorModel {
    * @param shapeID the shape to change the color of.
    * @param startColor the color we want to change from.
    * @param endColor the new color we want the shape to be.
-   * @throws IllegalArgumentException if start or end time are negative values.
+   * @throws IllegalArgumentException if start or end time are negative or zero values.
    * @throws IllegalArgumentException if endTime - startTime <= 0.
+   * @throws IllegalArgumentException if start color isn't shape's current color.
    */
   public void changeColor(String shapeID, int startTime, int endTime, Color startColor, Color endColor);
 
@@ -82,8 +98,10 @@ public interface AnimatorModel {
    * @param shapeID the ID of the shape that wants to be changed.
    * @param startTime the start time of the transformation.
    * @param endTime the end time of the transformation.
-   * @param height the new height of the shape.
-   * @param width the new width of the shape.
+   * @param startHeight the height of the shape at the start.
+   * @param endHeight the height of the shape at the end.
+   * @param startWidth the width of the shape at the beginning of motion.
+   * @param endWidth the height of the shape at the end of the motion.
    * @throws IllegalArgumentException if the heigt or width values are negative or zero.
    * @throws IllegalArgumentException if the change in time is negative.
    * @throws IllegalArgumentException if the start dimensions are not the current shape dimensions.

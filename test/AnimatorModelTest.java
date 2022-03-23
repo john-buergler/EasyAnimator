@@ -1,10 +1,11 @@
+import org.junit.Before;
 import org.junit.Test;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.AbstractShape;
+import model.AnimatorModel;
 import model.EasyAnimatorModel;
 import model.Oval;
 import model.Posn;
@@ -13,8 +14,13 @@ import model.ShapeType;
 import model.Shape;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+/**
+ * Test class for our animator model.
+ */
 public class AnimatorModelTest {
+
   @Test
   public void testAddShape() {
     EasyAnimatorModel model = new EasyAnimatorModel();
@@ -26,6 +32,12 @@ public class AnimatorModelTest {
             Color.RED,
             new Posn(50, 50),
             "redov1");
+    model.addShape(ShapeType.RECTANGLE,
+            10,
+            10,
+            Color.RED,
+            new Posn(50, 50),
+            "redrec1");
     assertEquals(new Oval(10, 10, Color.RED, new Posn(50, 50), "redov1",
                     ShapeType.OVAL),
             model.getShapes().get(0));
@@ -63,6 +75,49 @@ public class AnimatorModelTest {
   }
 
   @Test
+  public void testDeleteShape() {
+    EasyAnimatorModel model = new EasyAnimatorModel();
+    model.buildScene(200, 200, 30);
+    model.addShape(ShapeType.OVAL,
+            10,
+            10,
+            Color.RED,
+            new Posn(50, 50),
+            "redov1");
+    model.moveShape(10,
+            12,
+            new Posn(50, 50),
+            new Posn(100, 100),
+            "redov1");
+    model.deleteShape("redov1");
+    assertTrue(model.getShapes().isEmpty());
+    assertTrue(model.getShapesPerTick().get(11).isEmpty());
+    assertTrue(model.getShapesPerTick().get(12).isEmpty());
+  }
+
+  @Test
+  public void testDisappearShape() {
+    EasyAnimatorModel model = new EasyAnimatorModel();
+    model.buildScene(200, 200, 30);
+    model.addShape(ShapeType.OVAL,
+            10,
+            10,
+            Color.RED,
+            new Posn(50, 50),
+            "redov1");
+    model.moveShape(10,
+            12,
+            new Posn(50, 50),
+            new Posn(100, 100),
+            "redov1");
+    model.disappearShape(10, 11, "redov1");
+    assertTrue(model.getShapes().get(0) instanceof Shape);
+    assertTrue(model.getShapesPerTick().get(10).isEmpty());
+    assertTrue(model.getShapesPerTick().get(11).isEmpty());
+    assertTrue(model.getShapesPerTick().get(12).get(0) instanceof Shape);
+  }
+
+  @Test
   public void testMoveShapeStandsStill() {
     EasyAnimatorModel model = new EasyAnimatorModel();
     model.buildScene(200, 200, 30);
@@ -84,7 +139,6 @@ public class AnimatorModelTest {
     assertEquals("Shape redov1 OVAL\n" +
             "Motion redov1 Starts: 0, Ends: 12, " +
             "moves from x= 50 to x= 50, and y= 50 to y= 50\n", model.getLog().toString());
-
      */
 
   }
@@ -217,12 +271,12 @@ public class AnimatorModelTest {
             Color.RED,
             new Posn(50, 50),
             "redov1",
-            ShapeType.OVAL), model.getShape("redov1"));
+            ShapeType.OVAL), (Oval) model.getShape("redov1"));
   }
 
   @Test
   public void testGetShapes() {
-    AbstractShape exShape = new Oval(10,
+    Shape exShape = new Oval(10,
             10,
             Color.RED,
             new Posn(50, 50),
@@ -230,7 +284,7 @@ public class AnimatorModelTest {
             ShapeType.OVAL);
     EasyAnimatorModel model = new EasyAnimatorModel();
     model.buildScene(200, 200, 30);
-    List<AbstractShape> shapelist = new ArrayList<AbstractShape>();
+    List<Shape> shapelist = new ArrayList<>();
     shapelist.add(exShape);
     model.addShape(ShapeType.OVAL,
             10,
@@ -238,16 +292,123 @@ public class AnimatorModelTest {
             Color.RED,
             new Posn(50, 50),
             "redov1");
+    assertEquals(shapelist.get(0), model.getShapes().get(0));
     assertEquals(shapelist, model.getShapes());
+  }
+
+
+  EasyAnimatorModel model;
+  Shape shape;
+
+  @Before
+  public void setUp() {
+    model = new EasyAnimatorModel();
+    shape = new Rect(5, 5, Color.BLUE, new Posn(100, 100),
+            "bitBlueR", ShapeType.RECTANGLE);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testNegativeTimeDifferenceChangeColor() {
-    EasyAnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(200, 200, 30);
-    Shape shape = new Rect(5, 5, Color.BLUE, new Posn(100, 100),
-            "bitBlueR", ShapeType.RECTANGLE);
-    model.addShape(ShapeType.RECTANGLE, );
-
+    model.changeColor("bitBlueR", 4, 3, Color.BLUE, Color.RED);
   }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testZeroTimeChangeColor() {
+    model.changeColor("bitBlueR", 0, 1, Color.BLUE, Color.BLACK);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testNegativeTimeChangeColor() {
+    model.changeColor("bitBlueR", 1, -1, Color.BLUE, Color.BLACK);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testInvalidStartColorChangeColor() {
+    model.changeColor("bitBlueR", 2, 3, Color.BLACK, Color.BLUE);
+  }
+
+  @Test
+  public void testChangeColorInOneTick() {
+    AnimatorModel model = new EasyAnimatorModel();
+    model.buildScene(200, 200, 30);
+    model.addShape(ShapeType.RECTANGLE, 5, 5, Color.BLUE,
+            new Posn(100, 100), "bitBlueR");
+    model.changeColor("bitBlueR", 4, 5, Color.BLUE, Color.BLACK);
+    assertEquals(Color.BLACK, model.getShapesPerTick().get(5).get(0).getColor());
+  }
+
+  @Test
+  public void testChangeColorInTwoTicks() {
+    AnimatorModel model = new EasyAnimatorModel();
+    model.buildScene(200, 200, 30);
+    model.addShape(ShapeType.RECTANGLE, 5, 5, Color.BLUE,
+            new Posn(100, 100), "bitBlueR");
+    model.changeColor("bitBlueR", 6, 8, Color.BLUE, Color.RED);
+    int colorBlueRGB = Color.BLUE.getRGB();
+    int colorRedRGB = Color.RED.getRGB();
+    int rgbRate = (colorRedRGB - colorBlueRGB) / 2;
+    //assertEquals(Color.RED, model.getShapesPerTick().get(8).get(0).getColor());
+    assertEquals(new Color(colorBlueRGB + rgbRate),
+            model.getShapesPerTick().get(7).get(0).getColor());
+  }
+
+  @Test
+  public void testChangeSizeOneTick() {
+    AnimatorModel model = new EasyAnimatorModel();
+    model.buildScene(200, 200, 30);
+    model.addShape(ShapeType.RECTANGLE, 5, 5, Color.BLUE,
+            new Posn(100, 100), "bitBlueR");
+    model.changeSize("bitBlueR", 2, 3, 5, 5,
+            10, 5);
+    assertEquals(10, model.getShapesPerTick().get(3).get(0).getHeight());
+    assertEquals(5, model.getShapesPerTick().get(3).get(0).getWidth());
+  }
+
+  @Test
+  public void testChangeSizeMultipleTicks() {
+    AnimatorModel model = new EasyAnimatorModel();
+    model.buildScene(200, 200, 30);
+    model.addShape(ShapeType.RECTANGLE, 5, 5, Color.BLUE,
+            new Posn(100, 100), "bitBlueR");
+    model.changeSize("bitBlueR", 4, 6, 5,
+            5, 15, 10);
+    assertEquals(10, model.getShapesPerTick().get(5).get(0).getHeight());
+    assertEquals(8, model.getShapesPerTick().get(5).get(0).getWidth());
+  }
+
+  @Test
+  public void testToStringModelState() {
+    AnimatorModel model = new EasyAnimatorModel();
+    model.buildScene(200, 200, 2);
+    model.addShape(ShapeType.RECTANGLE, 5, 5, Color.BLUE,
+            new Posn(100, 100), "bitBlueR");
+    model.moveShape(1, 2, new Posn(100, 100),
+            new Posn(150, 150), "bitBlueR");
+    String str = "At time t = 1:\n" +
+            "Shape bitBlueR RECTANGLE\n" +
+            "x=100 y=100 w=5 h=5 color=java.awt.Color[r=0,g=0,b=255]\n" +
+            "At time t = 2:\n" +
+            "Shape bitBlueR RECTANGLE\n" +
+            "x=150 y=150 w=5 h=5 color=java.awt.Color[r=0,g=0,b=255]\n";
+    assertEquals(str, model.toString());
+  }
+
+  @Test
+  public void testToStringModelState2() {
+    AnimatorModel model = new EasyAnimatorModel();
+    model.buildScene(200, 200, 2);
+    model.addShape(ShapeType.RECTANGLE, 5, 5, Color.BLUE,
+            new Posn(100, 100), "bitBlueR");
+    model.moveShape(1, 2, new Posn(100, 100),
+            new Posn(150, 150), "bitBlueR");
+    model.changeColor("bitBlueR", 1, 2, Color.BLUE, Color.RED);
+    String str = "At time t = 1:\n" +
+            "Shape bitBlueR RECTANGLE\n" +
+            "x=100 y=100 w=5 h=5 color=java.awt.Color[r=0,g=0,b=255]\n" +
+            "At time t = 2:\n" +
+            "Shape bitBlueR RECTANGLE\n" +
+            "x=150 y=150 w=5 h=5 color=java.awt.Color[r=253,g=254,b=2]\n";
+    assertEquals(str, model.toString());
+  }
+
 }

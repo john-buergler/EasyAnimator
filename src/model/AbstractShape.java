@@ -3,6 +3,9 @@ package model;
 import java.awt.*;
 import java.util.Objects;
 
+/**
+ * An Abstract class for shapes in the model.
+ */
 public abstract class AbstractShape implements Shape {
   protected final String shapeID;
   protected int height;
@@ -14,6 +17,15 @@ public abstract class AbstractShape implements Shape {
   protected boolean isChangingColor;
   protected boolean isChangingSize;
 
+  /**
+   * Constructor for shapes with all the same parameters.
+   * @param height of shape.
+   * @param width of shape.
+   * @param color of shape.
+   * @param position of shape as a Posn.
+   * @param shapeID specific ID of shape as a String.
+   * @param type ShapeType of shape.
+   */
   public AbstractShape(int height,
                        int width,
                        Color color,
@@ -26,21 +38,16 @@ public abstract class AbstractShape implements Shape {
     this.color = color;
     this.position = position;
     this.type = type;
-    this.isMoving = false;
-    this.isChangingColor = false;
-    this.isChangingSize = false;
   }
 
   @Override
   public void moveShape(int xChange, int yChange) {
     this.position.move(xChange, yChange);
-    //this.isMoving = true;
   }
 
   @Override
   public void changeColor(Color color) {
     this.color = color;
-    //this.isChangingColor = true;
   }
 
   @Override
@@ -50,7 +57,6 @@ public abstract class AbstractShape implements Shape {
     }
     this.height = height;
     this.width = width;
-    //this.isChangingSize = true;
   }
 
   @Override
@@ -84,41 +90,14 @@ public abstract class AbstractShape implements Shape {
   }
 
   @Override
-  public boolean getMovingStatus() {
-    return this.isMoving;
-  }
-
-  @Override
-  public boolean getChangingColorStatus() {
-    return this.isChangingColor;
-  }
-
-  @Override
-  public boolean getChangingSizeStatus() {
-    return this.isChangingSize;
-  }
-
-  @Override
   public void setPos(Posn pos) {
     this.position = pos;
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (o instanceof Oval) {
-      return this.height == ((Oval) o).height
-              && this.width == ((Oval) o).width
-              && this.position.equals(((Oval) o).position)
-              && this.color == ((Oval) o).color
-              && this.shapeID.equals(((Oval) o).shapeID);
-    } else {
-      return false;
-    }
-  }
-
-  @Override
   public int hashCode() {
-    return Objects.hash(this.height, this.width, this.position, this.color, this.shapeID);
+    return Objects.hash(this.height, this.width, this.position, this.color, this.shapeID,
+            this.type);
   }
 
 }

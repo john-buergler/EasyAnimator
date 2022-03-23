@@ -35,8 +35,8 @@ public class Posn {
   @Override
   public boolean equals(Object o) {
     if (o instanceof Posn) {
-      return this.x == ((Posn) o).getX()
-              && this.y == ((Posn) o).getY();
+      return this.x == ((Posn) o).x
+              && this.y == ((Posn) o).y;
     } else {
       return false;
     }
