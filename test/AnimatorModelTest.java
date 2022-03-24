@@ -1,7 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,9 +59,9 @@ public class AnimatorModelTest {
             new Posn(100, 100),
             "redov1");
     assertEquals(model.getShape("redov1").getShapePosn(), new Posn(100, 100));
-    //assertEquals(model.getShapesPerTick().get(11).get(0).getShapePosn(), new Posn(75, 75));
-    int x =model.getShapesPerTick().get(11).get(0).getShapePosn().getX();
-    int x2 =model.getShapesPerTick().get(12).get(0).getShapePosn().getX();
+    assertEquals(model.getShapesPerTick().get(11).get(0).getShapePosn(), new Posn(75, 75));
+    int x = model.getShapesPerTick().get(11).get(0).getShapePosn().getX();
+    int x2 = model.getShapesPerTick().get(12).get(0).getShapePosn().getX();
     assertEquals(x, 75);
     assertEquals(x2, 100);
     assertEquals(model.getShapesPerTick().get(12).get(0).getShapePosn(), new Posn(100, 100));

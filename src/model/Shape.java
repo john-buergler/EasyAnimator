@@ -1,7 +1,12 @@
 package model;
 
-import java.awt.*;
+import java.awt.Color;
 
+/**
+ * The Interface for a Shape object. Shape objects are the objects that are rendered on the screen.
+ * The user assigns them size, shapetype, and color depending on what they want the animation to
+ * look like. The model also helps modify the shapes' characteristics to create and animation.
+ */
 public interface Shape {
 
   /**

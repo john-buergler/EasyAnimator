@@ -1,6 +1,6 @@
 package model;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * Class for the Oval shape used in our model.
@@ -17,7 +17,7 @@ public class Oval extends AbstractShape {
    * @param shapeID the specific ID of Oval as a string.
    * @param type the ShapeType of Oval.
    */
-  public Oval(int height, int width, Color color, Posn position, String shapeID, ShapeType type){
+  public Oval(int height, int width, Color color, Posn position, String shapeID, ShapeType type) {
     super(height, width, color, position, shapeID, type);
   }
 }

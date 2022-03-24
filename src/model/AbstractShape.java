@@ -1,6 +1,6 @@
 package model;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Objects;
 
 /**
@@ -93,14 +93,14 @@ public abstract class AbstractShape implements Shape {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof Oval){
+    if (o instanceof Oval) {
       return this.height == ((Oval) o).height
               && this.width == ((Oval) o).width
               && this.position.equals(((Oval) o).position)
               && this.color.equals(((Oval) o).color)
               && this.shapeID.equals(((Oval) o).shapeID);
     }
-    if (o instanceof Rect){
+    if (o instanceof Rect) {
       return this.height == ((Rect) o).height
               && this.width == ((Rect) o).width
               && this.position.equals(((Rect) o).position)
