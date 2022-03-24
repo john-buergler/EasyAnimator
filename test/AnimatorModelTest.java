@@ -1,7 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,9 +59,9 @@ public class AnimatorModelTest {
             new Posn(100, 100),
             "redov1");
     assertEquals(model.getShape("redov1").getShapePosn(), new Posn(100, 100));
-    //assertEquals(model.getShapesPerTick().get(11).get(0).getShapePosn(), new Posn(75, 75));
-    int x =model.getShapesPerTick().get(11).get(0).getShapePosn().getX();
-    int x2 =model.getShapesPerTick().get(12).get(0).getShapePosn().getX();
+    assertEquals(model.getShapesPerTick().get(11).get(0).getShapePosn(), new Posn(75, 75));
+    int x = model.getShapesPerTick().get(11).get(0).getShapePosn().getX();
+    int x2 = model.getShapesPerTick().get(12).get(0).getShapePosn().getX();
     assertEquals(x, 75);
     assertEquals(x2, 100);
     assertEquals(model.getShapesPerTick().get(12).get(0).getShapePosn(), new Posn(100, 100));
@@ -149,12 +149,6 @@ public class AnimatorModelTest {
     assertEquals(model.getShape("redov5").getShapePosn(), new Posn(50, 50));
     assertEquals(model.getShapesPerTick().get(11).get(0).getShapePosn(), new Posn(50, 50));
     assertEquals(model.getShapesPerTick().get(12).get(0).getShapePosn(), new Posn(50, 50));
-    /*
-    assertEquals("Shape redov1 OVAL\n" +
-            "Motion redov1 Starts: 0, Ends: 12, " +
-            "moves from x= 50 to x= 50, and y= 50 to y= 50\n", model.getLog().toString());
-     */
-
   }
 
   @Test
@@ -182,14 +176,19 @@ public class AnimatorModelTest {
     assertEquals(model.getShapesPerTick().get(12).get(0).getShapePosn(), new Posn(100, 100));
     assertEquals(model.getShapesPerTick().get(14).get(0).getShapePosn(), new Posn(75, 75));
     assertEquals(model.getShapesPerTick().get(15).get(0).getShapePosn(), new Posn(50, 50));
-    /*
-    assertEquals("Shape redov1 OVAL\n" +
-            "Motion redov1 Starts: 10, Ends: 12, " +
-            "moves from x= 50 to x= 100, and y= 50 to y= 100\n" +
-            "Motion redov1 Starts: 13, Ends: 15, " +
-            "moves from x= 100 to x= 50, and y= 100 to y= 50\n", model.getLog().toString());
+  }
 
-     */
+  @Test
+  public void testMoveShapeWhileChangingSize() {
+    EasyAnimatorModel model = new EasyAnimatorModel();
+    model.buildScene(200, 200, 30);
+    model.addShape(ShapeType.OVAL,
+            10,
+            10,
+            Color.RED,
+            new Posn(50, 50),
+            "redov6");
+
   }
 
   @Test (expected = IllegalArgumentException.class)
@@ -370,11 +369,41 @@ public class AnimatorModelTest {
     Color newColor = new Color(blueRed + redRate, blueGreen + greenRate,
             blueBlue + blueRate);
     assertEquals(Color.RED, model.getShapesPerTick().get(8).get(0).getColor());
-    Shape s = model.getShapesPerTick().get(7).get(0);
-    List<ArrayList<Shape>> list = model.getShapesPerTick();
     assertEquals(newColor,
             model.getShapesPerTick().get(7).get(0).getColor());
   }
+
+  @Test
+  public void testChangeColorWhileChangingSize() {
+    AnimatorModel model = new EasyAnimatorModel();
+    model.buildScene(200, 200, 30);
+    model.addShape(ShapeType.RECTANGLE, 5, 5, Color.GREEN,
+            new Posn(100, 100), "greenS");
+    model.changeColor("greenS", 10, 14, Color.GREEN, Color.PINK);
+    model.changeSize("greenS", 12, 14, 5,
+            5, 11, 15);
+    int greenRed = Color.GREEN.getRed();
+    int greenGreen = Color.GREEN.getGreen();
+    int greenBlue = Color.GREEN.getBlue();
+    int pinkRed = Color.PINK.getRed();
+    int pinkGreen = Color.PINK.getGreen();
+    int pinkBlue = Color.PINK.getBlue();
+    int redRate = (pinkRed - greenRed) / 4;
+    int greenRate = (pinkGreen - greenGreen) / 4;
+    int blueRate = (pinkBlue - greenBlue) / 4;
+    Color newColor1 = new Color(greenRed + redRate,
+            greenGreen + greenRate, greenBlue + blueRate);
+    assertEquals(newColor1, model.getShapesPerTick().get(11).get(0).getColor());
+    Color newColor2 = new Color(greenRed + (3*redRate),
+            greenGreen + (3*greenRate), greenBlue + (3*blueRate));
+    assertEquals(newColor2, model.getShapesPerTick().get(13).get(0).getColor());
+    assertEquals(8, model.getShapesPerTick().get(13).get(0).getHeight());
+    assertEquals(10, model.getShapesPerTick().get(13).get(0).getWidth());
+    assertEquals(Color.PINK, model.getShapesPerTick().get(14).get(0).getColor());
+    assertEquals(15, model.getShapesPerTick().get(14).get(0).getWidth());
+    assertEquals(11, model.getShapesPerTick().get(14).get(0).getHeight());
+  }
+
 
   @Test
   public void testChangeSizeOneTick() {

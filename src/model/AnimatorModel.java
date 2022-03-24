@@ -1,6 +1,6 @@
 package model;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +62,7 @@ public interface AnimatorModel {
    * @param endTime When to end the movement.
    * @throws IllegalArgumentException if endTime - startTime <= 0.
    * @throws IllegalArgumentException if the start position is not the current position of the
-   * shape.
+   *     shape.
    *
    */
   public void moveShape(int startTime, int endTime, Posn startPos, Posn endPos, String shapeID);
@@ -70,7 +70,8 @@ public interface AnimatorModel {
   /**
    * Gets the model Shape from a given model.
    * @param shapeId the shape's ID.
-   * @throws IllegalArgumentException if given shapeID doesn't correspond to any shape in the animation.
+   * @throws IllegalArgumentException if given shapeID doesn't correspond to any shape in the
+   *     animation.
    */
   public Shape getShape(String shapeId);
 
@@ -78,12 +79,6 @@ public interface AnimatorModel {
    * Gets the shapes in the model.
    */
   public List<Shape> getShapes();
-
-  /**
-   * Get the shape(s) at the given Posn.
-   * @param posn Provided position of the shape.
-   */
-  public List<Shape> getShapeAt(Posn posn);
 
   /**
    * Change color of given shape.
@@ -96,10 +91,12 @@ public interface AnimatorModel {
    * @throws IllegalArgumentException if endTime - startTime <= 0.
    * @throws IllegalArgumentException if start color isn't shape's current color.
    */
-  public void changeColor(String shapeID, int startTime, int endTime, Color startColor, Color endColor);
+  public void changeColor(String shapeID, int startTime, int endTime, Color startColor,
+                          Color endColor);
 
   /**
-   * Changes the size of the shape.
+   * Changes the size of the shape over a given duration of time. Size is adjusted in a similar
+   * manner to moveShape, finding the rate of change per tick.
    * @param shapeID the ID of the shape that wants to be changed.
    * @param startTime the start time of the transformation.
    * @param endTime the end time of the transformation.
@@ -115,18 +112,14 @@ public interface AnimatorModel {
                          int startHeight, int startWidth, int endHeight, int endWidth);
 
   /**
-   * Gets the number of Shapes in the animation.
-   */
-  public int getNumShapes();
-
-  /**
    * Gets the timeline.
    * @return
    */
   public List<ArrayList<Shape>> getShapesPerTick();
 
   /**
-   * Renders the current state of the model as a string.
+   * Renders the current state of the model as a string. This includes transformations and shape
+   * additions.
    * @return the state of the model as a string.
    */
   public String toString();

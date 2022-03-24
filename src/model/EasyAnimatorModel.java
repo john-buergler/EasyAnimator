@@ -1,6 +1,6 @@
 package model;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -126,7 +126,8 @@ public class EasyAnimatorModel implements AnimatorModel {
     for (int t = startTime + 1; t <= endTime; t++) {
       if (shapesPerTick.get(t).stream().anyMatch(s -> s.getShapeID().equals(shapeID))) {
         Optional<Shape> optional =
-                shapesPerTick.get(t).stream().filter(s -> s.getShapeID().equals(shapeID)).findFirst();
+                shapesPerTick.get(t).stream().filter(s -> s.getShapeID().equals(shapeID))
+                        .findFirst();
         if (optional.isPresent()) {
           if (t == endTime) {
             Shape movingShape = optional.get();
@@ -134,7 +135,10 @@ public class EasyAnimatorModel implements AnimatorModel {
             getActualShape(shapeID).setPos(endPos);
           } else {
             Shape movingShape = optional.get();
-            movingShape.moveShape(xPerTick, yPerTick);
+            int newXMove = getActualShape(shapeID).getShapePosn().getX() + xPerTick;
+            int newYMove = getActualShape(shapeID).getShapePosn().getY() + yPerTick;
+            Posn newPosn = new Posn(newXMove, newYMove);
+            movingShape.setPos(newPosn);
             getActualShape(shapeID).moveShape(xPerTick, yPerTick);
           }
         }
@@ -197,17 +201,6 @@ public class EasyAnimatorModel implements AnimatorModel {
   }
 
   @Override
-  public List<Shape> getShapeAt(Posn posn) {
-    List<Shape> shapes = new ArrayList<Shape>();
-    for (Shape s : shapes) {
-      if (s.getShapePosn().equals(posn)) {
-        shapes.add(s);
-      }
-    }
-    return shapes;
-  }
-
-  @Override
   public void changeColor(String shapeID, int startTime, int endTime,
                           Color startColor, Color endColor) {
     int time = endTime - startTime;
@@ -245,54 +238,55 @@ public class EasyAnimatorModel implements AnimatorModel {
     for (int t = startTime + 1; t <= endTime; t++) {
       if (shapesPerTick.get(t).stream().anyMatch(s -> s.getShapeID().equals(shapeID))) {
         Optional<Shape> optional =
-                shapesPerTick.get(t).stream().filter(s -> s.getShapeID().equals(shapeID)).findFirst();
+                shapesPerTick.get(t).stream().filter(s -> s.getShapeID().equals(shapeID))
+                        .findFirst();
         if (optional.isPresent()) {
           Shape changingColor = optional.get();
           if (t == endTime) {
             changingColor.changeColor(endColor);
             getShape(shapeID).changeColor(endColor);
           } else {
-            int newRed = changingColor.getColor().getRed() + redRate;
-            int newGreen = changingColor.getColor().getGreen() + greenRate;
-            int newBlue = changingColor.getColor().getBlue() + blueRate;
+            int newRed = getActualShape(shapeID).getColor().getRed() + redRate;
+            int newGreen = getActualShape(shapeID).getColor().getGreen() + greenRate;
+            int newBlue = getActualShape(shapeID).getColor().getBlue() + blueRate;
             changingColor.changeColor(new Color(newRed, newGreen, newBlue));
             getActualShape(shapeID).changeColor(new Color(newRed, newGreen, newBlue));
           }
         }
       }
-        else {
-          Shape originalShape = getShape(shapeID);
+      else {
+        Shape originalShape = getShape(shapeID);
         int newRed = originalShape.getColor().getRed() + redRate;
         int newGreen = originalShape.getColor().getGreen() + greenRate;
         int newBlue = originalShape.getColor().getBlue() + blueRate;
         if (t == endTime) {
-           newRed = endColor.getRed();
-           newGreen = endColor.getGreen();
-           newBlue = endColor.getBlue();
-          }
-          if (originalShape.getShapeType() == ShapeType.OVAL) {
-            shapesPerTick.get(t).add(new Oval(originalShape.getHeight(), originalShape.getWidth(),
-                    new Color(newRed, newGreen, newBlue), originalShape.getShapePosn(),
-                    shapeID, ShapeType.OVAL));
-          }
-          if (originalShape.getShapeType() == ShapeType.RECTANGLE) {
-            shapesPerTick.get(t).add(new Rect(originalShape.getHeight(), originalShape.getWidth(),
-                    new Color(newRed, newGreen, newBlue), originalShape.getShapePosn(),
-                    shapeID, ShapeType.RECTANGLE));
-          }
-          getActualShape(shapeID).changeColor(new Color(newRed, newGreen, newBlue));
+          newRed = endColor.getRed();
+          newGreen = endColor.getGreen();
+          newBlue = endColor.getBlue();
         }
+        if (originalShape.getShapeType() == ShapeType.OVAL) {
+          shapesPerTick.get(t).add(new Oval(originalShape.getHeight(), originalShape.getWidth(),
+                  new Color(newRed, newGreen, newBlue), originalShape.getShapePosn(),
+                  shapeID, ShapeType.OVAL));
+        }
+        if (originalShape.getShapeType() == ShapeType.RECTANGLE) {
+          shapesPerTick.get(t).add(new Rect(originalShape.getHeight(), originalShape.getWidth(),
+                  new Color(newRed, newGreen, newBlue), originalShape.getShapePosn(),
+                  shapeID, ShapeType.RECTANGLE));
+        }
+        getActualShape(shapeID).changeColor(new Color(newRed, newGreen, newBlue));
       }
     }
+  }
 
-    private Shape getActualShape(String shapeID) {
-      for (Shape s : shapes) {
-        if (s.getShapeID().equals(shapeID)) {
-          return s;
-        }
+  private Shape getActualShape(String shapeID) {
+    for (Shape s : shapes) {
+      if (s.getShapeID().equals(shapeID)) {
+        return s;
       }
-      throw new IllegalArgumentException("No shape with this ID.");
     }
+    throw new IllegalArgumentException("No shape with this ID.");
+  }
 
   @Override
   public void changeSize(String shapeID, int startTime, int endTime,
@@ -312,11 +306,14 @@ public class EasyAnimatorModel implements AnimatorModel {
     for (int t = startTime + 1; t <= endTime; t++) {
       if (shapesPerTick.get(t).stream().anyMatch(s -> s.getShapeID().equals(shapeID))) {
         Optional<Shape> optional =
-                shapesPerTick.get(t).stream().filter(s -> s.getShapeID().equals(shapeID)).findFirst();
+                shapesPerTick.get(t).stream().filter(s -> s.getShapeID().equals(shapeID))
+                        .findFirst();
         if (optional.isPresent()) {
           Shape changingShape = optional.get();
-          int newHeight = changingShape.getHeight() + changeHRate;
-          int newWidth = changingShape.getWidth() + changeWRate;
+          //int newHeight = changingShape.getHeight() + changeHRate;
+          //int newWidth = changingShape.getWidth() + changeWRate;
+          int newHeight = getActualShape(shapeID).getHeight() + changeHRate;
+          int newWidth = getActualShape(shapeID).getWidth() + changeWRate;
           changingShape.changeShapeDimensions(newHeight, newWidth);
           getActualShape(shapeID).changeShapeDimensions(newHeight, newWidth);
         }
@@ -357,11 +354,6 @@ public class EasyAnimatorModel implements AnimatorModel {
     if (startTime == 1 && notInStartTick) {
       addAtTimeOne(shapeID);
     }
-  }
-
-  @Override
-  public int getNumShapes() {
-    return shapes.size();
   }
 
   @Override

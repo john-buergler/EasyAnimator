@@ -1,6 +1,6 @@
 package model;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * Class representing a Rectangle in our model.
@@ -17,7 +17,7 @@ public class Rect extends AbstractShape {
    * @param shapeID which is a specific ID as a String for rectangle.
    * @param type ShpeType for rectangle.
    */
-  public Rect(int height, int width, Color color, Posn position, String shapeID, ShapeType type){
+  public Rect(int height, int width, Color color, Posn position, String shapeID, ShapeType type) {
     super(height, width, color, position, shapeID, type);
   }
 }
