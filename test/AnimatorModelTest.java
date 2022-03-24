@@ -83,7 +83,7 @@ public class AnimatorModelTest {
     Shape s1 = model.getShapesPerTick().get(2).get(0);
     Shape s2 = model.getShapesPerTick().get(3).get(0);
     assertEquals(new Color(128, 0, 127), s1.getColor());
-    assertEquals(new Posn(75, 75), s2.getShapePosn());
+    assertEquals(new Posn(75, 75), s1.getShapePosn());
     assertEquals(Color.BLUE, s2.getColor());
     assertEquals(new Posn(100, 100), s2.getShapePosn());
   }
