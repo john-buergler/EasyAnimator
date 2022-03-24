@@ -47,4 +47,9 @@ public class Posn {
     return Objects.hash(this.x, this.y);
   }
 
+  @Override
+  public String toString() {
+    return String.valueOf(x) + String.valueOf(y);
+  }
+
 }

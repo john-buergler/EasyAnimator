@@ -92,10 +92,36 @@ public abstract class AbstractShape implements Shape {
   }
 
   @Override
+  public boolean equals(Object o) {
+    if (o instanceof Oval){
+      return this.height == ((Oval) o).height
+              && this.width == ((Oval) o).width
+              && this.position.equals(((Oval) o).position)
+              && this.color.equals(((Oval) o).color)
+              && this.shapeID.equals(((Oval) o).shapeID);
+    }
+    if (o instanceof Rect){
+      return this.height == ((Rect) o).height
+              && this.width == ((Rect) o).width
+              && this.position.equals(((Rect) o).position)
+              && this.color.equals(((Rect) o).color)
+              && this.shapeID.equals(((Rect) o).shapeID);
+    }
+    else {
+      return false;
+    }
+  }
+
+  @Override
   public int hashCode() {
     return Objects.hash(this.height, this.width, this.position, this.color, this.shapeID,
             this.type);
   }
 
+  @Override
+  public String toString() {
+    return new StringBuilder(String.valueOf(this.height) + String.valueOf(this.width) +
+            this.position.toString() + this.color + this.shapeID + this.type).toString();
+  }
 }
 
