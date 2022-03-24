@@ -188,6 +188,15 @@ public class AnimatorModelTest {
             Color.RED,
             new Posn(50, 50),
             "redov6");
+    model.moveShape(1, 5, new Posn(50, 50), new Posn(90,90),
+            "redov6");
+    model.changeSize("redov6", 1, 5, 10, 10,
+            14, 14);
+    assertEquals(new Posn (70, 70), model.getShapesPerTick().get(3).get(0).getShapePosn());
+    assertEquals(12, model.getShapesPerTick().get(3).get(0).getHeight());
+    assertEquals(12, model.getShapesPerTick().get(3).get(0).getWidth());
+
+
 
   }
 
@@ -394,8 +403,8 @@ public class AnimatorModelTest {
     Color newColor1 = new Color(greenRed + redRate,
             greenGreen + greenRate, greenBlue + blueRate);
     assertEquals(newColor1, model.getShapesPerTick().get(11).get(0).getColor());
-    Color newColor2 = new Color(greenRed + (3*redRate),
-            greenGreen + (3*greenRate), greenBlue + (3*blueRate));
+    Color newColor2 = new Color(greenRed + (3 * redRate),
+            greenGreen + (3 * greenRate), greenBlue + (3 * blueRate));
     assertEquals(newColor2, model.getShapesPerTick().get(13).get(0).getColor());
     assertEquals(8, model.getShapesPerTick().get(13).get(0).getHeight());
     assertEquals(10, model.getShapesPerTick().get(13).get(0).getWidth());
@@ -466,4 +475,65 @@ public class AnimatorModelTest {
     assertEquals(str, model.toString());
   }
 
+  @Test
+  public void testMoveColorChangeAndSizeChange() {
+    AnimatorModel model = new EasyAnimatorModel();
+    model.buildScene(500, 500, 50);
+    model.addShape(ShapeType.OVAL, 10 , 50, Color.RED, new Posn(60, 60),
+            "blackov1");
+    model.moveShape(10, 34, new Posn(60, 60), new Posn(300, 300),
+            "blackov1");
+    model.changeColor("blackov1", 10, 24, Color.RED, Color.BLUE);
+    model.changeSize("blackov1", 10, 34, 10, 50,
+            34, 74);
+    Posn midMove = model.getShapesPerTick().get(15).get(0).getShapePosn();
+    Color colorMove = model.getShapesPerTick().get(15).get(0).getColor();
+    int heightMove = model.getShapesPerTick().get(15).get(0).getHeight();
+    int widthMove = model.getShapesPerTick().get(15).get(0).getWidth();
+
+    int redRed = Color.RED.getRed();
+    int redGreen = Color.RED.getGreen();
+    int redBlue = Color.RED.getBlue();
+    int blueRed = Color.BLUE.getRed();
+    int blueGreen = Color.BLUE.getGreen();
+    int blueBlue = Color.BLUE.getBlue();
+    int redRate = (blueRed - redRed) / 14;
+    int greenRate = (blueGreen - redGreen) / 14;
+    int blueRate = (blueBlue - redBlue) / 14;
+    Color newColor = new Color(redRed + (5 * redRate), redGreen + (5 * greenRate),
+            redBlue + (5 * blueRate));
+
+    assertEquals(15, heightMove);
+    assertEquals(55, widthMove);
+    assertEquals(new Posn(110, 110), midMove);
+    assertEquals(colorMove, newColor);
+  }
+
+  @Test
+  public void testMoveMultipleShapes() {
+    AnimatorModel model = new EasyAnimatorModel();
+    model.buildScene(500, 500, 50);
+    model.addShape(ShapeType.OVAL, 500 , 50, Color.RED, new Posn(60, 60),
+            "redov1");
+    model.addShape(ShapeType.RECTANGLE, 10 , 50, Color.BLACK, new Posn(60, 60),
+            "blackrect1");
+    model.addShape(ShapeType.OVAL, 10 , 10, Color.RED, new Posn(100, 100),
+            "redov2");
+    model.moveShape(1, 3, new Posn(60, 60), new Posn(100, 100),
+            "redov1");
+    model.moveShape(1, 3, new Posn(100, 100), new Posn(60, 60),
+            "redov2");
+    assertEquals(new Posn(80, 80), model.getShapesPerTick().get(2).get(0).getShapePosn());
+    assertEquals(new Posn(80, 80), model.getShapesPerTick().get(2).get(1).getShapePosn());
+  }
+
+  @Test
+  public void testToString() {
+    AnimatorModel model = new EasyAnimatorModel();
+    model.buildScene(500, 500, 50);
+    model.addShape(ShapeType.OVAL, 50 , 50, Color.RED, new Posn(60, 60),
+            "redov1");
+    assertEquals("50506060java.awt.Color[r=255,g=0,b=0]redov1OVAL",
+            model.getShapes().get(0).toString());
+  }
 }
