@@ -192,7 +192,7 @@ public class AnimatorModelTest {
             "redov6");
     model.changeSize("redov6", 1, 5, 10, 10,
             14, 14);
-    assertEquals(new Posn (70, 70), model.getShapesPerTick().get(3).get(0).getShapePosn());
+    assertEquals(new Posn(70, 70), model.getShapesPerTick().get(3).get(0).getShapePosn());
     assertEquals(12, model.getShapesPerTick().get(3).get(0).getHeight());
     assertEquals(12, model.getShapesPerTick().get(3).get(0).getWidth());
 
