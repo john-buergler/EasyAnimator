@@ -8,7 +8,6 @@ public interface Shape {
    * Moves the shape from the given starting position to the given end position.
    * @param xChange how far shape moves on x axis.
    * @param yChange how far shape moves on y axis.
-   * @throws IllegalArgumentException if the start position is not the same as the shape's current position.
    */
   public void moveShape(int xChange, int yChange);
 

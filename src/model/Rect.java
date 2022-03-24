@@ -24,11 +24,11 @@ public class Rect extends AbstractShape {
   @Override
   public boolean equals(Object o) {
     if (o instanceof Rect){
-      return this.height == ((Oval) o).height
-              && this.width == ((Oval) o).width
-              && this.position.equals(((Oval) o).position)
-              && this.color == ((Oval) o).color
-              && this.shapeID.equals(((Oval) o).shapeID);
+      return this.height == ((Rect) o).height
+              && this.width == ((Rect) o).width
+              && this.position.equals(((Rect) o).position)
+              && this.color == ((Rect) o).color
+              && this.shapeID.equals(((Rect) o).shapeID);
     }
     else {
       return false;

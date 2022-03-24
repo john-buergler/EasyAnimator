@@ -13,9 +13,6 @@ public abstract class AbstractShape implements Shape {
   protected Color color;
   protected Posn position;
   protected ShapeType type;
-  protected boolean isMoving;
-  protected boolean isChangingColor;
-  protected boolean isChangingSize;
 
   /**
    * Constructor for shapes with all the same parameters.
@@ -80,7 +77,9 @@ public abstract class AbstractShape implements Shape {
   }
 
   @Override
-  public Color getColor() { return new Color(this.color.getRGB()); }
+  public Color getColor() {
+    return new Color(this.color.getRed(), this.color.getGreen(), this.color.getBlue());
+  }
 
   @Override
   public ShapeType getShapeType() {

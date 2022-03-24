@@ -43,7 +43,6 @@ public class AnimatorModelTest {
             model.getShapes().get(0));
   }
 
-
   @Test
   public void testMoveShape() {
     EasyAnimatorModel model = new EasyAnimatorModel();
@@ -66,12 +65,27 @@ public class AnimatorModelTest {
     assertEquals(x, 75);
     assertEquals(x2, 100);
     assertEquals(model.getShapesPerTick().get(12).get(0).getShapePosn(), new Posn(100, 100));
-    /*
-    assertEquals("Shape redov1 OVAL\n" +
-            "Motion redov1 Starts: 10, Ends: 12, " +
-            "moves from x= 50 to x= 100, and y= 50 to y= 100\n", model.getLog().toString());
+  }
 
-     */
+  @Test
+  public void testMoveShapeDuringColorChange() {
+    EasyAnimatorModel model = new EasyAnimatorModel();
+    model.buildScene(200, 200, 30);
+    model.addShape(ShapeType.OVAL,
+            10,
+            10,
+            Color.RED,
+            new Posn(50, 50),
+            "redov1");
+    model.changeColor("redov1", 1, 3, Color.RED, Color.BLUE);
+    model.moveShape(1, 3, new Posn(50, 50), new Posn(100, 100),
+            "redov1");
+    Shape s1 = model.getShapesPerTick().get(2).get(0);
+    Shape s2 = model.getShapesPerTick().get(3).get(0);
+    assertEquals(new Color(128, 0, 127), s1.getColor());
+    assertEquals(new Posn(75, 75), s2.getShapePosn());
+    assertEquals(Color.BLUE, s2.getColor());
+    assertEquals(new Posn(100, 100), s2.getShapePosn());
   }
 
   @Test
@@ -344,11 +358,21 @@ public class AnimatorModelTest {
     model.addShape(ShapeType.RECTANGLE, 5, 5, Color.BLUE,
             new Posn(100, 100), "bitBlueR");
     model.changeColor("bitBlueR", 6, 8, Color.BLUE, Color.RED);
-    int colorBlueRGB = Color.BLUE.getRGB();
-    int colorRedRGB = Color.RED.getRGB();
-    int rgbRate = (colorRedRGB - colorBlueRGB) / 2;
-    //assertEquals(Color.RED, model.getShapesPerTick().get(8).get(0).getColor());
-    assertEquals(new Color(colorBlueRGB + rgbRate),
+    int blueRed = Color.BLUE.getRed();
+    int blueGreen = Color.BLUE.getGreen();
+    int blueBlue = Color.BLUE.getBlue();
+    int redRed = Color.RED.getRed();
+    int redGreen = Color.RED.getGreen();
+    int redBlue = Color.RED.getBlue();
+    int redRate = (redRed - blueRed) / 2;
+    int greenRate = (redGreen - blueGreen) / 2;
+    int blueRate = (redBlue - blueBlue) / 2;
+    Color newColor = new Color(blueRed + redRate, blueGreen + greenRate,
+            blueBlue + blueRate);
+    assertEquals(Color.RED, model.getShapesPerTick().get(8).get(0).getColor());
+    Shape s = model.getShapesPerTick().get(7).get(0);
+    List<ArrayList<Shape>> list = model.getShapesPerTick();
+    assertEquals(newColor,
             model.getShapesPerTick().get(7).get(0).getColor());
   }
 
@@ -374,6 +398,8 @@ public class AnimatorModelTest {
             5, 15, 10);
     assertEquals(10, model.getShapesPerTick().get(5).get(0).getHeight());
     assertEquals(7, model.getShapesPerTick().get(5).get(0).getWidth());
+    assertEquals(15, model.getShapesPerTick().get(6).get(0).getHeight());
+    assertEquals(10, model.getShapesPerTick().get(6).get(0).getWidth());
   }
 
   @Test
