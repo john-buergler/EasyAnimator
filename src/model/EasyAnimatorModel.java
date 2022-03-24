@@ -113,19 +113,7 @@ public class EasyAnimatorModel implements AnimatorModel {
     int xPerTick = dist.getX() / time;
     int yPerTick = dist.getY() / time;
 
-    if (time <= 0) {
-      throw new IllegalArgumentException("Time can't be negative.");
-    }
-
-    boolean notInStartTick = true;
-    for (Shape s : shapesPerTick.get(1)) {
-      if (s.getShapeID().equals(shapeID)) {
-        notInStartTick = false;
-      }
-    }
-    if (startTime == 1 && notInStartTick) {
-      addAtTimeOne(shapeID);
-    }
+    setTimeOne(shapeID, startTime, time);
 
     /*
     The idea here is to create a List of List that holds the positional information for shapes
@@ -142,9 +130,8 @@ public class EasyAnimatorModel implements AnimatorModel {
         if (optional.isPresent()) {
           if (t == endTime) {
             Shape movingShape = optional.get();
-            movingShape.moveShape(endPos.getX() - movingShape.getShapePosn().getX(),
-                    endPos.getY() - movingShape.getShapePosn().getY());
-            getActualShape(shapeID).moveShape(xPerTick, yPerTick);
+            movingShape.setPos(endPos);
+            getActualShape(shapeID).setPos(endPos);
           } else {
             Shape movingShape = optional.get();
             movingShape.moveShape(xPerTick, yPerTick);
@@ -153,8 +140,8 @@ public class EasyAnimatorModel implements AnimatorModel {
         }
       }
       else {
-        Shape shape = getShape(shapeID);
-        Posn pos = shape.getShapePosn();
+        Shape shape = getActualShape(shapeID);
+        Posn pos = getActualShape(shapeID).getShapePosn();
         Posn moved = new Posn(pos.getX() + xPerTick, pos.getY() + yPerTick);
         if (t == endTime) {
           moved = endPos;
@@ -175,7 +162,7 @@ public class EasyAnimatorModel implements AnimatorModel {
                   shape.getShapeID(),
                   ShapeType.RECTANGLE));
         }
-        getActualShape(shapeID).moveShape(xPerTick, yPerTick);
+        shape.moveShape(xPerTick, yPerTick);
       }
     }
 
@@ -315,19 +302,7 @@ public class EasyAnimatorModel implements AnimatorModel {
     }
 
     int time = endTime - startTime;
-    if (time <= 0) {
-      throw new IllegalArgumentException("Time can't be negative.");
-    }
-
-    boolean notInStartTick = true;
-    for (Shape s : shapesPerTick.get(1)) {
-      if (s.getShapeID().equals(shapeID)) {
-        notInStartTick = false;
-      }
-    }
-    if (startTime == 1 && notInStartTick) {
-      addAtTimeOne(shapeID);
-    }
+    setTimeOne(shapeID, startTime, time);
 
     int changeHeight = endHeight - startHeight;
     int changeWidth = endWidth - startWidth;
@@ -350,6 +325,10 @@ public class EasyAnimatorModel implements AnimatorModel {
         Shape originalShape = getActualShape(shapeID);
         int newHeight = originalShape.getHeight() + changeHRate;
         int newWidth = originalShape.getWidth() + changeWRate;
+        if (t == endTime) {
+          newHeight = endHeight;
+          newWidth = endWidth;
+        }
         if (originalShape.getShapeType() == ShapeType.OVAL) {
           shapesPerTick.get(t).add(new Oval(newHeight, newWidth, originalShape.getColor(),
                   originalShape.getShapePosn(), shapeID, ShapeType.OVAL));
@@ -363,6 +342,23 @@ public class EasyAnimatorModel implements AnimatorModel {
     }
 
   }
+
+  private void setTimeOne(String shapeID, int startTime, int time) {
+    if (time <= 0) {
+      throw new IllegalArgumentException("Time can't be negative.");
+    }
+
+    boolean notInStartTick = true;
+    for (Shape s : shapesPerTick.get(1)) {
+      if (s.getShapeID().equals(shapeID)) {
+        notInStartTick = false;
+      }
+    }
+    if (startTime == 1 && notInStartTick) {
+      addAtTimeOne(shapeID);
+    }
+  }
+
   @Override
   public int getNumShapes() {
     return shapes.size();
@@ -389,6 +385,8 @@ public class EasyAnimatorModel implements AnimatorModel {
     }
     return returnList;
   }
+
+
 
   @Override
   public String toString() {

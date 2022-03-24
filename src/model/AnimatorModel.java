@@ -7,12 +7,13 @@ import java.util.List;
 /**
  * Model for the text-based animator. User inputs text commands to describe a shape and its
  * motion in the animator, which then produces a visual animation based on the description
- * provided.
+ * provided. Combine multiple of these text-based commands to create an animation in a window.
  */
 public interface AnimatorModel {
 
   /**
-   * Creates the location at which the animation takes place.
+   * Creates the location at which the animation takes place along with the duration of the
+   * animation.
    * @param height the height dimension of the scene.
    * @param width the width of the scene.
    * @param time the duration of the animation.
@@ -21,7 +22,7 @@ public interface AnimatorModel {
   public void buildScene(int width, int height, int time);
 
   /**
-   * Creates and adds shape to a scene based on user input.
+   * Creates and adds Shape to a scene based on user input.
    * @param shapeType the type of shape to create.
    * @param height the height of the new shape.
    * @param width the width of the new shape.
@@ -43,27 +44,31 @@ public interface AnimatorModel {
 
   /**
    * A motion method that allows a Shape to disappear for a given amount of time.
-   * @param startTime The time that the disappear begins.
-   * @param endTime The time that the disappear ends.
+   * @param startTime The time that the shape disappears.
+   * @param endTime The time that the shape returns.
    * @param shapeID The ID of the shape that will disappear.
    */
   public void disappearShape(int startTime, int endTime, String shapeID);
 
 
   /**
-   * Moves provided shape ID.
+   * Moves provided shape ID over a given amount of time. This is done by calculating the rate at
+   * which the shape needs to move per tick and adjusting the shapes position based on that.
+   * Important to note that the final movement of the Shape may be bigger than the others to make up
+   * for any gap caused by imprecision in the calculation.
    * @param endPos the ending position of the shape.
    * @param shapeID the shape being chosen to move.
    * @param startTime When to begin the movement.
    * @param endTime When to end the movement.
    * @throws IllegalArgumentException if endTime - startTime <= 0.
-   * @throws IllegalArgumentException if the start position is not the current position of the shape.
+   * @throws IllegalArgumentException if the start position is not the current position of the
+   * shape.
    *
    */
   public void moveShape(int startTime, int endTime, Posn startPos, Posn endPos, String shapeID);
 
   /**
-   * Gets the model Shape from a given model.Shape ID.
+   * Gets the model Shape from a given model.
    * @param shapeId the shape's ID.
    * @throws IllegalArgumentException if given shapeID doesn't correspond to any shape in the animation.
    */

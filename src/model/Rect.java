@@ -20,18 +20,4 @@ public class Rect extends AbstractShape {
   public Rect(int height, int width, Color color, Posn position, String shapeID, ShapeType type){
     super(height, width, color, position, shapeID, type);
   }
-
-  @Override
-  public boolean equals(Object o) {
-    if (o instanceof Rect){
-      return this.height == ((Rect) o).height
-              && this.width == ((Rect) o).width
-              && this.position.equals(((Rect) o).position)
-              && this.color == ((Rect) o).color
-              && this.shapeID.equals(((Rect) o).shapeID);
-    }
-    else {
-      return false;
-    }
-  }
 }
