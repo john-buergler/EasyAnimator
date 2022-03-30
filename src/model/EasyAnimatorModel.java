@@ -379,7 +379,6 @@ public class EasyAnimatorModel implements AnimatorModel {
   }
 
 
-
   @Override
   public String toString() {
     StringBuilder modelState = new StringBuilder();
