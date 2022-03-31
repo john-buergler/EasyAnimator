@@ -396,4 +396,14 @@ public class EasyAnimatorModel implements AnimatorModel {
     return modelState.toString();
   }
 
+  @Override
+  public int getSceneWidth() {
+    return this.sceneWidth;
+  }
+
+  @Override
+  public int getSceneHeight() {
+    return this.sceneHeight;
+  }
+
 }

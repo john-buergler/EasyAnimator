@@ -123,4 +123,14 @@ public interface AnimatorModel {
    * @return the state of the model as a string.
    */
   public String toString();
+
+  /**
+   * Gets the scene width.
+   */
+  public int getSceneWidth();
+
+  /**
+   * Gets the scene height.
+   */
+  public int getSceneHeight();
 }
