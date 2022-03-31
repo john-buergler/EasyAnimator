@@ -2,14 +2,15 @@ package view;
 
 public interface IView {
 
+
   /**
    * Make the view visible after constructing animation.
    */
-  public void makeVisible();
+  //public void makeVisible();
 
   /**
-   * Renders each of the shapes in a given tick provided by the model's timeline.
+   * Renders an animation. Could be rendered as text, SVG, or as a Jframe animation.
    */
-  public void renderTick();
+  public void renderAnimation();
 
 }

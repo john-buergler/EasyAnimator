@@ -19,12 +19,8 @@ public class AnimatorTextView implements IView {
   }
 
   @Override
-  public void makeVisible() {
-
-  }
-
-  @Override
-  public void renderTick() {
+  public void renderAnimation() {
     ap.append(model.toString());
   }
+
 }

@@ -21,12 +21,8 @@ public class AnimatorGraphicsView extends JFrame implements IView {
   }
 
   @Override
-  public void makeVisible() {
+  public void renderAnimation() {
     this.setVisible(true);
-  }
-
-  @Override
-  public void renderTick() {
     ActionListener renderTick = new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
