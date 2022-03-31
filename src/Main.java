@@ -1,10 +1,13 @@
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import io.AnimationBuilder;
 import io.AnimationFileReader;
 import io.TweenModelBuilder;
+import io.ViewsFactory;
 import model.AnimatorModel;
 import model.EasyAnimatorModel;
+import view.IView;
 
 /**
  * Run an animation on the console.
@@ -16,7 +19,7 @@ public class Main {
    *
    * @param args the command line arguments that specify input file, output file, view, and speed.
    */
-  public static void main(String[] args) throws FileNotFoundException {
+  public static void main(String[] args) throws IOException {
     String inputFile = "";
     String outputFile = "System.out";
     String view = "";
@@ -43,6 +46,8 @@ public class Main {
     AnimationFileReader reader = new AnimationFileReader();
     reader.readFile(inputFile, modelBuilder);
     AnimatorModel model = modelBuilder.build();
-
+    int sp = Integer.parseInt(speed);
+    IView v = new ViewsFactory().createView(view, model, sp, outputFile);
+    v.renderAnimation();
   }
 }

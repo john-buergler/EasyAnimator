@@ -33,7 +33,7 @@ public class AnimatorGraphicsView extends JFrame implements IView {
       }
     }
     TimerListener listener = new TimerListener();
-    Timer timer = new Timer(speed / 1000, listener);
+    Timer timer = new Timer(1000 / speed, listener);
     timer.start();
   }
 }
