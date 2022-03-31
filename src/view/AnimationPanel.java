@@ -31,14 +31,18 @@ public class AnimationPanel extends JPanel {
           case RECTANGLE:
             g2d.fillRect(shape.getShapePosn().getX(), shape.getShapePosn().getY(),
                     shape.getWidth(), shape.getHeight());
+            break;
           case OVAL:
             g2d.fillOval(shape.getShapePosn().getX(), shape.getShapePosn().getY(),
                     shape.getWidth(), shape.getHeight());
+            break;
         }
       }
       this.repaint();
     }
 
   }
+
+
 
 }

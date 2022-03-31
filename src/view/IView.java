@@ -1,5 +1,7 @@
 package view;
 
+import java.io.IOException;
+
 public interface IView {
 
 
@@ -11,6 +13,6 @@ public interface IView {
   /**
    * Renders an animation. Could be rendered as text, SVG, or as a Jframe animation.
    */
-  public void renderAnimation();
+  public void renderAnimation() throws IOException;
 
 }

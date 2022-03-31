@@ -8,11 +8,14 @@ import javax.swing.*;
 import model.AnimatorModel;
 
 public class AnimatorGraphicsView extends JFrame implements IView {
-  private AnimatorModel model;
-  private AnimationPanel panel;
+  private final AnimatorModel model;
+  private final AnimationPanel panel;
+  private final int speed;
 
-  public AnimatorGraphicsView(AnimatorModel model) {
+
+  public AnimatorGraphicsView(AnimatorModel model, int speed) {
     this.model = model;
+    this.speed = speed;
     this.setTitle("Your Animation");
     this.setSize(model.getSceneWidth(), model.getSceneHeight());
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -23,10 +26,14 @@ public class AnimatorGraphicsView extends JFrame implements IView {
   @Override
   public void renderAnimation() {
     this.setVisible(true);
-    ActionListener renderTick = new ActionListener() {
+    class TimerListener implements ActionListener {
       @Override
       public void actionPerformed(ActionEvent e) {
+        panel.repaint();
       }
-    };
+    }
+    TimerListener listener = new TimerListener();
+    Timer timer = new Timer(speed / 1000, listener);
+    timer.start();
   }
 }
