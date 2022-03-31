@@ -16,10 +16,9 @@ public interface AnimatorModel {
    * animation.
    * @param height the height dimension of the scene.
    * @param width the width of the scene.
-   * @param time the duration of the animation.
    * @throws IllegalArgumentException if width or height are negative values.
    */
-  public void buildScene(int width, int height, int time);
+  public void buildScene(int width, int height);
 
   /**
    * Creates and adds Shape to a scene based on user input.
@@ -28,13 +27,15 @@ public interface AnimatorModel {
    * @param width the width of the new shape.
    * @param color the color of the new shape.
    * @param posn the position of the new shape.
+   * @param startoflife what tick the shape begins.
+   * @param endoflife what tick the shape's animation ends.
    * @throws IllegalArgumentException if the height or width are negative or zero values.
    * @throws IllegalArgumentException if the position is outside the scene.
    * @throws IllegalArgumentException if the shapeID has already been used.
    *
    */
   public void addShape(ShapeType shapeType, int height, int width, Color color,
-                       Posn posn, String shapeID);
+                       Posn posn, String shapeID, int startoflife, int endoflife);
 
   /**
    * Deletes a shape from the model and animation.

@@ -24,20 +24,18 @@ public class EasyAnimatorModel implements AnimatorModel {
   }
 
   @Override
-  public void buildScene(int width, int height, int time) {
+  public void buildScene(int width, int height) {
     if (width < 0 || height < 0) {
       throw new IllegalArgumentException("Scene cannot be built with negative values.");
     }
     this.sceneHeight = height;
     this.sceneWidth = width;
-    for (int i = 0; i <= time; i++) {
-      shapesPerTick.add(new ArrayList<Shape>());
-    }
+    shapesPerTick.add(new ArrayList<Shape>());
   }
 
   @Override
   public void addShape(ShapeType shapeType, int height, int width, Color color,
-                       Posn posn, String shapeID) {
+                       Posn posn, String shapeID, int startoflife, int endoflife) {
     boolean incorrectX = posn.getX() < 0 || posn.getX() > sceneWidth;
     boolean incorrectY = posn.getY() < 0 || posn.getY() > sceneHeight;
     boolean heightWidthBad = height <= 0 || width <= 0;
@@ -46,6 +44,10 @@ public class EasyAnimatorModel implements AnimatorModel {
     }
     if (heightWidthBad) {
       throw new IllegalArgumentException("Height or width can't be negative or zero values.");
+    }
+
+    if (endoflife > shapesPerTick.size()) {
+      addTime(shapesPerTick, endoflife);
     }
 
     boolean isIdUsed = false;
@@ -67,6 +69,12 @@ public class EasyAnimatorModel implements AnimatorModel {
       shape = new Oval(height, width, color, posn, shapeID, shapeType);
     }
     shapes.add(shape);
+  }
+
+  private void addTime(List<ArrayList<Shape>> shapesPerTick, int endoflife) {
+    for (int i = shapesPerTick.size(); i <= endoflife; i++) {
+      shapesPerTick.add(new ArrayList<Shape>());
+    }
   }
 
   @Override

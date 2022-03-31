@@ -24,20 +24,20 @@ public class AnimatorModelTest {
   @Test
   public void testAddShape() {
     EasyAnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(200, 200, 30);
+    model.buildScene(200, 200);
     assertEquals(new ArrayList<Shape>(), model.getShapes());
     model.addShape(ShapeType.OVAL,
             10,
             10,
             Color.RED,
             new Posn(50, 50),
-            "redov2");
+            "redov2", 0, 30);
     model.addShape(ShapeType.RECTANGLE,
             10,
             10,
             Color.RED,
             new Posn(50, 50),
-            "redrec12");
+            "redrec12", 0, 30);
     assertEquals(new Oval(10, 10, Color.RED, new Posn(50, 50), "redov2",
                     ShapeType.OVAL),
             model.getShapes().get(0));
@@ -46,13 +46,13 @@ public class AnimatorModelTest {
   @Test
   public void testMoveShape() {
     EasyAnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(200, 200, 30);
+    model.buildScene(200, 200);
     model.addShape(ShapeType.OVAL,
             10,
             10,
             Color.RED,
             new Posn(50, 50),
-            "redov1");
+            "redov1", 0, 30);
     model.moveShape(10,
             12,
             new Posn(50, 50),
@@ -70,13 +70,13 @@ public class AnimatorModelTest {
   @Test
   public void testMoveShapeDuringColorChange() {
     EasyAnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(200, 200, 30);
+    model.buildScene(200, 200);
     model.addShape(ShapeType.OVAL,
             10,
             10,
             Color.RED,
             new Posn(50, 50),
-            "redov1");
+            "redov1", 0, 30);
     model.changeColor("redov1", 1, 3, Color.RED, Color.BLUE);
     model.moveShape(1, 3, new Posn(50, 50), new Posn(100, 100),
             "redov1");
@@ -91,13 +91,13 @@ public class AnimatorModelTest {
   @Test
   public void testDeleteShape() {
     EasyAnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(200, 200, 30);
+    model.buildScene(200, 200);
     model.addShape(ShapeType.OVAL,
             10,
             10,
             Color.RED,
             new Posn(50, 50),
-            "redov3");
+            "redov3", 0, 30);
     model.moveShape(10,
             12,
             new Posn(50, 50),
@@ -112,13 +112,13 @@ public class AnimatorModelTest {
   @Test
   public void testDisappearShape() {
     EasyAnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(200, 200, 30);
+    model.buildScene(200, 200);
     model.addShape(ShapeType.OVAL,
             10,
             10,
             Color.RED,
             new Posn(50, 50),
-            "redov4");
+            "redov4", 0, 30);
     model.moveShape(10,
             12,
             new Posn(50, 50),
@@ -134,13 +134,13 @@ public class AnimatorModelTest {
   @Test
   public void testMoveShapeStandsStill() {
     EasyAnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(200, 200, 30);
+    model.buildScene(200, 200);
     model.addShape(ShapeType.OVAL,
             10,
             10,
             Color.RED,
             new Posn(50, 50),
-            "redov5");
+            "redov5", 0, 30);
     model.moveShape(0,
             12,
             new Posn(50, 50),
@@ -154,13 +154,13 @@ public class AnimatorModelTest {
   @Test
   public void testMultiMoveShape() {
     EasyAnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(200, 200, 30);
+    model.buildScene(200, 200);
     model.addShape(ShapeType.OVAL,
             10,
             10,
             Color.RED,
             new Posn(50, 50),
-            "redov6");
+            "redov6", 0, 30);
     model.moveShape(10,
             12,
             new Posn(50, 50),
@@ -181,13 +181,13 @@ public class AnimatorModelTest {
   @Test
   public void testMoveShapeWhileChangingSize() {
     EasyAnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(200, 200, 30);
+    model.buildScene(200, 200);
     model.addShape(ShapeType.OVAL,
             10,
             10,
             Color.RED,
             new Posn(50, 50),
-            "redov6");
+            "redov6", 0, 30);
     model.moveShape(1, 5, new Posn(50, 50), new Posn(90,90),
             "redov6");
     model.changeSize("redov6", 1, 5, 10, 10,
@@ -203,61 +203,61 @@ public class AnimatorModelTest {
   @Test (expected = IllegalArgumentException.class)
   public void testBuildNegativeScene() {
     EasyAnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(-200, 200, 30);
+    model.buildScene(-200, 200);
   }
 
   @Test (expected = IllegalArgumentException.class)
   public void testAddOOBShape() {
     EasyAnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(200, 200, 30);
+    model.buildScene(200, 200);
     model.addShape(ShapeType.OVAL,
             10,
             10,
             Color.RED,
             new Posn(250, 50),
-            "redov7");
+            "redov7", 0, 30);
   }
 
   @Test (expected = IllegalArgumentException.class)
   public void testAddNegativeDimensionsShape() {
     EasyAnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(200, 200, 30);
+    model.buildScene(200, 200);
     model.addShape(ShapeType.OVAL,
             -10,
             10,
             Color.RED,
             new Posn(50, 50),
-            "redov8");
+            "redov8", 0, 30);
   }
 
   @Test (expected = IllegalArgumentException.class)
   public void testAddRepeatID() {
     EasyAnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(200, 200, 30);
+    model.buildScene(200, 200);
     model.addShape(ShapeType.OVAL,
             10,
             10,
             Color.RED,
             new Posn(50, 50),
-            "redov10");
+            "redov10", 0, 30);
     model.addShape(ShapeType.OVAL,
             20,
             30,
             Color.BLUE,
             new Posn(100, 20),
-            "redov10");
+            "redov10", 0, 30);
   }
 
   @Test (expected = IllegalArgumentException.class)
   public void testMoveShapeNegativeTime() {
     EasyAnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(200, 200, 30);
+    model.buildScene(200, 200);
     model.addShape(ShapeType.OVAL,
             10,
             10,
             Color.RED,
             new Posn(50, 50),
-            "redov11");
+            "redov11", 0, 30);
     model.moveShape(5,
             2,
             new Posn(50, 50),
@@ -268,26 +268,26 @@ public class AnimatorModelTest {
   @Test (expected = IllegalArgumentException.class)
   public void testGetNonexistentShape() {
     EasyAnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(200, 200, 30);
+    model.buildScene(200, 200);
     model.addShape(ShapeType.OVAL,
             10,
             10,
             Color.RED,
             new Posn(50, 50),
-            "redov12");
+            "redov12", 0, 30);
     model.getShape("redov2");
   }
 
   @Test
   public void testGetShape() {
     EasyAnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(200, 200, 30);
+    model.buildScene(200, 200);
     model.addShape(ShapeType.OVAL,
             10,
             10,
             Color.RED,
             new Posn(50, 50),
-            "redov13");
+            "redov13", 0, 30);
     assertEquals(new Oval(10,
             10,
             Color.RED,
@@ -305,7 +305,7 @@ public class AnimatorModelTest {
             "redov14",
             ShapeType.OVAL);
     EasyAnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(200, 200, 30);
+    model.buildScene(200, 200);
     List<Shape> shapelist = new ArrayList<>();
     shapelist.add(exShape);
     model.addShape(ShapeType.OVAL,
@@ -313,7 +313,7 @@ public class AnimatorModelTest {
             10,
             Color.RED,
             new Posn(50, 50),
-            "redov14");
+            "redov14", 0, 30);
     assertEquals(shapelist.get(0), model.getShapes().get(0));
     assertEquals(shapelist, model.getShapes());
   }
@@ -352,9 +352,9 @@ public class AnimatorModelTest {
   @Test
   public void testChangeColorInOneTick() {
     AnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(200, 200, 30);
+    model.buildScene(200, 200);
     model.addShape(ShapeType.RECTANGLE, 5, 5, Color.BLUE,
-            new Posn(100, 100), "bitBlueR");
+            new Posn(100, 100), "bitBlueR", 0, 30);
     model.changeColor("bitBlueR", 4, 5, Color.BLUE, Color.BLACK);
     assertEquals(Color.BLACK, model.getShapesPerTick().get(5).get(0).getColor());
   }
@@ -362,9 +362,9 @@ public class AnimatorModelTest {
   @Test
   public void testChangeColorInTwoTicks() {
     AnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(200, 200, 30);
+    model.buildScene(200, 200);
     model.addShape(ShapeType.RECTANGLE, 5, 5, Color.BLUE,
-            new Posn(100, 100), "bitBlueR");
+            new Posn(100, 100), "bitBlueR", 0, 30);
     model.changeColor("bitBlueR", 6, 8, Color.BLUE, Color.RED);
     int blueRed = Color.BLUE.getRed();
     int blueGreen = Color.BLUE.getGreen();
@@ -385,9 +385,9 @@ public class AnimatorModelTest {
   @Test
   public void testChangeColorWhileChangingSize() {
     AnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(200, 200, 30);
+    model.buildScene(200, 200);
     model.addShape(ShapeType.RECTANGLE, 5, 5, Color.GREEN,
-            new Posn(100, 100), "greenS");
+            new Posn(100, 100), "greenS", 0, 30);
     model.changeColor("greenS", 10, 14, Color.GREEN, Color.PINK);
     model.changeSize("greenS", 12, 14, 5,
             5, 11, 15);
@@ -417,9 +417,9 @@ public class AnimatorModelTest {
   @Test
   public void testChangeSizeOneTick() {
     AnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(200, 200, 30);
+    model.buildScene(200, 200);
     model.addShape(ShapeType.RECTANGLE, 5, 5, Color.BLUE,
-            new Posn(100, 100), "bitBlueR");
+            new Posn(100, 100), "bitBlueR", 0, 30);
     model.changeSize("bitBlueR", 2, 3, 5, 5,
             10, 5);
     assertEquals(10, model.getShapesPerTick().get(3).get(0).getHeight());
@@ -429,9 +429,9 @@ public class AnimatorModelTest {
   @Test
   public void testChangeSizeMultipleTicks() {
     AnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(200, 200, 30);
+    model.buildScene(200, 200);
     model.addShape(ShapeType.RECTANGLE, 5, 5, Color.BLUE,
-            new Posn(100, 100), "bitBlueR");
+            new Posn(100, 100), "bitBlueR", 0, 30);
     model.changeSize("bitBlueR", 4, 6, 5,
             5, 15, 10);
     assertEquals(10, model.getShapesPerTick().get(5).get(0).getHeight());
@@ -443,9 +443,9 @@ public class AnimatorModelTest {
   @Test
   public void testToStringModelState() {
     AnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(200, 200, 2);
+    model.buildScene(200, 200);
     model.addShape(ShapeType.RECTANGLE, 5, 5, Color.BLUE,
-            new Posn(100, 100), "bitBlueR");
+            new Posn(100, 100), "bitBlueR", 0, 2);
     model.moveShape(1, 2, new Posn(100, 100),
             new Posn(150, 150), "bitBlueR");
     String str = "At time t = 1:\n" +
@@ -460,9 +460,9 @@ public class AnimatorModelTest {
   @Test
   public void testToStringModelState2() {
     AnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(200, 200, 2);
+    model.buildScene(200, 200);
     model.addShape(ShapeType.RECTANGLE, 5, 5, Color.BLUE,
-            new Posn(100, 100), "bitBlueR");
+            new Posn(100, 100), "bitBlueR", 0, 2);
     model.moveShape(1, 2, new Posn(100, 100),
             new Posn(150, 150), "bitBlueR");
     model.changeColor("bitBlueR", 1, 2, Color.BLUE, Color.RED);
@@ -478,9 +478,9 @@ public class AnimatorModelTest {
   @Test
   public void testMoveColorChangeAndSizeChange() {
     AnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(500, 500, 50);
+    model.buildScene(500, 500);
     model.addShape(ShapeType.OVAL, 10 , 50, Color.RED, new Posn(60, 60),
-            "blackov1");
+            "blackov1", 0, 50);
     model.moveShape(10, 34, new Posn(60, 60), new Posn(300, 300),
             "blackov1");
     model.changeColor("blackov1", 10, 24, Color.RED, Color.BLUE);
@@ -512,13 +512,13 @@ public class AnimatorModelTest {
   @Test
   public void testMoveMultipleShapes() {
     AnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(500, 500, 50);
+    model.buildScene(500, 500);
     model.addShape(ShapeType.OVAL, 500 , 50, Color.RED, new Posn(60, 60),
-            "redov1");
+            "redov1", 0, 50);
     model.addShape(ShapeType.RECTANGLE, 10 , 50, Color.BLACK, new Posn(60, 60),
-            "blackrect1");
+            "blackrect1", 0, 50);
     model.addShape(ShapeType.OVAL, 10 , 10, Color.RED, new Posn(100, 100),
-            "redov2");
+            "redov2", 0, 50);
     model.moveShape(1, 3, new Posn(60, 60), new Posn(100, 100),
             "redov1");
     model.moveShape(1, 3, new Posn(100, 100), new Posn(60, 60),
@@ -530,9 +530,9 @@ public class AnimatorModelTest {
   @Test
   public void testToString() {
     AnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(500, 500, 50);
+    model.buildScene(500, 500);
     model.addShape(ShapeType.OVAL, 50 , 50, Color.RED, new Posn(60, 60),
-            "redov1");
+            "redov1", 0, 50);
     assertEquals("50506060java.awt.Color[r=255,g=0,b=0]redov1OVAL",
             model.getShapes().get(0).toString());
   }

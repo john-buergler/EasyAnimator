@@ -28,7 +28,7 @@ public class AnimationBuilder implements TweenModelBuilder<AnimatorModel> {
     Posn posn = new Posn((int) cx, (int) cy);
     int width = (int) xRadius;
     int height = (int) yRadius;
-    m.addShape(ShapeType.OVAL, height, width, color, posn, name);
+    m.addShape(ShapeType.OVAL, height, width, color, posn, name, startOfLife, endOfLife);
     return this;
   }
 
@@ -40,7 +40,7 @@ public class AnimationBuilder implements TweenModelBuilder<AnimatorModel> {
     Posn posn = new Posn((int) lx, (int) ly);
     int w = (int) width;
     int h = (int) height;
-    m.addShape(ShapeType.RECTANGLE, h, w, color, posn, name);
+    m.addShape(ShapeType.RECTANGLE, h, w, color, posn, name, startOfLife, endOfLife);
     return this;
   }
 
