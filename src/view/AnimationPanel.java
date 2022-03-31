@@ -24,16 +24,21 @@ public class AnimationPanel extends JPanel {
 
     Graphics2D g2d = (Graphics2D) g;
 
-    for (Shape shape : shapes) {
-      g2d.setColor(shape.getColor());
-      switch (shape.getShapeType()) {
-        case RECTANGLE:
-          g2d.fillRect(shape.getShapePosn().getX(), shape.getShapePosn().getY(),
-                  shape.getWidth(), shape.getHeight());
-        case OVAL:
-          g2d.fillOval(shape.getShapePosn().getX(), shape.getShapePosn().getY(),
-                  shape.getWidth(), shape.getHeight());
+    for (List<Shape> ls : model.getShapesPerTick()) {
+      for (Shape shape : ls) {
+        g2d.setColor(shape.getColor());
+        switch (shape.getShapeType()) {
+          case RECTANGLE:
+            g2d.fillRect(shape.getShapePosn().getX(), shape.getShapePosn().getY(),
+                    shape.getWidth(), shape.getHeight());
+          case OVAL:
+            g2d.fillOval(shape.getShapePosn().getX(), shape.getShapePosn().getY(),
+                    shape.getWidth(), shape.getHeight());
+        }
       }
+      this.repaint();
     }
+
   }
+
 }
