@@ -42,7 +42,6 @@ public class EasyAnimatorModel implements AnimatorModel {
     if (incorrectX || incorrectY) {
       throw new IllegalArgumentException("Shape position not within model scene.");
     }
-
      */
     boolean heightWidthBad = height <= 0 || width <= 0;
     if (heightWidthBad) {

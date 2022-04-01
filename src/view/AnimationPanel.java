@@ -40,7 +40,6 @@ public class AnimationPanel extends JPanel {
             break;
         }
       }
-      repaint();
       currentTick += 1;
   }
 

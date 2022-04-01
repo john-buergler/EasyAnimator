@@ -26,18 +26,26 @@ public class AnimatorGraphicsView extends JFrame implements IView {
   @Override
   public void renderAnimation() {
     this.setVisible(true);
+    /*
     class TimerListener implements ActionListener {
       @Override
       public void actionPerformed(ActionEvent e) {
-        //panel.updateShapes(1);
         panel.repaint();
+        if (panel.getCurrentTick() == model.getShapesPerTick().size() - 1) {
+          timer.stop();
+        }
       }
     }
-    TimerListener listener = new TimerListener();
-    Timer timer = new Timer(1000 / speed, listener);
+
+     */
+    //TimerListener listener = new TimerListener();
+    Timer timer = new Timer(1000 / speed, null);
+    timer.addActionListener(e -> {
+      panel.repaint();
+      if (panel.getCurrentTick() == model.getShapesPerTick().size() - 1) {
+        timer.stop();
+      }
+    });
     timer.start();
-    if (panel.getCurrentTick() == model.getShapesPerTick().size() - 1) {
-      timer.stop();
-    }
   }
 }
