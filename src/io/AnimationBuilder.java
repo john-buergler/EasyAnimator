@@ -17,6 +17,7 @@ public class AnimationBuilder implements TweenModelBuilder<AnimatorModel> {
 
   @Override
   public TweenModelBuilder<AnimatorModel> setBounds(int width, int height) {
+    m.buildScene(width, height);
     return this;
   }
 

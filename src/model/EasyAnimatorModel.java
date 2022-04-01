@@ -36,12 +36,15 @@ public class EasyAnimatorModel implements AnimatorModel {
   @Override
   public void addShape(ShapeType shapeType, int height, int width, Color color,
                        Posn posn, String shapeID, int startoflife, int endoflife) {
+    /*
     boolean incorrectX = posn.getX() < 0 || posn.getX() > sceneWidth;
     boolean incorrectY = posn.getY() < 0 || posn.getY() > sceneHeight;
-    boolean heightWidthBad = height <= 0 || width <= 0;
     if (incorrectX || incorrectY) {
       throw new IllegalArgumentException("Shape position not within model scene.");
     }
+
+     */
+    boolean heightWidthBad = height <= 0 || width <= 0;
     if (heightWidthBad) {
       throw new IllegalArgumentException("Height or width can't be negative or zero values.");
     }
