@@ -110,28 +110,6 @@ public class AnimatorModelTest {
   }
 
   @Test
-  public void testDisappearShape() {
-    EasyAnimatorModel model = new EasyAnimatorModel();
-    model.buildScene(200, 200);
-    model.addShape(ShapeType.OVAL,
-            10,
-            10,
-            Color.RED,
-            new Posn(50, 50),
-            "redov4", 0, 30);
-    model.moveShape(10,
-            12,
-            new Posn(50, 50),
-            new Posn(100, 100),
-            "redov4");
-    model.disappearShape(10, 11, "redov4");
-    assertTrue(model.getShapes().get(0) instanceof Shape);
-    assertTrue(model.getShapesPerTick().get(10).isEmpty());
-    assertTrue(model.getShapesPerTick().get(11).isEmpty());
-    assertTrue(model.getShapesPerTick().get(12).get(0) instanceof Shape);
-  }
-
-  @Test
   public void testMoveShapeStandsStill() {
     EasyAnimatorModel model = new EasyAnimatorModel();
     model.buildScene(200, 200);

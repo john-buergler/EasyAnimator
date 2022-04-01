@@ -80,9 +80,8 @@ public class EasyAnimatorModel implements AnimatorModel {
     }
   }
 
-  @Override
-  public void disappearShape(int startTime, int endTime, String shapeID) {
-    for (int i = startTime; i <= endTime; i++) {
+  private void disappearShape(int endTime, String shapeID) {
+    for (int i = 0; i <= endTime; i++) {
       if (shapesPerTick.get(i).stream().anyMatch(s -> s.getShapeID().equals(shapeID))) {
         Optional<Shape> optional =
                 shapesPerTick.get(i).stream()
@@ -109,7 +108,7 @@ public class EasyAnimatorModel implements AnimatorModel {
     }
     else {
       shapes.remove(delShape);
-      disappearShape(0, shapesPerTick.size() - 1, shapeID);
+      disappearShape(shapesPerTick.size() - 1, shapeID);
     }
   }
 

@@ -43,14 +43,6 @@ public interface AnimatorModel {
    */
   public void deleteShape(String shapeID);
 
-  /**
-   * A motion method that allows a Shape to disappear for a given amount of time.
-   * @param startTime The time that the shape disappears.
-   * @param endTime The time that the shape returns.
-   * @param shapeID The ID of the shape that will disappear.
-   */
-  public void disappearShape(int startTime, int endTime, String shapeID);
-
 
   /**
    * Moves provided shape ID over a given amount of time. This is done by calculating the rate at

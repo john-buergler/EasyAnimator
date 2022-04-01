@@ -42,7 +42,8 @@ public class Main {
           break;
       }
     }
-    TweenModelBuilder<AnimatorModel> modelBuilder = new AnimationBuilder();
+    AnimatorModel m = new EasyAnimatorModel();
+    TweenModelBuilder<AnimatorModel> modelBuilder = new AnimationBuilder(m);
     AnimationFileReader reader = new AnimationFileReader();
     reader.readFile(inputFile, modelBuilder);
     AnimatorModel model = modelBuilder.build();

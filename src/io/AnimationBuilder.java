@@ -11,8 +11,8 @@ import model.ShapeType;
 public class AnimationBuilder implements TweenModelBuilder<AnimatorModel> {
   private final AnimatorModel m;
 
-  public AnimationBuilder() {
-    this.m = new EasyAnimatorModel();
+  public AnimationBuilder(AnimatorModel m) {
+    this.m = m;
   }
 
   @Override

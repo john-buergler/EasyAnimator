@@ -11,11 +11,13 @@ import model.Shape;
 
 public class AnimationPanel extends JPanel {
   private final AnimatorModel model;
-  List<Shape> shapes;
+  private List<Shape> shapes;
+  private int currentTick;
 
   public AnimationPanel(AnimatorModel m) {
+    this.currentTick = 0;
     this.model = m;
-    this.shapes = new ArrayList<Shape>();
+    this.shapes = new ArrayList<>();
   }
 
   @Override
@@ -24,8 +26,8 @@ public class AnimationPanel extends JPanel {
 
     Graphics2D g2d = (Graphics2D) g;
 
-    for (List<Shape> ls : model.getShapesPerTick()) {
-      for (Shape shape : ls) {
+    this.shapes = model.getShapesPerTick().get(currentTick);
+      for (Shape shape : shapes) {
         g2d.setColor(shape.getColor());
         switch (shape.getShapeType()) {
           case RECTANGLE:
@@ -38,11 +40,13 @@ public class AnimationPanel extends JPanel {
             break;
         }
       }
-      this.repaint();
-    }
-
+      repaint();
+      currentTick += 1;
   }
 
+  int getCurrentTick() {
+   return currentTick;
+  }
 
 
 }

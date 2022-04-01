@@ -29,11 +29,15 @@ public class AnimatorGraphicsView extends JFrame implements IView {
     class TimerListener implements ActionListener {
       @Override
       public void actionPerformed(ActionEvent e) {
+        //panel.updateShapes(1);
         panel.repaint();
       }
     }
     TimerListener listener = new TimerListener();
     Timer timer = new Timer(1000 / speed, listener);
     timer.start();
+    if (panel.getCurrentTick() == model.getShapesPerTick().size() - 1) {
+      timer.stop();
+    }
   }
 }
