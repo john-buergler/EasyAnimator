@@ -71,4 +71,22 @@ public interface Shape {
    * @param startPos the position being set
    */
   public void setPos(Posn startPos);
+
+  /**
+   * Adds a Transformation to the Shape's list of transformations.
+   * @param t
+   */
+  public void addTransformation(String t);
+
+  /**
+   * Makes an SVG String of the shape and its transformations.
+   * @return String in SVG format.
+   */
+  public String toSVG();
+
+  /**
+   * Creates a string that
+   * @return
+   */
+  public String SVGMove(int startTime, int endTime, Posn startPos, Posn endPos, String shapeID);
 }

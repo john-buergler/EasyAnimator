@@ -20,4 +20,24 @@ public class Rect extends AbstractShape {
   public Rect(int height, int width, Color color, Posn position, String shapeID, ShapeType type) {
     super(height, width, color, position, shapeID, type);
   }
+
+  @Override
+  public String toSVG() {
+    StringBuilder str = new StringBuilder();
+    str.append("<").append("rect").append(" id=").append('"').append(shapeID)
+            .append('"').append(" x=").append('"').append(position.getX())
+            .append('"').append(" y=").append('"').append(position.getY())
+            .append('"').append(" width=").append('"').append(width / 2)
+            .append('"').append(" height=").append('"').append(height / 2)
+            .append('"').append(" fill=").append('"').append("rgb(")
+            .append(color.getRed()).append(color.getGreen())
+            .append(color.getBlue()).append('"').append(" visibility=")
+            .append('"').append("visible").append('"').append(">").append('\n');
+    return str.toString();
+  }
+
+  @Override
+  public String SVGMove(int startTime, int endTime, Posn startPos, Posn endPos, String shapeID) {
+    return "";
+  }
 }

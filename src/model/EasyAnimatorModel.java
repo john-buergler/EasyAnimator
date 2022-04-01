@@ -133,6 +133,10 @@ public class EasyAnimatorModel implements AnimatorModel {
   a new one and duplicating the shape.
      */
 
+    Shape transformingShape = getActualShape(shapeID);
+    transformingShape.addTransformation(transformingShape.SVGMove(startTime, endTime, startPos,
+            endPos, shapeID));
+
     for (int t = startTime + 1; t <= endTime; t++) {
       if (shapesPerTick.get(t).stream().anyMatch(s -> s.getShapeID().equals(shapeID))) {
         Optional<Shape> optional =

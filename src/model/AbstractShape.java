@@ -1,6 +1,8 @@
 package model;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -13,6 +15,7 @@ public abstract class AbstractShape implements Shape {
   protected Color color;
   protected Posn position;
   protected ShapeType type;
+  protected String SVGtransformations;
 
   /**
    * Constructor for shapes with all the same parameters.
@@ -35,6 +38,7 @@ public abstract class AbstractShape implements Shape {
     this.color = color;
     this.position = position;
     this.type = type;
+    this.SVGtransformations = "";
   }
 
   @Override
@@ -123,5 +127,15 @@ public abstract class AbstractShape implements Shape {
     return new StringBuilder(String.valueOf(this.height) + String.valueOf(this.width) +
             this.position.toString() + this.color + this.shapeID + this.type).toString();
   }
+
+  @Override
+  public void addTransformation(String t) {
+    this.SVGtransformations = this.SVGtransformations.concat(t);
+  }
+
+  public abstract String toSVG();
+
+  public abstract String SVGMove(int startTime, int endTime, Posn startPos, Posn endPos,
+                                 String shapeID);
 }
 
