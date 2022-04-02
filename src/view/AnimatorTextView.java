@@ -3,6 +3,8 @@ package view;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.List;
+import java.util.Scanner;
 
 import model.AnimatorModel;
 import model.Shape;
@@ -31,19 +33,42 @@ public class AnimatorTextView implements IView {
   @Override
   public void renderAnimation() throws IOException {
     StringBuilder str = new StringBuilder();
-    int convasHeight = model.getSceneHeight();
+    int canvasHeight = model.getSceneHeight();
     int canvasWidth = model.getSceneWidth();
-    for (int t = 1; t < model.getShapesPerTick().size(); t++) {
-      double time = (double) t / speed;
-      str.append("At time t = ").append(time).append(":\n");
-      for (int i = 0; i < model.getShapesPerTick().get(t).size(); i++) {
-        Shape s = model.getShapesPerTick().get(t).get(i);
-        str.append("Shape ").append(s.getShapeID()).append(" ").append(s.getShapeType())
-                .append("\n");
-        str.append("x=").append(s.getShapePosn().getX()).append(" y=")
-                .append(s.getShapePosn().getY()).append(" w=").append(s.getWidth()).append(" h=")
-                .append(s.getHeight()).append(" color=").append(s.getColor()).append("\n");
+    str.append("canvas " + canvasHeight + " " + canvasWidth + "\n");
+    for (int t = 0; t < model.getShapes().size(); t++) {
+      List<String> log = model.getShapes().get(t).getLog();
+      for (int j = 0; j < log.size(); j++) {
+        String logStr = log.get(j);
+        if (j == 0) {
+          str.append(logStr + "\n");
+        }
+        else {
+          Scanner scan = new Scanner(logStr);
+          String str1 = scan.next();
+          str.append(str1 + " ");
+          String str2 = scan.next();
+          str.append(str2 + " ");
+          String str3 = scan.next();
+          str.append(str3 + " ");
+          int num = scan.nextInt();
+          double time = (double) num / speed;
+          str.append(time + " ");
+          int count = 5;
+          while (count < 12) {
+            str.append(scan.next() + " ");
+            count ++;
+          }
+          int num2 = scan.nextInt();
+          double time2 = (double) num2 / speed;
+          str.append(time2 + " ");
+          while (scan.hasNext()) {
+            str.append(scan.next() + " ");
+          }
+          str.append("\n");
+        }
       }
+
     }
     if (outputSystem == null) {
       outputFile.append(str.toString());

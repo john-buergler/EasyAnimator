@@ -249,14 +249,23 @@ public class EasyAnimatorModel implements AnimatorModel {
   public Shape getShape(String shapeId) {
     for (Shape s : shapes) {
       if (s.getShapeID().equals(shapeId)) {
+        Shape shape;
         if (s.getShapeType() == ShapeType.OVAL) {
-          return new Oval(s.getHeight(), s.getWidth(), s.getColor(),
+          shape = new Oval(s.getHeight(), s.getWidth(), s.getColor(),
                   s.getShapePosn(), s.getShapeID(), s.getShapeType(),
                   s.getTransformations());
+          for (int i = 0; i < s.getLog().size(); i++) {
+            shape.getLog().add(s.getLog().get(i));
+          }
+          return shape;
         } else {
-          return new Rect(s.getHeight(), s.getWidth(), s.getColor(),
+          shape = new Rect(s.getHeight(), s.getWidth(), s.getColor(),
                   s.getShapePosn(), s.getShapeID(), s.getShapeType(),
                   s.getTransformations());
+          for (int i = 0; i < s.getLog().size(); i++) {
+            shape.getLog().add(s.getLog().get(i));
+          }
+          return shape;
         }
       }
     }
