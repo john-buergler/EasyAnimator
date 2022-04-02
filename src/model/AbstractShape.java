@@ -42,6 +42,22 @@ public abstract class AbstractShape implements Shape {
     this.log = new ArrayList<>();
     this.SVGtransformations = "";
   }
+  public AbstractShape(int height,
+                       int width,
+                       Color color,
+                       Posn position,
+                       String shapeID,
+                       ShapeType type,
+                       String trans) {
+    this.shapeID = shapeID;
+    this.width = width;
+    this.height = height;
+    this.color = color;
+    this.position = position;
+    this.type = type;
+    this.log = new ArrayList<>();
+    this.SVGtransformations = trans;
+  }
 
   @Override
   public void moveShape(int xChange, int yChange) {
@@ -130,7 +146,6 @@ public abstract class AbstractShape implements Shape {
             this.position.toString() + this.color + this.shapeID + this.type).toString();
   }
 
-  @Override
   public void addTransformation(String t) {
     this.SVGtransformations = this.SVGtransformations.concat(t);
   }
@@ -140,9 +155,14 @@ public abstract class AbstractShape implements Shape {
     return log;
   }
 
+  @Override
+  public String getTransformations() {
+    return this.SVGtransformations;
+  }
+
   public abstract String toSVG();
 
-  public abstract String SVGMove(int startTime, int endTime, Posn startPos, Posn endPos,
+  public abstract void SVGMove(int startTime, int endTime, Posn startPos, Posn endPos,
                                  String shapeID);
 }
 
