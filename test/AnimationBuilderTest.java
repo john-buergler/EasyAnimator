@@ -62,6 +62,8 @@ public class AnimationBuilderTest {
             0, 1, 2, 10);
     ab.addMove("rect1", 250, 200, 310,
             300, 4, 6);
+    assertEquals(m.getShapesPerTick().get(4).get(0).getShapePosn(), new Posn(250, 200));
+    assertEquals(m.getShapesPerTick().get(6).get(0).getShapePosn(), new Posn(310, 300));
   }
 
 

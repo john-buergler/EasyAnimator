@@ -184,16 +184,19 @@ public class AnimatorModelTest {
     model.buildScene(-200, 200);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test
   public void testAddOOBShape() {
     EasyAnimatorModel model = new EasyAnimatorModel();
     model.buildScene(200, 200);
+    Posn pos = new Posn(250, 250);
     model.addShape(ShapeType.OVAL,
             10,
             10,
             Color.RED,
-            new Posn(250, 50),
+            pos,
             "redov7", 1, 30);
+    Shape shape = new Oval(10, 10, Color.RED, pos, "redov7", ShapeType.OVAL);
+    assertEquals(model.getShapesPerTick().get(15).get(0), shape);
   }
 
   @Test (expected = IllegalArgumentException.class)

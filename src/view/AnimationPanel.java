@@ -15,7 +15,7 @@ public class AnimationPanel extends JPanel {
   private int currentTick;
 
   public AnimationPanel(AnimatorModel m) {
-    this.currentTick = 0;
+    this.currentTick = 1;
     this.model = m;
     this.shapes = new ArrayList<>();
   }
