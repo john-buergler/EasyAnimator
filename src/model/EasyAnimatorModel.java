@@ -148,9 +148,7 @@ public class EasyAnimatorModel implements AnimatorModel {
   a new one and duplicating the shape.
      */
 
-    Shape transformingShape = getActualShape(shapeID);
-    transformingShape.addTransformation(transformingShape.SVGMove(startTime, endTime, startPos,
-            endPos, shapeID));
+    getActualShape(shapeID).SVGMove(startTime, endTime, startPos, endPos, shapeID);
 
     for (int t = startTime + 1; t <= endTime; t++) {
       if (shapesPerTick.get(t).stream().anyMatch(s -> s.getShapeID().equals(shapeID))) {
@@ -233,10 +231,12 @@ public class EasyAnimatorModel implements AnimatorModel {
       if (s.getShapeID().equals(shapeId)) {
         if (s.getShapeType() == ShapeType.OVAL) {
           return new Oval(s.getHeight(), s.getWidth(), s.getColor(),
-                  s.getShapePosn(), s.getShapeID(), s.getShapeType());
+                  s.getShapePosn(), s.getShapeID(), s.getShapeType(),
+                  s.getTransformations());
         } else {
           return new Rect(s.getHeight(), s.getWidth(), s.getColor(),
-                  s.getShapePosn(), s.getShapeID(), s.getShapeType());
+                  s.getShapePosn(), s.getShapeID(), s.getShapeType(),
+                  s.getTransformations());
         }
       }
     }
