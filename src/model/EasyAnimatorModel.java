@@ -258,7 +258,8 @@ public class EasyAnimatorModel implements AnimatorModel {
             shape.getLog().add(s.getLog().get(i));
           }
           return shape;
-        } else {
+        }
+        else {
           shape = new Rect(s.getHeight(), s.getWidth(), s.getColor(),
                   s.getShapePosn(), s.getShapeID(), s.getShapeType(),
                   s.getTransformations());

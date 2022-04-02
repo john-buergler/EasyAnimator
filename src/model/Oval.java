@@ -44,20 +44,22 @@ public class Oval extends AbstractShape {
   }
 
   @Override
-  public void SVGMove(int startTime, int endTime, Posn startPos, Posn endPos, String shapeID) {
+  public String SVGMove(int startTime, int endTime, Posn startPos, Posn endPos, String shapeID) {
     StringBuilder str = new StringBuilder();
     if (startPos.getX() != endPos.getX()) {
       str.append("  <animate attributeType=" + '"' + "xml" + '"' + " begin=" + '"' + "base.begin+" +
               startTime + "ms" + '"' + " dur=" + '"' + ((endTime - startTime) * 1000) + "ms" + '"'
-              + " attributeName=" + '"' + "cx" + '"' + " from=" + '"' + startPos.getX() + '"' + " to="
-              + '"' + endPos.getX() + '"' + " fill=" + '"' + "freeze" + '"' + "></animate>" + '\n');
+              + " attributeName=" + '"' + "cx" + '"' + " from=" + '"' + startPos.getX() + '"' +
+              " to=" + '"' + endPos.getX() + '"' + " fill=" + '"' + "freeze" + '"' + "></animate>"
+              + '\n');
     }
     if (startPos.getY() != endPos.getY()) {
       str.append("  <animate attributeType=" + '"' + "xml" + '"' + " begin=" + '"' + "base.begin+" +
               startTime + "ms" + '"' + " dur=" + '"' + ((endTime - startTime) * 1000) + "ms" + '"'
-              + " attributeName=" + '"' + "cy" + '"' + " from=" + '"' + startPos.getY() + '"' + " to="
-              + '"' + endPos.getY() + '"' + " fill=" + '"' + "freeze" + '"' + "></animate>" + '\n');
+              + " attributeName=" + '"' + "cy" + '"' + " from=" + '"' + startPos.getY() + '"' + "" +
+              " to=" + '"' + endPos.getY() + '"' + " fill=" + '"' + "freeze" + '"' + "></animate>"
+              + '\n');
     }
-    SVGtransformations = SVGtransformations + str.toString();
+    return str.toString();
   }
 }
