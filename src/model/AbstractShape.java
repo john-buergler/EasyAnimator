@@ -14,7 +14,8 @@ public abstract class AbstractShape implements Shape {
   protected int width;
   protected Color color;
   protected Posn position;
-  protected ShapeType type;
+  protected final ShapeType type;
+  protected final List<String> log;
   protected String SVGtransformations;
 
   /**
@@ -38,6 +39,7 @@ public abstract class AbstractShape implements Shape {
     this.color = color;
     this.position = position;
     this.type = type;
+    this.log = new ArrayList<>();
     this.SVGtransformations = "";
   }
 
@@ -131,6 +133,11 @@ public abstract class AbstractShape implements Shape {
   @Override
   public void addTransformation(String t) {
     this.SVGtransformations = this.SVGtransformations.concat(t);
+  }
+
+  @Override
+  public List<String> getLog() {
+    return log;
   }
 
   public abstract String toSVG();

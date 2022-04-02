@@ -31,6 +31,8 @@ public class AnimatorTextView implements IView {
   @Override
   public void renderAnimation() throws IOException {
     StringBuilder str = new StringBuilder();
+    int convasHeight = model.getSceneHeight();
+    int canvasWidth = model.getSceneWidth();
     for (int t = 1; t < model.getShapesPerTick().size(); t++) {
       double time = (double) t / speed;
       str.append("At time t = ").append(time).append(":\n");

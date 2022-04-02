@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Color;
+import java.util.List;
 
 /**
  * The Interface for a Shape object. Shape objects are the objects that are rendered on the screen.
@@ -77,6 +78,13 @@ public interface Shape {
    * @param t
    */
   public void addTransformation(String t);
+
+  /**
+   * Gets the log of the motion of the shape.
+   *
+   * @return an array of strings describing the motion of the shape during animation.
+   */
+  public List<String> getLog();
 
   /**
    * Makes an SVG String of the shape and its transformations.

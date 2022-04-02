@@ -36,13 +36,7 @@ public class EasyAnimatorModel implements AnimatorModel {
   @Override
   public void addShape(ShapeType shapeType, int height, int width, Color color,
                        Posn posn, String shapeID, int startoflife, int endoflife) {
-    /*
-    boolean incorrectX = posn.getX() < 0 || posn.getX() > sceneWidth;
-    boolean incorrectY = posn.getY() < 0 || posn.getY() > sceneHeight;
-    if (incorrectX || incorrectY) {
-      throw new IllegalArgumentException("Shape position not within model scene.");
-    }
-     */
+
     boolean heightWidthBad = height <= 0 || width <= 0;
     if (heightWidthBad) {
       throw new IllegalArgumentException("Height or width can't be negative or zero values.");
@@ -71,6 +65,11 @@ public class EasyAnimatorModel implements AnimatorModel {
       shape = new Oval(height, width, color, posn, shapeID, shapeType);
     }
     shapes.add(shape);
+    StringBuilder shapeLog = new StringBuilder();
+    shapeLog.append("shape " + shapeID + " " + shapeType + " " + height + " " + width + " " +
+            color.getRed() + " " + color.getGreen() + " " + color.getBlue() + " " + posn.getX() +
+            " " + posn.getY());
+    shape.getLog().add(shapeLog.toString());
 
     for (int i = startoflife; i <= endoflife; i++) {
       Shape s = getActualShape(shapeID);
@@ -149,6 +148,11 @@ public class EasyAnimatorModel implements AnimatorModel {
      */
 
     Shape transformingShape = getActualShape(shapeID);
+    int h = transformingShape.getHeight();
+    int w = transformingShape.getWidth();
+    Color color = transformingShape.getColor();
+    transformingShape.getLog().add(addMotionToLog(transformingShape, "move",
+            startTime, endTime, startPos, endPos, h, h, w, w, color, color));
     transformingShape.addTransformation(transformingShape.SVGMove(startTime, endTime, startPos,
             endPos, shapeID));
 
@@ -174,10 +178,25 @@ public class EasyAnimatorModel implements AnimatorModel {
         }
       }
       else {
+        int logSize = transformingShape.getLog().size();
+        transformingShape.getLog().remove(logSize - 1);
         throw new IllegalArgumentException("No shape exists at this point in time.");
       }
     }
     setNewPosn(endPos, shapeID, endTime + 1);
+  }
+
+  private String addMotionToLog(Shape s, String motionType,
+                                int startTime, int endTime, Posn startPos, Posn endPos,
+                                int startHeight, int endHeight, int startWidth, int endWidth,
+                                Color startColor, Color endColor) {
+    StringBuilder shapeLog = new StringBuilder();
+    shapeLog.append("motion " + motionType + " " + s.getShapeID() + " " + startTime + " " +
+            startPos.getX() + " " + startPos.getY() + " " + startHeight + " " + startWidth + " " +
+            startColor.getRed() + " " + startColor.getGreen() + " " + startColor.getBlue() + " " +
+            endTime + " " + endPos.getX() + " " + endPos.getY() + " " + endHeight + " " + endWidth
+            + " " + endColor.getRed() + " " + endColor.getGreen() + " " + endColor.getBlue());
+    return shapeLog.toString();
   }
 
   private void setNewPosn(Posn newPosn, String shapeId, int startTime) {
@@ -263,27 +282,17 @@ public class EasyAnimatorModel implements AnimatorModel {
       throw new IllegalArgumentException("Time can't be negative.");
     }
 
-    Shape shape = getShape(shapeID);
+    Shape shape = getActualShape(shapeID);
     Color originalColor = shape.getColor();
     if (!startColor.equals(originalColor)) {
       throw new IllegalArgumentException("The starting color has to be the same as the " +
               "shape's current color.");
     }
-
-    boolean notInStartTick = true;
-    for (Shape s : shapesPerTick.get(1)) {
-      if (s.getShapeID().equals(shapeID)) {
-        notInStartTick = false;
-      }
-    }
-
-    /*
-    if (startTime == 1 && notInStartTick) {
-      addAtTimeOne(shapeID);
-    }
-
-     */
-
+    Posn p = shape.getShapePosn();
+    int h = shape.getHeight();
+    int w = shape.getWidth();
+    shape.getLog().add(addMotionToLog(shape, "color", startTime,
+            endTime, p, p, h, h, w, w, startColor, endColor));
     int startRed = startColor.getRed();
     int startGreen = startColor.getGreen();
     int startBlue = startColor.getBlue();
@@ -314,6 +323,8 @@ public class EasyAnimatorModel implements AnimatorModel {
         }
       }
       else {
+        int logSize = shape.getLog().size();
+        shape.getLog().remove(logSize - 1);
         throw new IllegalArgumentException("Shape does not exist at this time");
       }
     }
@@ -337,12 +348,13 @@ public class EasyAnimatorModel implements AnimatorModel {
       throw new IllegalArgumentException("Invalid height or width arguments");
     }
 
+    Shape s1 = getActualShape(shapeID);
+    Color color = s1.getColor();
+    Posn p = s1.getShapePosn();
+    s1.getLog().add(addMotionToLog(s1, "size", startTime, endTime, p, p,
+            startHeight, endHeight, startWidth, endWidth, color, color));
+
     int time = endTime - startTime;
-    /*
-    setTimeOne(shapeID, startTime, time);
-
-     */
-
     int changeHeight = endHeight - startHeight;
     int changeWidth = endWidth - startWidth;
     int changeHRate = changeHeight / time;
@@ -368,6 +380,8 @@ public class EasyAnimatorModel implements AnimatorModel {
         }
       }
       else {
+        int logSize = s1.getLog().size();
+        s1.getLog().remove(logSize - 1);
         throw new IllegalArgumentException("Shape doesn't exist at this time.");
       }
     }
