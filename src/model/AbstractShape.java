@@ -159,10 +159,5 @@ public abstract class AbstractShape implements Shape {
   public String getTransformations() {
     return this.SVGtransformations;
   }
-
-  public abstract String toSVG();
-
-  public abstract void SVGMove(int startTime, int endTime, Posn startPos, Posn endPos,
-                                 String shapeID);
 }
 

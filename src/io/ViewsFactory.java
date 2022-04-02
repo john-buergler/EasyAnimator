@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import model.AnimatorModel;
 import view.AnimatorGraphicsView;
+import view.AnimatorSVGView;
 import view.AnimatorTextView;
 import view.IView;
 
@@ -28,7 +29,7 @@ public class ViewsFactory {
       case "visual":
         return new AnimatorGraphicsView(model, speed);
       case "svg":
-        return null;
+        return new AnimatorSVGView(model, fileName, speed);
       case "text":
         return new AnimatorTextView(model, fileName, speed);
       default:

@@ -44,7 +44,7 @@ public class Rect extends AbstractShape {
   }
 
   @Override
-  public void SVGMove(int startTime, int endTime, Posn startPos, Posn endPos, String shapeID) {
+  public String SVGMove(int startTime, int endTime, Posn startPos, Posn endPos, String shapeID) {
     StringBuilder str = new StringBuilder();
     if (startPos.getX() != endPos.getX()) {
       str.append("  <animate attributeType=" + '"' + "xml" + '"' + " begin=" + '"' + "base.begin+" +
@@ -58,6 +58,6 @@ public class Rect extends AbstractShape {
               + " attributeName=y" + '"' + " from=" + '"' + startPos.getY() + '"' + " to="
               + '"' + endPos.getY() + '"' + " fill=" + '"' + "freeze" + '"' + "></animate>" + '\n');
     }
-    SVGtransformations = SVGtransformations + str;
+    return str.toString();
   }
 }

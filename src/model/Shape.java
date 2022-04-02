@@ -96,7 +96,7 @@ public interface Shape {
    * Creates a string that
    * @return
    */
-  public void SVGMove(int startTime, int endTime, Posn startPos, Posn endPos, String shapeID);
+  public String SVGMove(int startTime, int endTime, Posn startPos, Posn endPos, String shapeID);
 
   /**
    * Gets the transformations in SVG format.
