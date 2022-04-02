@@ -4,14 +4,8 @@ import java.io.IOException;
 
 public interface IView {
 
-
   /**
-   * Make the view visible after constructing animation.
-   */
-  //public void makeVisible();
-
-  /**
-   * Renders an animation. Could be rendered as text, SVG, or as a Jframe animation.
+   * Renders an animation. Could be rendered as text, SVG, or as a Jframe graphical animation.
    */
   public void renderAnimation() throws IOException;
 

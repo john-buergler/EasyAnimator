@@ -9,6 +9,9 @@ import java.util.Scanner;
 import model.AnimatorModel;
 import model.Shape;
 
+/**
+ * A view implementation for animations to display the animation in text format.
+ */
 public class AnimatorTextView implements IView {
   private final AnimatorModel model;
   private final int speed;
@@ -16,6 +19,14 @@ public class AnimatorTextView implements IView {
   private final PrintStream outputSystem;
   private final FileWriter outputFile;
 
+  /**
+   * Constructor for class, initializing the following fields.
+   *
+   * @param m the model that is to be displayed.
+   * @param fileName the file to write to, default is System.out.
+   * @param speed the speed of the animation, used to calculate the real time of the motions.
+   * @throws IOException
+   */
   public AnimatorTextView(AnimatorModel m, String fileName, int speed) throws IOException {
     this.model = m;
     this.fileName = fileName;

@@ -18,7 +18,7 @@ public class TextViewTest {
 
   @Test
   public void testRenderAnimation() throws IOException {
-    IView textView = new AnimatorTextView(m, "buildings.txt", 10);
+    IView textView = new AnimatorTextView(m, "TextViewTest", 10);
 
   }
 }
