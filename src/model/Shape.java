@@ -74,32 +74,9 @@ public interface Shape {
   public void setPos(Posn startPos);
 
   /**
-   * Adds a Transformation to the Shape's list of transformations.
-   * @param t
-   */
-  public void addTransformation(String t);
-
-  /**
    * Gets the log of the motion of the shape.
    *
    * @return an array of strings describing the motion of the shape during animation.
    */
   public List<String> getLog();
-
-  /**
-   * Makes an SVG String of the shape and its transformations.
-   * @return String in SVG format.
-   */
-  public String toSVG();
-
-  /**
-   * Creates a string that
-   * @return
-   */
-  public String SVGMove(int startTime, int endTime, Posn startPos, Posn endPos, String shapeID);
-
-  /**
-   * Gets the transformations in SVG format.
-   */
-  public String getTransformations();
 }

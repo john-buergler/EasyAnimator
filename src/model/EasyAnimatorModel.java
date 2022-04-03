@@ -153,7 +153,6 @@ public class EasyAnimatorModel implements AnimatorModel {
     Color color = transformingShape.getColor();
     transformingShape.getLog().add(addMotionToLog(transformingShape, "move",
             startTime, endTime, startPos, endPos, h, h, w, w, color, color));
-    getActualShape(shapeID).SVGMove(startTime, endTime, startPos, endPos, shapeID);
 
     for (int t = startTime + 1; t <= endTime; t++) {
       if (shapesPerTick.get(t).stream().anyMatch(s -> s.getShapeID().equals(shapeID))) {
@@ -252,8 +251,7 @@ public class EasyAnimatorModel implements AnimatorModel {
         Shape shape;
         if (s.getShapeType() == ShapeType.OVAL) {
           shape = new Oval(s.getHeight(), s.getWidth(), s.getColor(),
-                  s.getShapePosn(), s.getShapeID(), s.getShapeType(),
-                  s.getTransformations());
+                  s.getShapePosn(), s.getShapeID(), s.getShapeType());
           for (int i = 0; i < s.getLog().size(); i++) {
             shape.getLog().add(s.getLog().get(i));
           }
@@ -261,8 +259,7 @@ public class EasyAnimatorModel implements AnimatorModel {
         }
         else {
           shape = new Rect(s.getHeight(), s.getWidth(), s.getColor(),
-                  s.getShapePosn(), s.getShapeID(), s.getShapeType(),
-                  s.getTransformations());
+                  s.getShapePosn(), s.getShapeID(), s.getShapeType());
           for (int i = 0; i < s.getLog().size(); i++) {
             shape.getLog().add(s.getLog().get(i));
           }
