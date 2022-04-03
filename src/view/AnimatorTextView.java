@@ -1,8 +1,13 @@
 package view;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
+import java.io.Writer;
 import java.util.List;
 import java.util.Scanner;
 
@@ -82,7 +87,7 @@ public class AnimatorTextView implements IView {
 
     }
     if (outputSystem == null) {
-      outputFile.append(str.toString());
+      outputFile.write(str.toString());
     }
     else {
       outputSystem.append(str.toString());

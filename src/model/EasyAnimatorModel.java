@@ -68,7 +68,7 @@ public class EasyAnimatorModel implements AnimatorModel {
     StringBuilder shapeLog = new StringBuilder();
     shapeLog.append("shape " + shapeID + " " + shapeType + " " + height + " " + width + " " +
             color.getRed() + " " + color.getGreen() + " " + color.getBlue() + " " + posn.getX() +
-            " " + posn.getY());
+            " " + posn.getY() + " " + startoflife + " " + endoflife);
     shape.getLog().add(shapeLog.toString());
 
     for (int i = startoflife; i <= endoflife; i++) {
