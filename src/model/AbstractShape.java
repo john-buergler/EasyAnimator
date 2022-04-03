@@ -16,7 +16,6 @@ public abstract class AbstractShape implements Shape {
   protected Posn position;
   protected final ShapeType type;
   protected final List<String> log;
-  protected String SVGtransformations;
 
   /**
    * Constructor for shapes with all the same parameters.
@@ -40,23 +39,6 @@ public abstract class AbstractShape implements Shape {
     this.position = position;
     this.type = type;
     this.log = new ArrayList<>();
-    this.SVGtransformations = "";
-  }
-  public AbstractShape(int height,
-                       int width,
-                       Color color,
-                       Posn position,
-                       String shapeID,
-                       ShapeType type,
-                       String trans) {
-    this.shapeID = shapeID;
-    this.width = width;
-    this.height = height;
-    this.color = color;
-    this.position = position;
-    this.type = type;
-    this.log = new ArrayList<>();
-    this.SVGtransformations = trans;
   }
 
   @Override
@@ -146,18 +128,9 @@ public abstract class AbstractShape implements Shape {
             this.position.toString() + this.color + this.shapeID + this.type).toString();
   }
 
-  public void addTransformation(String t) {
-    this.SVGtransformations = this.SVGtransformations.concat(t);
-  }
-
   @Override
   public List<String> getLog() {
     return log;
-  }
-
-  @Override
-  public String getTransformations() {
-    return this.SVGtransformations;
   }
 }
 

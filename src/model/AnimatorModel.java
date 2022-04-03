@@ -3,6 +3,7 @@ package model;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Model for the text-based animator. User inputs text commands to describe a shape and its
@@ -126,4 +127,14 @@ public interface AnimatorModel {
    * Gets the scene height.
    */
   public int getSceneHeight();
+
+  /**
+   * Gets a shape at a specified tick in the animation.
+   *
+   * @param shapeID the shape id of the desired shape.
+   * @param tick the tick at which to look for the desired shape.
+   * @return an Optional object as if the shape is not there it will not throw an exception.
+   * Instead it will return a non-present optional object.
+   */
+  public Optional<Shape> getShapeAt(String shapeID, int tick);
 }

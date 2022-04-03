@@ -28,6 +28,7 @@ public class TextViewTest {
     this.m = new EasyAnimatorModel();
   }
 
+
   @Test
   public void testRenderAnimation() throws IOException {
     //TweenModelBuilder<AnimatorModel> modelBuilder = new AnimationBuilder(m);
@@ -49,6 +50,6 @@ public class TextViewTest {
     assertEquals(canvas, "canvas");
     assertEquals(scan.nextInt(), sceneWidth);
     assertEquals(scan.nextInt(), sceneHeight);
-
   }
+
 }

@@ -22,6 +22,14 @@ import static org.junit.Assert.assertTrue;
 public class AnimatorModelTest {
 
   @Test
+  public void testCreateEmptyAnimation() {
+    AnimatorModel m = new EasyAnimatorModel();
+    m.buildScene(200, 200);
+    assertEquals(m.getShapes().size(), 0);
+    assertEquals(m.getShapesPerTick().size(), 0);
+  }
+
+  @Test
   public void testAddShape() {
     EasyAnimatorModel model = new EasyAnimatorModel();
     model.buildScene(200, 200);
@@ -119,7 +127,7 @@ public class AnimatorModelTest {
             Color.RED,
             new Posn(50, 50),
             "redov5", 1, 30);
-    model.moveShape(0,
+    model.moveShape(1,
             12,
             new Posn(50, 50),
             new Posn(50, 50),
@@ -327,6 +335,10 @@ public class AnimatorModelTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testInvalidStartColorChangeColor() {
+    AnimatorModel model = new EasyAnimatorModel();
+    model.buildScene(200, 200);
+    model.addShape(ShapeType.RECTANGLE, 5, 5, Color.BLUE,
+            new Posn(100, 100), "bitBlueR", 1, 30);
     model.changeColor("bitBlueR", 2, 3, Color.BLACK, Color.BLUE);
   }
 
@@ -392,6 +404,42 @@ public class AnimatorModelTest {
     assertEquals(Color.PINK, model.getShapesPerTick().get(14).get(0).getColor());
     assertEquals(15, model.getShapesPerTick().get(14).get(0).getWidth());
     assertEquals(11, model.getShapesPerTick().get(14).get(0).getHeight());
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testInvalidMoveAlreadyMoving() {
+    AnimatorModel model = new EasyAnimatorModel();
+    model.buildScene(200, 200);
+    model.addShape(ShapeType.RECTANGLE, 5, 5, Color.BLUE,
+            new Posn(100, 100), "bitBlueR", 1, 30);
+    model.moveShape(1, 6,
+            new Posn(100, 100), new Posn(500, 500), "bitBlueR");
+    model.moveShape(3, 6, new Posn(260, 260),
+            new Posn(500, 500), "bitBlueR");
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testInvalidChangeColorAlreadyChangingColor() {
+    AnimatorModel model = new EasyAnimatorModel();
+    model.buildScene(200, 200);
+    model.addShape(ShapeType.RECTANGLE, 5, 5, new Color(1, 1, 1),
+            new Posn(100, 100), "bitBlueR", 1, 30);
+    model.changeColor("bitBlueR", 2, 4,
+            new Color(1, 1, 1), new Color(5, 5, 5));
+    model.changeColor("bitBlueR", 3, 4,
+            new Color(3, 3, 3), new Color(5, 5, 5));
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testInvalidChangeSizeAlreadyChangingSize() {
+    AnimatorModel model = new EasyAnimatorModel();
+    model.buildScene(200, 200);
+    model.addShape(ShapeType.RECTANGLE, 8, 8, new Color(1, 1, 1),
+            new Posn(100, 100), "bitBlueR", 1, 30);
+    model.changeSize("bitBlueR", 1, 5,
+            8, 8, 12, 12);
+    model.changeSize("bitBlueR", 3, 5,
+            10, 10, 12, 12);
   }
 
 

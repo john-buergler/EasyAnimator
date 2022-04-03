@@ -7,9 +7,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import model.AnimatorModel;
-import model.Posn;
 import model.Shape;
-import model.ShapeType;
 
 public class AnimatorSVGView implements IView {
   private final AnimatorModel model;
@@ -36,10 +34,10 @@ public class AnimatorSVGView implements IView {
   public void renderAnimation() throws IOException {
     StringBuilder str = new StringBuilder();
     str.append("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"" + model.getSceneWidth() + "\"" +
-            " height=\"" + model.getSceneHeight() +"\" version=\"1.1\">");
+            " height=\"" + model.getSceneHeight() +"\" version=\"1.1\">\n");
     str.append("<rect>\n" + " <animate id=\"base\" begin=\"0;base.end\" dur=\"" +
-            ((model.getShapesPerTick().size() / this.speed) * 1000) + "ms" + "\"" +
-            "attributeName=\"visibility\" from=\"hide\" to =\"hide\"></animate>\n</rect>\n");
+            (((model.getShapesPerTick().size() * 1000) / this.speed)) + "ms" + "\"" +
+            " attributeName=\"visibility\" from=\"hide\" to =\"hide\"></animate>\n</rect>\n");
     for (Shape shape : model.getShapes()) {
       String shapeDef = shape.getLog().get(0);
       Scanner scan = new Scanner(shapeDef);
@@ -53,7 +51,12 @@ public class AnimatorSVGView implements IView {
       int b = scan.nextInt();
       int x = scan.nextInt();
       int y = scan.nextInt();
+      int start = scan.nextInt();
+      int end = scan.nextInt();
       str.append(toSVG(type, x, y, width, height, r, g, b, id));
+      str.append("  <animate attributeType=\"xml\" begin=\"base.begin\" dur=\"" +
+              ((start * 1000) / speed) + "ms\" attributeName=\"visibility\" from=\"hidden\" to=\"" +
+              "visible\"\n");
       if (shape.getLog().size() > 1) {
         for (int i = 1; i < shape.getLog().size(); i++) {
           ArrayList<String> attributesChanging = new ArrayList<String>();
@@ -83,20 +86,17 @@ public class AnimatorSVGView implements IView {
           switch (motionType) {
             case "move":
               if (type.equals("RECTANGLE")) {
-                attributesChanging.add("cx");
-                attributesChanging.add("cy");
-                valuesStarting.add(String.valueOf(xs));
-                valuesStarting.add(String.valueOf(ys));
-                valuesEnding.add(String.valueOf(xe));
-                valuesEnding.add(String.valueOf(ye));
-              } else {
                 attributesChanging.add("x");
                 attributesChanging.add("y");
-                valuesStarting.add(String.valueOf(xs));
-                valuesStarting.add(String.valueOf(ys));
-                valuesEnding.add(String.valueOf(xe));
-                valuesEnding.add(String.valueOf(ye));
               }
+              else {
+                attributesChanging.add("cx");
+                attributesChanging.add("cy");
+              }
+              valuesStarting.add(String.valueOf(xs));
+              valuesStarting.add(String.valueOf(ys));
+              valuesEnding.add(String.valueOf(xe));
+              valuesEnding.add(String.valueOf(ye));
             case "color":
               attributesChanging.add("fill");
               valuesStarting.add("rgb(" + String.valueOf(rs) + ", " + String.valueOf(gs) + ", " +
@@ -119,12 +119,12 @@ public class AnimatorSVGView implements IView {
           valuesStarting = new ArrayList<String>();
           valuesEnding = new ArrayList<String>();
         }
-        if (type.equals("RECTANGLE")) {
-          str.append("</rect>\n");
-        }
-        else {
-          str.append("</ellipse>\n");
-        }
+      }
+      if (type.equals("RECTANGLE")) {
+        str.append("</rect>\n");
+      }
+      else {
+        str.append("</ellipse>\n");
       }
     }
     str.append("</svg>");
@@ -167,10 +167,14 @@ public class AnimatorSVGView implements IView {
                          String attribute) {
     StringBuilder str = new StringBuilder();
       str.append("  <animate attributeType=" + '"' + "xml" + '"' + " begin=" + '"' + "base.begin+" +
-              startTime + "ms" + '"' + " dur=" + '"' + ((endTime - startTime) * 1000) + "ms" + '"'
-              + " attributeName=" + '"' + attribute + '"' + " from=" + '"' + startVal + '"' +
+              ((1000 * startTime) / speed) + "ms" + '"' + " dur=" + '"' +  (((endTime - startTime) * 1000) / speed)
+              + "ms" + '"' + " attributeName=" + '"' + attribute + '"' + " from=" + '"' + startVal + '"' +
               " to=" + '"' + endVal + '"' + " fill=" + '"' + "freeze" + '"' + "></animate>"
               + '\n');
     return str.toString();
+  }
+
+  public FileWriter getOutputFile() {
+    return this.outputFile;
   }
 }

@@ -114,8 +114,8 @@ public class ShapeTest {
             new Posn(50, 50),"oval1", ShapeType.OVAL);
     m.addShape(shape2.getShapeType(), shape2.getHeight(), shape2.getWidth(), shape2.getColor(),
             shape2.getShapePosn(), shape2.getShapeID(), 1, 2);
-    List<String> str1 = new ArrayList<>(List.of("shape s RECTANGLE 10 10 0 0 255 1 1"));
-    List<String> str2 = new ArrayList<>(List.of("shape oval1 OVAL 5 5 255 0 0 50 50"));
+    List<String> str1 = new ArrayList<>(List.of("shape s RECTANGLE 10 10 0 0 255 1 1 2 3"));
+    List<String> str2 = new ArrayList<>(List.of("shape oval1 OVAL 5 5 255 0 0 50 50 1 2"));
     assertEquals(m.getShapes().get(0).getLog(), str1);
     assertEquals(m.getShapes().get(1).getLog(), str2);
   }
