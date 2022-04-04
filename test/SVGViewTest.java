@@ -317,6 +317,5 @@ public class SVGViewTest {
     assertEquals("</ellipse>", closeOval);
     assertEquals("</svg>", closeSVG);
     assertFalse(scan.hasNext());
-
   }
 }
