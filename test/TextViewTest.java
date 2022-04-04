@@ -28,13 +28,24 @@ public class TextViewTest {
     this.m = new EasyAnimatorModel();
   }
 
+  @Test
+  public void testRenderEmptyAnimation() throws IOException {
+    int sceneWidth = 300;
+    int sceneHeight = 299;
+    m.buildScene(sceneWidth, sceneHeight);
+    File file = new File("TextViewTest");
+    IView textView = new AnimatorTextView(m, "TextViewTest", 10);
+    textView.renderAnimation();
+    Scanner scan = new Scanner(file);
+    String canvas = scan.next();
+    assertEquals(canvas, "canvas");
+    assertEquals(scan.nextInt(), sceneHeight);
+    assertEquals(scan.nextInt(), sceneWidth);
+  }
+
 
   @Test
   public void testRenderAnimation() throws IOException {
-    //TweenModelBuilder<AnimatorModel> modelBuilder = new AnimationBuilder(m);
-    //AnimationFileReader reader = new AnimationFileReader();
-    //reader.readFile("buildings.txt", modelBuilder);
-    //AnimatorModel model = modelBuilder.build();
     int sceneWidth = 200;
     int sceneHeight = 250;
     m.buildScene(sceneWidth, sceneHeight);
@@ -48,8 +59,12 @@ public class TextViewTest {
     Scanner scan = new Scanner(file);
     String canvas = scan.next();
     assertEquals(canvas, "canvas");
-    assertEquals(scan.nextInt(), sceneWidth);
     assertEquals(scan.nextInt(), sceneHeight);
+    assertEquals(scan.nextInt(), sceneWidth);
+    scan.next();
+    assertEquals(scan.nextLine(), " rect1 RECTANGLE 10 15 0 0 0 100 125 1 5");
+    assertEquals(scan.nextLine(),
+            "motion move rect1 0.2 100 125 10 15 0 0 0 0.3 150 150 10 15 0 0 0");
   }
 
 }

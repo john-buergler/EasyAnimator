@@ -88,6 +88,7 @@ public class AnimatorTextView implements IView {
     }
     if (outputSystem == null) {
       outputFile.write(str.toString());
+      outputFile.close();
     }
     else {
       outputSystem.append(str.toString());

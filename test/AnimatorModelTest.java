@@ -553,7 +553,7 @@ public class AnimatorModelTest {
     model.moveShape(1, 3, new Posn(100, 100), new Posn(60, 60),
             "redov2");
     assertEquals(new Posn(80, 80), model.getShapesPerTick().get(2).get(0).getShapePosn());
-    assertEquals(new Posn(80, 80), model.getShapesPerTick().get(2).get(1).getShapePosn());
+    assertEquals(new Posn(60, 60), model.getShapesPerTick().get(2).get(1).getShapePosn());
   }
 
   @Test
