@@ -6,7 +6,11 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Class representing an implementation of our animator model.
+ * Class representing an implementation of our animator model. An instance of this
+ * class represents a way to store the informtaion of an animation. Whether it's adding
+ * shapes at certain times, moving shapes, changing colors, or changing sizes of shapes, everything
+ * can be stored within an instance of this class. This specific implementation just represents the
+ * most basic way to store the information of an animation.
  */
 public class EasyAnimatorModel implements AnimatorModel {
   private int sceneHeight;

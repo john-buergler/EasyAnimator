@@ -121,9 +121,6 @@ public class AnimatorSVGView implements IView {
             str.append(SVGMove(startTime, endTime, valuesStarting.get(j), valuesEnding.get(j),
                     attributesChanging.get(j)));
           }
-          attributesChanging = new ArrayList<String>();
-          valuesStarting = new ArrayList<String>();
-          valuesEnding = new ArrayList<String>();
         }
       }
       if (type.equals("RECTANGLE")) {
@@ -187,9 +184,5 @@ public class AnimatorSVGView implements IView {
               " to=" + '"' + endVal + '"' + " fill=" + '"' + "freeze" + '"' + "></animate>"
               + '\n');
     return str.toString();
-  }
-
-  public FileWriter getOutputFile() {
-    return this.outputFile;
   }
 }

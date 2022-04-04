@@ -19,14 +19,25 @@ public class Posn {
     this.y = y;
   }
 
+  /**
+   * @return the x coordinate of this position.
+   */
   public int getX() {
     return x;
   }
 
+  /**
+   * @return the y coordinate of this position.
+   */
   public int getY() {
     return y;
   }
 
+  /**
+   * Changes the x-coordinate and y-coordinate by the given amounts.
+   * @param xChange amount to change x-coordinate.
+   * @param yChange amount to change y-coordinate.
+   */
   public void move(int xChange, int yChange) {
     x = x + xChange;
     y = y + yChange;
