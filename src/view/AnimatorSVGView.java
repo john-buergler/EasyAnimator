@@ -33,10 +33,10 @@ public class AnimatorSVGView implements IView {
   @Override
   public void renderAnimation() throws IOException {
     StringBuilder str = new StringBuilder();
-    str.append("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"" + model.getSceneWidth() + "\"" +
-            " height=\"" + model.getSceneHeight() +"\" version=\"1.1\">\n");
+    str.append("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"" + 800 + "\"" +
+            " height=\"" + 800 +"\" version=\"1.1\">\n");
     str.append("<rect>\n" + " <animate id=\"base\" begin=\"0;base.end\" dur=\"" +
-            (((model.getShapesPerTick().size() * 1000) / this.speed)) + "ms" + "\"" +
+            ((model.getShapesPerTick().size() * 1000) / this.speed) + "ms" + "\"" +
             " attributeName=\"visibility\" from=\"hide\" to =\"hide\"></animate>\n</rect>\n");
     for (Shape shape : model.getShapes()) {
       String shapeDef = shape.getLog().get(0);
@@ -56,7 +56,7 @@ public class AnimatorSVGView implements IView {
       str.append(toSVG(type, x, y, width, height, r, g, b, id));
       str.append("  <animate attributeType=\"xml\" begin=\"base.begin\" dur=\"" +
               ((start * 1000) / speed) + "ms\" attributeName=\"visibility\" from=\"hidden\" to=\"" +
-              "visible\"\n");
+              "visible\"></animate>\n");
       if (shape.getLog().size() > 1) {
         for (int i = 1; i < shape.getLog().size(); i++) {
           ArrayList<String> attributesChanging = new ArrayList<String>();
@@ -70,8 +70,8 @@ public class AnimatorSVGView implements IView {
           int startTime = scan2.nextInt();
           int xs = scan2.nextInt();
           int ys = scan2.nextInt();
-          int ws = scan2.nextInt();
           int hs = scan2.nextInt();
+          int ws = scan2.nextInt();
           int rs = scan2.nextInt();
           int gs = scan2.nextInt();
           int bs = scan2.nextInt();
@@ -97,12 +97,14 @@ public class AnimatorSVGView implements IView {
               valuesStarting.add(String.valueOf(ys));
               valuesEnding.add(String.valueOf(xe));
               valuesEnding.add(String.valueOf(ye));
+              break;
             case "color":
               attributesChanging.add("fill");
               valuesStarting.add("rgb(" + String.valueOf(rs) + ", " + String.valueOf(gs) + ", " +
                       String.valueOf(bs) + ")");
               valuesEnding.add("rgb(" + String.valueOf(re) + ", " + String.valueOf(ge) + ", " +
                       String.valueOf(be) + ")");
+              break;
             case "size":
               attributesChanging.add("height");
               attributesChanging.add("width");
@@ -110,6 +112,7 @@ public class AnimatorSVGView implements IView {
               valuesStarting.add(String.valueOf(ws));
               valuesEnding.add(String.valueOf(he));
               valuesEnding.add(String.valueOf(we));
+              break;
           }
           for (int j = 0; j < attributesChanging.size(); j++) {
             str.append(SVGMove(startTime, endTime, valuesStarting.get(j), valuesEnding.get(j),
@@ -128,7 +131,14 @@ public class AnimatorSVGView implements IView {
       }
     }
     str.append("</svg>");
-    outputSystem.append(str.toString());
+
+    if (outputSystem == null) {
+      outputFile.write(str.toString());
+      outputFile.close();
+    }
+    else {
+      outputSystem.append(str.toString());
+    }
   }
 
   private String toSVG(String type, int x, int y, int width, int height, int r, int g, int b,
@@ -167,8 +177,10 @@ public class AnimatorSVGView implements IView {
                          String attribute) {
     StringBuilder str = new StringBuilder();
       str.append("  <animate attributeType=" + '"' + "xml" + '"' + " begin=" + '"' + "base.begin+" +
-              ((1000 * startTime) / speed) + "ms" + '"' + " dur=" + '"' +  (((endTime - startTime) * 1000) / speed)
-              + "ms" + '"' + " attributeName=" + '"' + attribute + '"' + " from=" + '"' + startVal + '"' +
+              ((1000 * startTime) / speed) + "ms" + '"' + " dur=" + '"' +
+              (((endTime - startTime) * 1000) / speed)
+              + "ms" + '"' + " attributeName=" + '"' + attribute + '"' + " from=" + '"' +
+              startVal + '"' +
               " to=" + '"' + endVal + '"' + " fill=" + '"' + "freeze" + '"' + "></animate>"
               + '\n');
     return str.toString();

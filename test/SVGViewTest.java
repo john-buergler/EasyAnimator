@@ -1,14 +1,19 @@
 import org.junit.Test;
 
 import java.awt.*;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import io.AnimationBuilder;
+import io.AnimationFileReader;
+import io.TweenModelBuilder;
 import model.AnimatorModel;
 import model.EasyAnimatorModel;
 import model.Oval;
 import model.Posn;
 import model.ShapeType;
 import view.AnimatorSVGView;
+import view.IView;
 
 import static org.junit.Assert.assertEquals;
 
@@ -38,5 +43,15 @@ public class SVGViewTest {
     } catch (IOException ioException){
       throw new IllegalArgumentException("bad file");
     }
+  }
+
+  @Test
+  public void testSVG() throws IOException {
+    AnimatorModel m = new EasyAnimatorModel();
+    TweenModelBuilder<AnimatorModel> modelBuilder = new AnimationBuilder(m);
+    AnimationFileReader reader = new AnimationFileReader();
+    reader.readFile("toh-8.txt", modelBuilder);
+    AnimatorModel model = modelBuilder.build();
+    IView view = new AnimatorSVGView(m, "System.out", 20);
   }
 }
