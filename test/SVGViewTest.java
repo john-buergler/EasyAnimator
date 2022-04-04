@@ -25,6 +25,23 @@ public class SVGViewTest {
     this.m = new EasyAnimatorModel();
   }
 
+  @Test (expected = IllegalArgumentException.class)
+  public void nullModelException() throws IOException {
+    AnimatorSVGView view = new AnimatorSVGView(null, "aa", 20);
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void badNameException() throws IOException {
+    AnimatorSVGView view = new AnimatorSVGView(null, "", 20);
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void negativeSpeed() throws IOException {
+    AnimatorSVGView view = new AnimatorSVGView(null, "aa", -1);
+  }
+
+
+
   @Test
   public void testMoveSVG() throws IOException {
     int sceneWidth = 200;

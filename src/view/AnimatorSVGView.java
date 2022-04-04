@@ -18,6 +18,9 @@ public class AnimatorSVGView implements IView {
   private final FileWriter outputFile;
 
   public AnimatorSVGView(AnimatorModel m, String fileName, int speed) throws IOException {
+    if (m == null || fileName == null || fileName.equals("") || speed <= 0){
+      throw new IllegalArgumentException("Invalid model, filename, or speed.");
+    }
     this.model = m;
     this.speed = speed;
     this.fileName = fileName;

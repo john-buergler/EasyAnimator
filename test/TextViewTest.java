@@ -24,6 +24,21 @@ public class TextViewTest {
     this.m = new EasyAnimatorModel();
   }
 
+  @Test (expected = IllegalArgumentException.class)
+  public void nullModelException() throws IOException {
+    AnimatorTextView view = new AnimatorTextView(null, "aa", 20);
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void badNameException() throws IOException {
+    AnimatorTextView view = new AnimatorTextView(null, "", 20);
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void negativeSpeed() throws IOException {
+    AnimatorTextView view = new AnimatorTextView(null, "aa", -1);
+  }
+
   @Test
   public void testRenderEmptyAnimation() throws IOException {
     int sceneWidth = 300;

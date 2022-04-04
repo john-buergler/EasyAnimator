@@ -27,6 +27,9 @@ public class AnimatorTextView implements IView {
    * @throws IOException
    */
   public AnimatorTextView(AnimatorModel m, String fileName, int speed) throws IOException {
+    if (m == null || fileName == null || fileName.equals("") || speed <= 0){
+      throw new IllegalArgumentException("Invalid model, filename, or speed.");
+    }
     this.model = m;
     if (fileName.equals("System.out")) {
       outputSystem = System.out;

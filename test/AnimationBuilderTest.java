@@ -10,6 +10,7 @@ import model.Oval;
 import model.Posn;
 import model.Rect;
 import model.ShapeType;
+import view.AnimatorTextView;
 
 import static org.junit.Assert.assertEquals;
 
