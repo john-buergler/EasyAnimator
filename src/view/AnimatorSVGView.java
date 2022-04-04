@@ -36,11 +36,7 @@ public class AnimatorSVGView implements IView {
   @Override
   public void renderAnimation() throws IOException {
     StringBuilder str = new StringBuilder();
-    str.append("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"" + 800 + "\"" +
-            " height=\"" + 800 +"\" version=\"1.1\">\n");
-    str.append("<rect>\n" + " <animate id=\"base\" begin=\"0;base.end\" dur=\"" +
-            ((model.getShapesPerTick().size() * 1000) / this.speed) + "ms" + "\"" +
-            " attributeName=\"visibility\" from=\"hide\" to =\"hide\"></animate>\n</rect>\n");
+    initSVG(str);
     for (Shape shape : model.getShapes()) {
       String shapeDef = shape.getLog().get(0);
       Scanner scan = new Scanner(shapeDef);
@@ -86,37 +82,8 @@ public class AnimatorSVGView implements IView {
           int re = scan2.nextInt();
           int ge = scan2.nextInt();
           int be = scan2.nextInt();
-          switch (motionType) {
-            case "move":
-              if (type.equals("RECTANGLE")) {
-                attributesChanging.add("x");
-                attributesChanging.add("y");
-              }
-              else {
-                attributesChanging.add("cx");
-                attributesChanging.add("cy");
-              }
-              valuesStarting.add(String.valueOf(xs));
-              valuesStarting.add(String.valueOf(ys));
-              valuesEnding.add(String.valueOf(xe));
-              valuesEnding.add(String.valueOf(ye));
-              break;
-            case "color":
-              attributesChanging.add("fill");
-              valuesStarting.add("rgb(" + String.valueOf(rs) + ", " + String.valueOf(gs) + ", " +
-                      String.valueOf(bs) + ")");
-              valuesEnding.add("rgb(" + String.valueOf(re) + ", " + String.valueOf(ge) + ", " +
-                      String.valueOf(be) + ")");
-              break;
-            case "size":
-              attributesChanging.add("height");
-              attributesChanging.add("width");
-              valuesStarting.add(String.valueOf(hs));
-              valuesStarting.add(String.valueOf(ws));
-              valuesEnding.add(String.valueOf(he));
-              valuesEnding.add(String.valueOf(we));
-              break;
-          }
+          assignAttributes(motionType, attributesChanging, valuesStarting, valuesEnding, startTime,
+                  xs, ys, hs, ws, rs, gs, bs, endTime, xe, ye, he, we, re, ge, be, type);
           for (int j = 0; j < attributesChanging.size(); j++) {
             str.append(SVGMove(startTime, endTime, valuesStarting.get(j), valuesEnding.get(j),
                     attributesChanging.get(j)));
@@ -139,6 +106,52 @@ public class AnimatorSVGView implements IView {
     else {
       outputSystem.append(str.toString());
     }
+  }
+
+  private void assignAttributes(String motionType, ArrayList<String> attributesChanging,
+                                ArrayList<String> valuesStarting, ArrayList<String> valuesEnding,
+                                int startTime, int xs, int ys, int hs, int ws, int rs, int gs,
+                                int bs, int endTime, int xe, int ye, int he, int we, int re, int ge,
+                                int be, String type) {
+    switch (motionType) {
+      case "move":
+        if (type.equals("RECTANGLE")) {
+          attributesChanging.add("x");
+          attributesChanging.add("y");
+        }
+        else {
+          attributesChanging.add("cx");
+          attributesChanging.add("cy");
+        }
+        valuesStarting.add(String.valueOf(xs));
+        valuesStarting.add(String.valueOf(ys));
+        valuesEnding.add(String.valueOf(xe));
+        valuesEnding.add(String.valueOf(ye));
+        break;
+      case "color":
+        attributesChanging.add("fill");
+        valuesStarting.add("rgb(" + String.valueOf(rs) + ", " + String.valueOf(gs) + ", " +
+                String.valueOf(bs) + ")");
+        valuesEnding.add("rgb(" + String.valueOf(re) + ", " + String.valueOf(ge) + ", " +
+                String.valueOf(be) + ")");
+        break;
+      case "size":
+        attributesChanging.add("height");
+        attributesChanging.add("width");
+        valuesStarting.add(String.valueOf(hs));
+        valuesStarting.add(String.valueOf(ws));
+        valuesEnding.add(String.valueOf(he));
+        valuesEnding.add(String.valueOf(we));
+        break;
+    }
+  }
+
+  private void initSVG(StringBuilder str) {
+    str.append("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"" + 800 + "\"" +
+            " height=\"" + 800 +"\" version=\"1.1\">\n");
+    str.append("<rect>\n" + " <animate id=\"base\" begin=\"0;base.end\" dur=\"" +
+            ((model.getShapesPerTick().size() * 1000) / this.speed) + "ms" + "\"" +
+            " attributeName=\"visibility\" from=\"hide\" to =\"hide\"></animate>\n</rect>\n");
   }
 
   private String toSVG(String type, int x, int y, int width, int height, int r, int g, int b,
