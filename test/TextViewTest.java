@@ -64,7 +64,7 @@ public class TextViewTest {
     scan.next();
     assertEquals(scan.nextLine(), " rect1 RECTANGLE 10 15 0 0 0 100 125 1 5");
     assertEquals(scan.nextLine(),
-            "motion move rect1 0.2 100 125 10 15 0 0 0 0.3 150 150 10 15 0 0 0");
+            "motion move rect1 0.2 100 125 10 15 0 0 0 0.3 150 150 10 15 0 0 0 ");
   }
 
 }

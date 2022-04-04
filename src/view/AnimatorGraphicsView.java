@@ -1,7 +1,6 @@
 package view;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
 
 import javax.swing.*;
 
@@ -20,7 +19,10 @@ public class AnimatorGraphicsView extends JFrame implements IView {
     this.setSize(model.getSceneWidth(), model.getSceneHeight());
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     panel = new AnimationPanel(model);
-    this.add(panel);
+    panel.setPreferredSize(new Dimension(model.getSceneWidth(), model.getSceneHeight()));
+    JScrollPane scroll = new JScrollPane(panel,
+            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    this.add(scroll);
   }
 
   @Override

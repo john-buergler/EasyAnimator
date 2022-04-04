@@ -487,6 +487,81 @@ public class AnimatorModelTest {
   }
 
   @Test
+  public void testNoGapsInTicksNoMotions() {
+    model.buildScene(200, 200);
+    Shape shape = new Rect(10, 10, Color.RED, new Posn(50, 50),
+            "rect1", ShapeType.RECTANGLE);
+    model.addShape(shape.getShapeType(), shape.getHeight(), shape.getWidth(), shape.getColor(),
+            shape.getShapePosn(), shape.getShapeID(), 1, 10);
+    for (int i = 1; i < 10; i++) {
+      assertEquals(model.getShapeAt("rect1", i).get(), shape);
+    }
+  }
+
+  @Test
+  public void testNoGapsInTicksMove() {
+    model.buildScene(200, 200);
+    Shape shape = new Rect(10, 10, Color.RED, new Posn(50, 50),
+            "rect1", ShapeType.RECTANGLE);
+    model.addShape(shape.getShapeType(), shape.getHeight(), shape.getWidth(), shape.getColor(),
+            shape.getShapePosn(), shape.getShapeID(), 1, 6);
+    model.moveShape(2, 4, shape.getShapePosn(),
+            new Posn(62, 62), "rect1");
+    assertEquals(model.getShapeAt("rect1", 1).get(), shape);
+    assertEquals(model.getShapeAt("rect1", 2).get(), shape);
+    assertEquals(model.getShapeAt("rect1", 3).get().getShapePosn(),
+            new Posn(56, 56));
+    assertEquals(model.getShapeAt("rect1", 4).get().getShapePosn(),
+            new Posn(62, 62));
+    assertEquals(model.getShapeAt("rect1", 5).get().getShapePosn(),
+            new Posn(62, 62));
+    assertEquals(model.getShapeAt("rect1", 6).get().getShapePosn(),
+            new Posn(62, 62));
+  }
+
+  @Test
+  public void testNoGapsInTicksChangeColor() {
+    model.buildScene(200, 200);
+    Shape shape = new Rect(10, 10, new Color(0, 0, 0),
+            new Posn(50, 50), "rect1", ShapeType.RECTANGLE);
+    model.addShape(shape.getShapeType(), shape.getHeight(), shape.getWidth(), shape.getColor(),
+            shape.getShapePosn(), shape.getShapeID(), 1, 6);
+    model.changeColor("rect1", 2, 4, shape.getColor(),
+            new Color(4, 4, 4));
+    assertEquals(model.getShapeAt("rect1", 1).get(), shape);
+    assertEquals(model.getShapeAt("rect1", 2).get(), shape);
+    assertEquals(model.getShapeAt("rect1", 3).get().getColor(),
+            new Color(2, 2, 2));
+    assertEquals(model.getShapeAt("rect1", 4).get().getColor(),
+            new Color(4, 4, 4));
+    assertEquals(model.getShapeAt("rect1", 5).get().getColor(),
+            new Color(4, 4, 4));
+    assertEquals(model.getShapeAt("rect1", 6).get().getColor(),
+            new Color(4, 4, 4));
+  }
+
+  @Test
+  public void testNoGapsInTicksChangeSize() {
+    model.buildScene(200, 200);
+    Shape shape = new Rect(10, 10, new Color(0, 0, 0),
+            new Posn(50, 50), "rect1", ShapeType.RECTANGLE);
+    model.addShape(shape.getShapeType(), shape.getHeight(), shape.getWidth(), shape.getColor(),
+            shape.getShapePosn(), shape.getShapeID(), 1, 6);
+    model.changeSize("rect1", 2, 4, 10,
+            10, 20, 20);
+    assertEquals(model.getShapeAt("rect1", 1).get(), shape);
+    assertEquals(model.getShapeAt("rect1", 2).get(), shape);
+    assertEquals(model.getShapeAt("rect1", 3).get().getHeight(), 15);
+    assertEquals(model.getShapeAt("rect1", 3).get().getWidth(), 15);
+    assertEquals(model.getShapeAt("rect1", 4).get().getHeight(), 20);
+    assertEquals(model.getShapeAt("rect1", 4).get().getWidth(), 20);
+    assertEquals(model.getShapeAt("rect1", 5).get().getHeight(), 20);
+    assertEquals(model.getShapeAt("rect1", 5).get().getWidth(), 20);
+    assertEquals(model.getShapeAt("rect1", 6).get().getHeight(), 20);
+    assertEquals(model.getShapeAt("rect1", 6).get().getWidth(), 20);
+  }
+
+  @Test
   public void testToStringModelState2() {
     AnimatorModel model = new EasyAnimatorModel();
     model.buildScene(200, 200);
