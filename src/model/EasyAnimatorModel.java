@@ -30,7 +30,6 @@ public class EasyAnimatorModel implements AnimatorModel {
     }
     this.sceneHeight = height;
     this.sceneWidth = width;
-    //shapesPerTick.add(new ArrayList<Shape>());
   }
 
   @Override
@@ -50,6 +49,7 @@ public class EasyAnimatorModel implements AnimatorModel {
     for (Shape s : shapes) {
       if (s.getShapeID().equals(shapeID)) {
         isIdUsed = true;
+        break;
       }
     }
 
@@ -131,16 +131,16 @@ public class EasyAnimatorModel implements AnimatorModel {
       throw new IllegalArgumentException("The difference " +
               "between endTime and startTime has to be positive.");
     }
-    Shape s1 = getShapeAt(shapeID, startTime).get();
-    if (!s1.getShapePosn().equals(startPos)) {
-      throw new IllegalArgumentException("Starting " +
-              "position is not equal to shape's current position.");
-    }
     Posn dist = new Posn(endPos.getX() - startPos.getX(), endPos.getY() - startPos.getY());
     int xPerTick = dist.getX() / time;
     int yPerTick = dist.getY() / time;
     if (isCurrentlyInMotion(shapeID, "move", startTime)) {
       throw new IllegalStateException("Shape is already in motion.");
+    }
+    Shape s1 = getShapeAt(shapeID, startTime).get();
+    if (!s1.getShapePosn().equals(startPos)) {
+      throw new IllegalArgumentException("Starting " +
+              "position is not equal to shape's current position.");
     }
 
     /*
@@ -180,7 +180,7 @@ public class EasyAnimatorModel implements AnimatorModel {
       else {
         int logSize = transformingShape.getLog().size();
         transformingShape.getLog().remove(logSize - 1);
-        throw new IllegalArgumentException("No shape exists at this point in time.");
+        throw new IllegalStateException("No shape exists at this point in time.");
       }
     }
     setNewPosn(endPos, shapeID, endTime + 1);
@@ -308,14 +308,14 @@ public class EasyAnimatorModel implements AnimatorModel {
     if (time <= 0 || startTime <= 0 || endTime <= 0) {
       throw new IllegalArgumentException("Time can't be negative.");
     }
+    if (isCurrentlyInMotion(shapeID, "color", startTime)) {
+      throw new IllegalStateException("Shape is already changing color.");
+    }
     Shape shape1 = getShapeAt(shapeID, startTime).get();
     Color originalColor = shape1.getColor();
     if (!startColor.equals(originalColor)) {
       throw new IllegalArgumentException("The starting color has to be the same as the " +
               "shape's current color.");
-    }
-    if (isCurrentlyInMotion(shapeID, "color", startTime)) {
-      throw new IllegalStateException("Shape is already changing color.");
     }
     Shape shape = getActualShape(shapeID);
     Posn p = shape.getShapePosn();
@@ -353,7 +353,7 @@ public class EasyAnimatorModel implements AnimatorModel {
       else {
         int logSize = shape.getLog().size();
         shape.getLog().remove(logSize - 1);
-        throw new IllegalArgumentException("Shape does not exist at this time");
+        throw new IllegalStateException("Shape does not exist at this time");
       }
     }
 
@@ -378,13 +378,22 @@ public class EasyAnimatorModel implements AnimatorModel {
     if (isCurrentlyInMotion(shapeID, "size", startTime)) {
       throw new IllegalStateException("Shape is already changing size.");
     }
+    Shape testShape = getShape(shapeID);
+    if (!(testShape.getHeight() == startHeight && testShape.getWidth() == startWidth)) {
+      throw new IllegalArgumentException("Start dimensions don't " +
+              "match shape's current dimensions.");
+    }
+    int time = endTime - startTime;
+    if (time <= 0) {
+      throw new IllegalArgumentException("Change in time has to be positive " +
+              "for the motion to occur.");
+    }
 
     Shape s1 = getActualShape(shapeID);
     Color color = s1.getColor();
     Posn p = s1.getShapePosn();
     s1.getLog().add(addMotionToLog(s1, "size", startTime, endTime, p, p,
             startHeight, endHeight, startWidth, endWidth, color, color));
-    int time = endTime - startTime;
     int changeHeight = endHeight - startHeight;
     int changeWidth = endWidth - startWidth;
     int changeHRate = changeHeight / time;
@@ -410,7 +419,7 @@ public class EasyAnimatorModel implements AnimatorModel {
       else {
         int logSize = s1.getLog().size();
         s1.getLog().remove(logSize - 1);
-        throw new IllegalArgumentException("Shape doesn't exist at this time.");
+        throw new IllegalStateException("Shape doesn't exist at this time.");
       }
     }
     setNewSize(endHeight, endWidth, shapeID, endTime + 1);

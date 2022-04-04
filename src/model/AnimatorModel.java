@@ -6,15 +6,17 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Model for the text-based animator. User inputs text commands to describe a shape and its
- * motion in the animator, which then produces a visual animation based on the description
- * provided. Combine multiple of these text-based commands to create an animation in a window.
+ * Model for an animator software. This model is responsible for organizing
+ * the information of an animation. This model stores both the shapes and
+ * the shape's motions during an animation. This model holds a general timeline of
+ * the animation which is measured in ticks, and the state of every shape
+ * during each tick is stored. When the model is fully stored with the animation information
+ * this timeline will hold everything needed to render the full animation.
  */
 public interface AnimatorModel {
 
   /**
-   * Creates the location at which the animation takes place along with the duration of the
-   * animation.
+   * Creates the location at which the animation takes place.
    * @param height the height dimension of the scene.
    * @param width the width of the scene.
    * @throws IllegalArgumentException if width or height are negative values.
@@ -31,7 +33,6 @@ public interface AnimatorModel {
    * @param startoflife what tick the shape begins.
    * @param endoflife what tick the shape's animation ends.
    * @throws IllegalArgumentException if the height or width are negative or zero values.
-   * @throws IllegalArgumentException if the position is outside the scene.
    * @throws IllegalArgumentException if the shapeID has already been used.
    *
    */
@@ -41,6 +42,7 @@ public interface AnimatorModel {
   /**
    * Deletes a shape from the model and animation.
    * @param shapeID the shapeID of the shape to delete.
+   * @throws IllegalArgumentException if shape to delete does not exist in the animation.
    */
   public void deleteShape(String shapeID);
 
@@ -57,6 +59,9 @@ public interface AnimatorModel {
    * @throws IllegalArgumentException if endTime - startTime <= 0.
    * @throws IllegalArgumentException if the start position is not the current position of the
    *     shape.
+   * @throws IllegalStateException if shape to be moved is already moving during this time.
+   * @throws IllegalStateException if shape to be moved doesn't exist in the animation during a
+   * certain tick in the given time interval.
    *
    */
   public void moveShape(int startTime, int endTime, Posn startPos, Posn endPos, String shapeID);
@@ -70,7 +75,7 @@ public interface AnimatorModel {
   public Shape getShape(String shapeId);
 
   /**
-   * Gets the shapes in the model.
+   * Gets the shapes involved in the animation as their current state in the animation.
    */
   public List<Shape> getShapes();
 
@@ -84,6 +89,9 @@ public interface AnimatorModel {
    * @throws IllegalArgumentException if start or end time are negative or zero values.
    * @throws IllegalArgumentException if endTime - startTime <= 0.
    * @throws IllegalArgumentException if start color isn't shape's current color.
+   * @throws IllegalStateException if shape is already changing color during this time.
+   * @throws IllegalStateException if shape to be modified doesn't exist in the animation during a
+   * certain tick in the given time interval.
    */
   public void changeColor(String shapeID, int startTime, int endTime, Color startColor,
                           Color endColor);
@@ -101,6 +109,9 @@ public interface AnimatorModel {
    * @throws IllegalArgumentException if the heigt or width values are negative or zero.
    * @throws IllegalArgumentException if the change in time is negative.
    * @throws IllegalArgumentException if the start dimensions are not the current shape dimensions.
+   * @throws IllegalStateException if the shape is already changing size during this time.
+   * @throws IllegalStateException if shape to be modified doesn't exist in the animation during a
+   * certain tick in the given time interval.
    */
   public void changeSize(String shapeID, int startTime, int endTime,
                          int startHeight, int startWidth, int endHeight, int endWidth);

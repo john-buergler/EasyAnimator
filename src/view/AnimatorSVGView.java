@@ -1,5 +1,6 @@
 package view;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -25,7 +26,9 @@ public class AnimatorSVGView implements IView {
       outputFile = null;
     }
     else {
-      outputFile = new FileWriter(fileName);
+      File file = new File(fileName);
+      file.createNewFile();
+      outputFile = new FileWriter(file);
       outputSystem = null;
     }
   }

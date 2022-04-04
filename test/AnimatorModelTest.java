@@ -439,7 +439,7 @@ public class AnimatorModelTest {
     model.changeSize("bitBlueR", 1, 5,
             8, 8, 12, 12);
     model.changeSize("bitBlueR", 3, 5,
-            10, 10, 12, 12);
+            10, 12, 12, 12);
   }
 
 

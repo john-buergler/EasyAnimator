@@ -1,18 +1,13 @@
 package view;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.PrintStream;
-import java.io.Writer;
 import java.util.List;
 import java.util.Scanner;
 
 import model.AnimatorModel;
-import model.Shape;
 
 /**
  * A view implementation for animations to display the animation in text format.
@@ -20,7 +15,6 @@ import model.Shape;
 public class AnimatorTextView implements IView {
   private final AnimatorModel model;
   private final int speed;
-  private final String fileName;
   private final PrintStream outputSystem;
   private final FileWriter outputFile;
 
@@ -34,13 +28,14 @@ public class AnimatorTextView implements IView {
    */
   public AnimatorTextView(AnimatorModel m, String fileName, int speed) throws IOException {
     this.model = m;
-    this.fileName = fileName;
     if (fileName.equals("System.out")) {
       outputSystem = System.out;
       outputFile = null;
     }
     else {
-      outputFile = new FileWriter(fileName);
+      File file = new File(fileName);
+      file.createNewFile();
+      outputFile = new FileWriter(file);
       outputSystem = null;
     }
     this.speed = speed;
