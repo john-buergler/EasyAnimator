@@ -1,10 +1,10 @@
 package io;
 
-import java.awt.*;
+
+
+import java.awt.Color;
 
 import model.AnimatorModel;
-import model.EasyAnimatorModel;
-import model.Oval;
 import model.Posn;
 import model.ShapeType;
 
