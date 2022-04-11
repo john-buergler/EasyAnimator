@@ -61,7 +61,7 @@ public interface AnimatorModel {
    *     shape.
    * @throws IllegalStateException if shape to be moved is already moving during this time.
    * @throws IllegalStateException if shape to be moved doesn't exist in the animation during a
-   * certain tick in the given time interval.
+   *     certain tick in the given time interval.
    *
    */
   public void moveShape(int startTime, int endTime, Posn startPos, Posn endPos, String shapeID);
@@ -91,7 +91,7 @@ public interface AnimatorModel {
    * @throws IllegalArgumentException if start color isn't shape's current color.
    * @throws IllegalStateException if shape is already changing color during this time.
    * @throws IllegalStateException if shape to be modified doesn't exist in the animation during a
-   * certain tick in the given time interval.
+   *     certain tick in the given time interval.
    */
   public void changeColor(String shapeID, int startTime, int endTime, Color startColor,
                           Color endColor);
@@ -111,7 +111,7 @@ public interface AnimatorModel {
    * @throws IllegalArgumentException if the start dimensions are not the current shape dimensions.
    * @throws IllegalStateException if the shape is already changing size during this time.
    * @throws IllegalStateException if shape to be modified doesn't exist in the animation during a
-   * certain tick in the given time interval.
+   *     certain tick in the given time interval.
    */
   public void changeSize(String shapeID, int startTime, int endTime,
                          int startHeight, int startWidth, int endHeight, int endWidth);
@@ -145,7 +145,7 @@ public interface AnimatorModel {
    * @param shapeID the shape id of the desired shape.
    * @param tick the tick at which to look for the desired shape.
    * @return an Optional object as if the shape is not there it will not throw an exception.
-   * Instead it will return a non-present optional object.
+   *     Instead, it will return a non-present optional object.
    */
   public Optional<Shape> getShapeAt(String shapeID, int tick);
 }

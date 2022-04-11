@@ -1,8 +1,10 @@
 package view;
 
-import java.awt.*;
+import java.awt.Dimension;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.Timer;
 
 import model.AnimatorModel;
 
@@ -24,7 +26,7 @@ public class AnimatorGraphicsView extends JFrame implements IView {
    * @param speed The speed of the animation being played in ticks per second.
    */
   public AnimatorGraphicsView(AnimatorModel model, int speed) {
-    if (model == null || speed <= 0){
+    if (model == null || speed <= 0) {
       throw new IllegalArgumentException("Invalid model, filename, or speed.");
     }
     this.model = model;

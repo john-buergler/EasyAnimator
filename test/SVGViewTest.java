@@ -1,7 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
@@ -16,9 +16,11 @@ import view.IView;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+/**
+ * Tests the SVGView rendering.
+ */
 public class SVGViewTest {
   AnimatorModel m;
-
 
   @Before
   public void setUp() {

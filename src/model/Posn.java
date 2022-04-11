@@ -20,6 +20,7 @@ public class Posn {
   }
 
   /**
+   * Gets x coordinate for the Posn.
    * @return the x coordinate of this position.
    */
   public int getX() {
@@ -27,6 +28,7 @@ public class Posn {
   }
 
   /**
+   * Gets y coordinate for the Posn.
    * @return the y coordinate of this position.
    */
   public int getY() {

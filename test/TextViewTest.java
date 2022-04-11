@@ -1,7 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
@@ -9,15 +9,17 @@ import model.AnimatorModel;
 import model.EasyAnimatorModel;
 import model.Posn;
 import model.ShapeType;
-import view.AnimatorSVGView;
 import view.AnimatorTextView;
 import view.IView;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+/**
+ * Tests the TextView rendering.
+ */
 public class TextViewTest {
- AnimatorModel m;
+  AnimatorModel m;
 
   @Before
   public void setUp() {
