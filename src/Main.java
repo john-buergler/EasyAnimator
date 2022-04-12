@@ -52,6 +52,5 @@ public class Main {
     IView v = new ViewsFactory().createView(view, model, sp, outputFile);
     AnimatorControllerImpl controller = new AnimatorControllerImpl(model,
             (InteractiveAnimatorView) v);
-    controller.play();
   }
 }

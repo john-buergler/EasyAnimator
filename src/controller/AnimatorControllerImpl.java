@@ -17,12 +17,12 @@ public class AnimatorControllerImpl implements IEventListeners {
     this.speed = 1;
     this.model = model;
     this.view = view;
+    this.canLoop = false;
     this.timer = new Timer(1000 / speed, null);
     this.timer.addActionListener(e -> {
       view.renderAnimation();
     });
     view.addEventListener(this);
-    this.canLoop = false;
   }
 
   @Override
@@ -48,9 +48,7 @@ public class AnimatorControllerImpl implements IEventListeners {
 
   @Override
   public void restart() {
-    if (canLoop) {
-      timer.restart();
-    }
+    timer.restart();
   }
 
 }

@@ -141,6 +141,7 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
   }
 
   private void restart() {
+    panel.restartTick();
     for (IEventListeners eventListener : listenersList) {
       eventListener.restart();
     }

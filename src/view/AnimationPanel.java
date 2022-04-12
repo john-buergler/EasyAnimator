@@ -56,4 +56,8 @@ public class AnimationPanel extends JPanel {
   int getCurrentTick() {
     return currentTick;
   }
+
+  void restartTick() {
+    currentTick = 1;
+  }
 }
