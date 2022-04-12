@@ -9,12 +9,13 @@ import view.AnimatorTextView;
 import view.IView;
 
 /**
- * Factory class for animator views. Either visual, svg, or text.
+ * Factory class for animator views. Either visual, svg, or text. Done
+ * by the singular method in the class.
  */
 public class ViewsFactory {
 
   /**
-   * Method returning a view, specified by the given view string description.
+   * Method returning an instance of a view, specified by the given view string description.
    *
    * @param view the view of choice.
    * @param model the model to pass to the view.
