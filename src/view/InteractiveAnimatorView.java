@@ -70,10 +70,10 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
   }
 
 
-//  @Override
-//  public void renderAnimation() {
-//
-//  }
+  @Override
+  public void renderAnimation() {
+    panel.repaint();
+  }
 
   @Override
   public void actionPerformed(ActionEvent e) {
@@ -81,6 +81,18 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
     switch (action) {
       case "Play":
         play();
+        break;
+      case "Pause":
+        pause();
+        break;
+      case "Toggle Loopback":
+        toggleLoopback();
+        break;
+      case "Restart":
+        restart();
+        break;
+      default:
+        break;
     }
   }
 
@@ -94,11 +106,15 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
   }
 
   private void toggleLoopback() {
-
+    for (IEventListeners eventListener : listenersList) {
+      eventListener.toggleLoopback();
+    }
   }
 
   private void pause() {
-
+    for (IEventListeners eventListener : listenersList) {
+      eventListener.pause();
+    }
   }
 
   private void play() {
@@ -108,6 +124,9 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
   }
 
   private void restart() {
-
+    for (IEventListeners eventListener : listenersList) {
+      eventListener.restart();
+    }
   }
+
 }

@@ -1,52 +1,56 @@
 package controller;
 
-import java.io.IOException;
 import javax.swing.Timer;
 
 import model.AnimatorModel;
 import view.IEventListeners;
-import view.IView;
 import view.InteractiveAnimatorView;
 
 public class AnimatorControllerImpl implements IEventListeners {
   private final AnimatorModel model;
   private final InteractiveAnimatorView view;
   private final Timer timer;
-  private final int speed;
+  private int speed;
+  private boolean canLoop;
 
   public AnimatorControllerImpl(AnimatorModel model, InteractiveAnimatorView view) {
     this.speed = 1;
     this.model = model;
     this.view = view;
     this.timer = new Timer(1000 / speed, null);
+    this.timer.addActionListener(e -> {
+      view.renderAnimation();
+    });
     view.addEventListener(this);
+    this.canLoop = false;
   }
-
 
   @Override
   public void changeSpeed(int speed) {
-    timer.setDelay(1000 / speed);
+    this.speed = speed;
+    timer.setDelay(1000 / this.speed);
   }
 
   @Override
   public void toggleLoopback() {
-
+    this.canLoop = !canLoop;
   }
 
   @Override
   public void pause() {
-
+    timer.stop();
   }
 
   @Override
   public void play() {
     timer.start();
-    view.renderAnimation();
   }
 
   @Override
   public void restart() {
-
+    if (canLoop) {
+      timer.restart();
+    }
   }
 
 }
