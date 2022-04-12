@@ -36,20 +36,18 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
     this.pauseButton = new JButton("Pause");
     this.toggleLoopback = new JButton("Toggle Loopback");
     this.restartButton = new JButton("Restart");
-    this.speedSet = new JTextField(10);
+    this.speedSet = new JTextField(String.valueOf(speed), 10);
     this.speedSetButton = new JButton("Enter");
-
     this.initializeButtons();
   }
 
   protected void initializeButtons() {
-
     JPanel interactivePanel = new JPanel();
     interactivePanel.setLayout(new FlowLayout());
     interactivePanel.add(buttonPanel);
     interactivePanel.setBorder(BorderFactory.createTitledBorder("Interactions"));
     interactivePanel.setLayout(new BoxLayout(interactivePanel, BoxLayout.PAGE_AXIS));
-    this.panel.add(interactivePanel);
+    super.panel.add(interactivePanel);
 
     // Initialize the play button.
     playButton.setActionCommand("Play");
@@ -79,6 +77,7 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
     speedSetButton.setActionCommand("Set");
     speedSetButton.addActionListener(this);
     buttonPanel.add(speedSetButton);
+    this.setVisible(true);
   }
 
 
@@ -103,6 +102,10 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
       case "Restart":
         restart();
         break;
+      case "Set":
+        int speed = Integer.parseInt(speedSet.getText());
+        changeSpeed(speed);
+        break;
       default:
         break;
     }
@@ -114,7 +117,9 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
   }
 
   private void changeSpeed(int speed) {
-
+    for (IEventListeners eventListener : listenersList) {
+      eventListener.changeSpeed(speed);
+    }
   }
 
   private void toggleLoopback() {

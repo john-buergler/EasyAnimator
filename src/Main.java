@@ -1,5 +1,6 @@
 import java.io.IOException;
 
+import controller.AnimatorControllerImpl;
 import io.AnimationBuilder;
 import io.AnimationFileReader;
 import io.TweenModelBuilder;
@@ -7,6 +8,7 @@ import io.ViewsFactory;
 import model.AnimatorModel;
 import model.EasyAnimatorModel;
 import view.IView;
+import view.InteractiveAnimatorView;
 
 /**
  * Run an animation on the console.
@@ -48,6 +50,8 @@ public class Main {
     AnimatorModel model = modelBuilder.build();
     int sp = Integer.parseInt(speed);
     IView v = new ViewsFactory().createView(view, model, sp, outputFile);
-    v.renderAnimation();
+    AnimatorControllerImpl controller = new AnimatorControllerImpl(model,
+            (InteractiveAnimatorView) v);
+    controller.play();
   }
 }
