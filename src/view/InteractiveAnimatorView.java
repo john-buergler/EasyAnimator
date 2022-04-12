@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -13,6 +14,9 @@ import model.AnimatorModel;
 public class InteractiveAnimatorView extends AnimatorGraphicsView implements ActionListener,
         IntercativeView {
   private final JButton playButton;
+  private final JButton pauseButton;
+  private final JButton toggleLoopback;
+  private final JButton restartButton;
   private final JPanel buttonPanel;
   private final List<IEventListeners> listenersList;
   /**
@@ -28,19 +32,48 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
     this.listenersList = new ArrayList<>();
     this.buttonPanel = new JPanel();
     this.playButton = new JButton("Play");
+    this.pauseButton = new JButton("Pause");
+    this.toggleLoopback = new JButton("Toggle Loopback");
+    this.restartButton = new JButton("Restart");
+
+    this.initializeButtons();
   }
 
   protected void initializeButtons() {
+
+    JPanel interactivePanel = new JPanel();
+    interactivePanel.setLayout(new FlowLayout());
+    interactivePanel.add(buttonPanel);
+    interactivePanel.setBorder(BorderFactory.createTitledBorder("Interactions"));
+    interactivePanel.setLayout(new BoxLayout(interactivePanel, BoxLayout.PAGE_AXIS));
+    this.panel.add(interactivePanel);
+
+    // Initialize the play button.
     playButton.setActionCommand("Play");
     playButton.addActionListener(this);
     buttonPanel.add(playButton);
+
+    // Initialize the play button.
+    pauseButton.setActionCommand("Pause");
+    pauseButton.addActionListener(this);
+    buttonPanel.add(pauseButton);
+
+    // Initialize the loopback button.
+    toggleLoopback.setActionCommand("Toggle Loopback");
+    toggleLoopback.addActionListener(this);
+    buttonPanel.add(toggleLoopback);
+
+    // Initialize the restart button.
+    restartButton.setActionCommand("Restart");
+    restartButton.addActionListener(this);
+    buttonPanel.add(restartButton);
   }
 
 
-  @Override
-  public void renderAnimation() {
-
-  }
+//  @Override
+//  public void renderAnimation() {
+//
+//  }
 
   @Override
   public void actionPerformed(ActionEvent e) {

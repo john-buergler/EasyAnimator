@@ -14,9 +14,9 @@ import model.AnimatorModel;
  * the ticks per second of the animation.
  */
 public class AnimatorGraphicsView extends JFrame implements IView {
-  private final AnimatorModel model;
+  protected final AnimatorModel model;
   protected final AnimationPanel panel;
-  private final int speed;
+  protected final int speed;
 
   /**
    * The constructor for the AnimatorGraphicsView. Takes in a model and a speed and then creates
