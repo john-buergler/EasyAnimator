@@ -3,7 +3,6 @@ package view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +16,8 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
   private final JButton pauseButton;
   private final JButton toggleLoopback;
   private final JButton restartButton;
+  private final JTextField speedSet;
+  private final JButton speedSetButton;
   private final JPanel buttonPanel;
   private final List<IEventListeners> listenersList;
   /**
@@ -35,6 +36,8 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
     this.pauseButton = new JButton("Pause");
     this.toggleLoopback = new JButton("Toggle Loopback");
     this.restartButton = new JButton("Restart");
+    this.speedSet = new JTextField(10);
+    this.speedSetButton = new JButton("Enter");
 
     this.initializeButtons();
   }
@@ -67,6 +70,15 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
     restartButton.setActionCommand("Restart");
     restartButton.addActionListener(this);
     buttonPanel.add(restartButton);
+
+    //Speed set box.
+    speedSet.setBorder(BorderFactory.createTitledBorder("Set speed"));
+    buttonPanel.add(speedSet);
+
+    // Initialize the restart button.
+    speedSetButton.setActionCommand("Set");
+    speedSetButton.addActionListener(this);
+    buttonPanel.add(speedSetButton);
   }
 
 
