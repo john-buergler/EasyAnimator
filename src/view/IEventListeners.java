@@ -10,7 +10,7 @@ public interface IEventListeners {
 
   public void pause();
 
-  public void play() throws IOException;
+  public void play();
 
   public void restart();
 

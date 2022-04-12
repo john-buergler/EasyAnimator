@@ -8,7 +8,7 @@ import view.IEventListeners;
 import view.IView;
 import view.InteractiveAnimatorView;
 
-public class AnimatorControllerImpl implements AnimatorController, IEventListeners {
+public class AnimatorControllerImpl implements IEventListeners {
   private final AnimatorModel model;
   private final InteractiveAnimatorView view;
   private final Timer timer;
@@ -25,7 +25,7 @@ public class AnimatorControllerImpl implements AnimatorController, IEventListene
 
   @Override
   public void changeSpeed(int speed) {
-
+    timer.setDelay(1000 / speed);
   }
 
   @Override
@@ -40,6 +40,7 @@ public class AnimatorControllerImpl implements AnimatorController, IEventListene
 
   @Override
   public void play() {
+    timer.start();
     view.renderAnimation();
   }
 
