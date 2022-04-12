@@ -1,4 +1,3 @@
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import io.AnimationBuilder;
@@ -27,16 +26,16 @@ public class Main {
     for (int i = 0; i < args.length; i++) {
       switch (args[i]) {
         case "-in":
-          inputFile = args[i+1];
+          inputFile = args[i + 1];
           break;
         case "-out":
-          outputFile = args[i+1];
+          outputFile = args[i + 1];
           break;
         case "-view":
-          view = args[i+1];
+          view = args[i + 1];
           break;
         case "-speed":
-          speed = args[i+1];
+          speed = args[i + 1];
           break;
         default:
           break;

@@ -10,17 +10,30 @@ import java.util.Scanner;
 import model.AnimatorModel;
 import model.Shape;
 
+/**
+ * Renders the animation in an SVG view format. Writes a new file or overwrites an old file to
+ * produce the animation in SVG.
+ */
 public class AnimatorSVGView implements IView {
   private final AnimatorModel model;
-  private final String fileName;
   private final PrintStream outputSystem;
   private final int speed;
   private final FileWriter outputFile;
 
-  public AnimatorSVGView(AnimatorModel m, String fileName, int speed) throws IOException {
+  /**
+   * The constructor for an AnimatorSVGView, which produces the given model as an animation in SVG
+   * format.
+   * @param m The AnimatorModel that contains the animation details.
+   * @param fileName The name of the file that this SVG formatted text is being written to.
+   * @param speed The speed of the animation in ticks per second.
+   * @throws IOException In the event that createNewFile fails.
+   */
+  public AnimatorSVGView(AnimatorModel m, String fileName, int speed)throws IOException {
+    if (m == null || fileName == null || fileName.equals("") || speed <= 0) {
+      throw new IllegalArgumentException("Invalid model, filename, or speed.");
+    }
     this.model = m;
     this.speed = speed;
-    this.fileName = fileName;
     if (fileName.equals("System.out")) {
       outputSystem = System.out;
       outputFile = null;
@@ -85,7 +98,7 @@ public class AnimatorSVGView implements IView {
           assignAttributes(motionType, attributesChanging, valuesStarting, valuesEnding, startTime,
                   xs, ys, hs, ws, rs, gs, bs, endTime, xe, ye, he, we, re, ge, be, type);
           for (int j = 0; j < attributesChanging.size(); j++) {
-            str.append(SVGMove(startTime, endTime, valuesStarting.get(j), valuesEnding.get(j),
+            str.append(svgmove(startTime, endTime, valuesStarting.get(j), valuesEnding.get(j),
                     attributesChanging.get(j)));
           }
         }
@@ -143,12 +156,14 @@ public class AnimatorSVGView implements IView {
         valuesEnding.add(String.valueOf(he));
         valuesEnding.add(String.valueOf(we));
         break;
+      default:
+        break;
     }
   }
 
   private void initSVG(StringBuilder str) {
     str.append("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"" + 800 + "\"" +
-            " height=\"" + 800 +"\" version=\"1.1\">\n");
+            " height=\"" + 800 + "\" version=\"1.1\">\n");
     str.append("<rect>\n" + " <animate id=\"base\" begin=\"0;base.end\" dur=\"" +
             ((model.getShapesPerTick().size() * 1000) / this.speed) + "ms" + "\"" +
             " attributeName=\"visibility\" from=\"hide\" to =\"hide\"></animate>\n</rect>\n");
@@ -186,16 +201,16 @@ public class AnimatorSVGView implements IView {
     return str.toString();
   }
 
-  private String SVGMove(int startTime, int endTime, String startVal, String endVal,
+  private String svgmove(int startTime, int endTime, String startVal, String endVal,
                          String attribute) {
     StringBuilder str = new StringBuilder();
-      str.append("  <animate attributeType=" + '"' + "xml" + '"' + " begin=" + '"' + "base.begin+" +
-              ((1000 * startTime) / speed) + "ms" + '"' + " dur=" + '"' +
-              (((endTime - startTime) * 1000) / speed)
-              + "ms" + '"' + " attributeName=" + '"' + attribute + '"' + " from=" + '"' +
-              startVal + '"' +
-              " to=" + '"' + endVal + '"' + " fill=" + '"' + "freeze" + '"' + "></animate>"
-              + '\n');
+    str.append("  <animate attributeType=" + '"' + "xml" + '"' + " begin=" + '"' + "base.begin+" +
+            ((1000 * startTime) / speed) + "ms" + '"' + " dur=" + '"' +
+            (((endTime - startTime) * 1000) / speed)
+            + "ms" + '"' + " attributeName=" + '"' + attribute + '"' + " from=" + '"' +
+            startVal + '"' +
+            " to=" + '"' + endVal + '"' + " fill=" + '"' + "freeze" + '"' + "></animate>"
+            + '\n');
     return str.toString();
   }
 }

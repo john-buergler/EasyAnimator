@@ -1,16 +1,22 @@
 package io;
 
-import java.awt.*;
+import java.awt.Color;
 
 import model.AnimatorModel;
-import model.EasyAnimatorModel;
-import model.Oval;
 import model.Posn;
 import model.ShapeType;
 
+/**
+ * As the AnimationFileReader parses a file, this builds an instance of AnimationModel with our
+ * program. Acts as a bridge between the instructions and our model.
+ */
 public class AnimationBuilder implements TweenModelBuilder<AnimatorModel> {
   private final AnimatorModel m;
 
+  /**
+   * The construction for the animation builder that takes in an AnimatorModel.
+   * @param m the model that is provided for the model field.
+   */
   public AnimationBuilder(AnimatorModel m) {
     this.m = m;
   }

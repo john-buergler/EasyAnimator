@@ -24,9 +24,12 @@ public class AnimatorTextView implements IView {
    * @param m the model that is to be displayed.
    * @param fileName the file to write to, default is System.out.
    * @param speed the speed of the animation, used to calculate the real time of the motions.
-   * @throws IOException
+   * @throws IOException In the event that createNewFile fails.
    */
   public AnimatorTextView(AnimatorModel m, String fileName, int speed) throws IOException {
+    if (m == null || fileName == null || fileName.equals("") || speed <= 0) {
+      throw new IllegalArgumentException("Invalid model, filename, or speed.");
+    }
     this.model = m;
     if (fileName.equals("System.out")) {
       outputSystem = System.out;

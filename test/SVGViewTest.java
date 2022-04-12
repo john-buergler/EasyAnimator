@@ -1,7 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
@@ -16,14 +16,33 @@ import view.IView;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+/**
+ * Tests the SVGView rendering.
+ */
 public class SVGViewTest {
   AnimatorModel m;
-
 
   @Before
   public void setUp() {
     this.m = new EasyAnimatorModel();
   }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void nullModelException() throws IOException {
+    AnimatorSVGView view = new AnimatorSVGView(null, "aa", 20);
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void badNameException() throws IOException {
+    AnimatorSVGView view = new AnimatorSVGView(null, "", 20);
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void negativeSpeed() throws IOException {
+    AnimatorSVGView view = new AnimatorSVGView(null, "aa", -1);
+  }
+
+
 
   @Test
   public void testMoveSVG() throws IOException {

@@ -481,10 +481,10 @@ public class EasyAnimatorModel implements AnimatorModel {
 
   @Override
   public Optional<Shape> getShapeAt(String shapeID, int tick) {
-      Optional<Shape> optional =
-              shapesPerTick.get(tick).stream().filter(s -> s.getShapeID().equals(shapeID))
-                      .findFirst();
-      return optional;
+    Optional<Shape> optional =
+            shapesPerTick.get(tick).stream().filter(s -> s.getShapeID().equals(shapeID))
+                    .findFirst();
+    return optional;
   }
 
 }

@@ -1,7 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
+import java.awt.Color;
 
 import io.AnimationBuilder;
 import model.AnimatorModel;
@@ -13,9 +13,13 @@ import model.ShapeType;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Tests the AnimationBuilder.
+ */
 public class AnimationBuilderTest {
   AnimatorModel m;
   AnimationBuilder ab;
+
   @Before
   public void setUp() {
     this.m = new EasyAnimatorModel();

@@ -1,7 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
@@ -9,19 +9,36 @@ import model.AnimatorModel;
 import model.EasyAnimatorModel;
 import model.Posn;
 import model.ShapeType;
-import view.AnimatorSVGView;
 import view.AnimatorTextView;
 import view.IView;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+/**
+ * Tests the TextView rendering.
+ */
 public class TextViewTest {
- AnimatorModel m;
+  AnimatorModel m;
 
   @Before
   public void setUp() {
     this.m = new EasyAnimatorModel();
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void nullModelException() throws IOException {
+    AnimatorTextView view = new AnimatorTextView(null, "aa", 20);
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void badNameException() throws IOException {
+    AnimatorTextView view = new AnimatorTextView(null, "", 20);
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void negativeSpeed() throws IOException {
+    AnimatorTextView view = new AnimatorTextView(null, "aa", -1);
   }
 
   @Test
