@@ -4,20 +4,22 @@ import java.io.IOException;
 import javax.swing.Timer;
 
 import model.AnimatorModel;
+import view.IEventListeners;
 import view.IView;
 import view.InteractiveAnimatorView;
 
-public class AnimatorControllerImpl implements AnimatorController {
+public class AnimatorControllerImpl implements AnimatorController, IEventListeners {
   private final AnimatorModel model;
-  private final IView view;
+  private final InteractiveAnimatorView view;
   private final Timer timer;
   private final int speed;
 
-  public AnimatorControllerImpl(AnimatorModel model) {
+  public AnimatorControllerImpl(AnimatorModel model, InteractiveAnimatorView view) {
     this.speed = 1;
     this.model = model;
-    this.view = new InteractiveAnimatorView(model, speed);
+    this.view = view;
     this.timer = new Timer(1000 / speed, null);
+    view.addEventListener(this);
   }
 
 
@@ -37,7 +39,7 @@ public class AnimatorControllerImpl implements AnimatorController {
   }
 
   @Override
-  public void play() throws IOException {
+  public void play() {
     view.renderAnimation();
   }
 

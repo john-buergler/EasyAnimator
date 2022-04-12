@@ -7,6 +7,7 @@ import view.AnimatorGraphicsView;
 import view.AnimatorSVGView;
 import view.AnimatorTextView;
 import view.IView;
+import view.InteractiveAnimatorView;
 
 /**
  * Factory class for animator views. Either visual, svg, or text. Done
@@ -33,6 +34,8 @@ public class ViewsFactory {
         return new AnimatorSVGView(model, fileName, speed);
       case "text":
         return new AnimatorTextView(model, fileName, speed);
+      case "interactive":
+        return new InteractiveAnimatorView(model, speed);
       default:
         return null;
     }
