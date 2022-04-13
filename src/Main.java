@@ -51,6 +51,6 @@ public class Main {
     int sp = Integer.parseInt(speed);
     IView v = new ViewsFactory().createView(view, model, sp, outputFile);
     AnimatorControllerImpl controller = new AnimatorControllerImpl(model,
-            (InteractiveAnimatorView) v);
+            (InteractiveAnimatorView) v, sp);
   }
 }

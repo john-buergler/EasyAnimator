@@ -14,9 +14,9 @@ public class AnimatorControllerImpl implements IEventListeners {
   private boolean canLoop;
   private int tickCount;
 
-  public AnimatorControllerImpl(AnimatorModel model, InteractiveAnimatorView view) {
+  public AnimatorControllerImpl(AnimatorModel model, InteractiveAnimatorView view, int speed) {
     this.tickCount = 1;
-    this.speed = 1;
+    this.speed = speed;
     this.model = model;
     this.view = view;
     this.canLoop = false;
