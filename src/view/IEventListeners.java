@@ -1,7 +1,5 @@
 package view;
 
-import java.io.IOException;
-
 public interface IEventListeners {
 
   public void changeSpeed(int speed);
@@ -13,5 +11,7 @@ public interface IEventListeners {
   public void play();
 
   public void restart();
+
+  public void loop();
 
 }

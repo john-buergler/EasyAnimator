@@ -12,8 +12,10 @@ public class AnimatorControllerImpl implements IEventListeners {
   private final Timer timer;
   private int speed;
   private boolean canLoop;
+  private int tickCount;
 
   public AnimatorControllerImpl(AnimatorModel model, InteractiveAnimatorView view) {
+    this.tickCount = 1;
     this.speed = 1;
     this.model = model;
     this.view = view;
@@ -21,6 +23,7 @@ public class AnimatorControllerImpl implements IEventListeners {
     this.timer = new Timer(1000 / speed, null);
     this.timer.addActionListener(e -> {
       view.renderAnimation();
+      tickCount += 1;
     });
     view.addEventListener(this);
   }
@@ -49,6 +52,13 @@ public class AnimatorControllerImpl implements IEventListeners {
   @Override
   public void restart() {
     timer.restart();
+  }
+
+  @Override
+  public void loop() {
+    if (canLoop) {
+      play();
+    }
   }
 
 }

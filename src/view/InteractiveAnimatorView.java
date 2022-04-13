@@ -83,7 +83,13 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
 
   @Override
   public void renderAnimation() {
-    panel.repaint();
+    if (panel.getCurrentTick() == model.getShapesPerTick().size()) {
+      pause();
+      loop();
+    }
+    else {
+      panel.repaint();
+    }
   }
 
   @Override
@@ -125,6 +131,7 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
   private void toggleLoopback() {
     for (IEventListeners eventListener : listenersList) {
       eventListener.toggleLoopback();
+      eventListener.loop();
     }
   }
 
@@ -144,6 +151,13 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
     panel.restartTick();
     for (IEventListeners eventListener : listenersList) {
       eventListener.restart();
+    }
+  }
+
+  private void loop() {
+    panel.restartTick();
+    for (IEventListeners eventListener : listenersList) {
+      eventListener.loop();
     }
   }
 
