@@ -12,9 +12,12 @@ import model.AnimatorModel;
 
 public class InteractiveAnimatorView extends AnimatorGraphicsView implements ActionListener,
         IntercativeView {
+  private final JLabel playStatus;
   private final JButton playButton;
   private final JButton pauseButton;
   private final JButton toggleLoopback;
+  private final JLabel loopbackStatus;
+  private int countLoopback;
   private final JButton restartButton;
   private final JTextField speedSet;
   private final JButton speedSetButton;
@@ -32,9 +35,12 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
     super(model, speed);
     this.listenersList = new ArrayList<>();
     this.buttonPanel = new JPanel();
+    this.playStatus = new JLabel();
     this.playButton = new JButton("Play");
     this.pauseButton = new JButton("Pause");
     this.toggleLoopback = new JButton("Toggle Loopback");
+    this.countLoopback = 0;
+    this.loopbackStatus = new JLabel();
     this.restartButton = new JButton("Restart");
     this.speedSet = new JTextField(String.valueOf(speed), 10);
     this.speedSetButton = new JButton("Enter");
@@ -49,12 +55,16 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
     interactivePanel.setLayout(new BoxLayout(interactivePanel, BoxLayout.PAGE_AXIS));
     super.panel.add(interactivePanel);
 
+    //playStatus.setIcon(new ImageIcon("pause_20x20.jpg"));
+    playStatus.setPreferredSize(new Dimension(20, 20));
+    buttonPanel.add(playStatus);
+
     // Initialize the play button.
     playButton.setActionCommand("Play");
     playButton.addActionListener(this);
     buttonPanel.add(playButton);
 
-    // Initialize the play button.
+    // Initialize the pause button.
     pauseButton.setActionCommand("Pause");
     pauseButton.addActionListener(this);
     buttonPanel.add(pauseButton);
@@ -63,6 +73,10 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
     toggleLoopback.setActionCommand("Toggle Loopback");
     toggleLoopback.addActionListener(this);
     buttonPanel.add(toggleLoopback);
+
+    //status of loopback
+    loopbackStatus.setPreferredSize(new Dimension(40, 40));
+    buttonPanel.add(loopbackStatus);
 
     // Initialize the restart button.
     restartButton.setActionCommand("Restart");
@@ -73,7 +87,7 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
     speedSet.setBorder(BorderFactory.createTitledBorder("Set speed"));
     buttonPanel.add(speedSet);
 
-    // Initialize the restart button.
+    // Initialize the setSpeed button.
     speedSetButton.setActionCommand("Set");
     speedSetButton.addActionListener(this);
     buttonPanel.add(speedSetButton);
@@ -81,6 +95,10 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
   }
 
 
+//  @Override
+//  public void renderAnimation() {
+//    panel.repaint();
+//  }
   @Override
   public void renderAnimation() {
     if (panel.getCurrentTick() == model.getShapesPerTick().size()) {
@@ -132,19 +150,37 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
     for (IEventListeners eventListener : listenersList) {
       eventListener.toggleLoopback();
       eventListener.loop();
+      if (this.countLoopback == 1) {
+        loopbackStatus.setIcon(null);
+        countLoopback = 0;
+      }
+      else {
+        loopbackStatus.setIcon(new ImageIcon("check.jpg"));
+        countLoopback = 1;
+      }
     }
   }
 
   private void pause() {
     for (IEventListeners eventListener : listenersList) {
       eventListener.pause();
+      this.statusPause();
     }
   }
 
   private void play() {
     for (IEventListeners eventListener : listenersList) {
       eventListener.play();
+      this.statusPlay();
     }
+  }
+
+  private void statusPlay() {
+    playStatus.setIcon(new ImageIcon("play.jpg"));
+  }
+
+  private void statusPause() {
+    playStatus.setIcon(new ImageIcon("pause_20x20.jpg"));
   }
 
   private void restart() {
@@ -158,6 +194,7 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
     panel.restartTick();
     for (IEventListeners eventListener : listenersList) {
       eventListener.loop();
+      this.statusPlay();
     }
   }
 

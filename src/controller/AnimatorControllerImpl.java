@@ -60,5 +60,4 @@ public class AnimatorControllerImpl implements IEventListeners {
       play();
     }
   }
-
 }

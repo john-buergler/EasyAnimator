@@ -86,4 +86,15 @@ it will create one.
 and then generates a properly formatted SVG file to reproduce the animation. The user must provide an AnimatorModel, a fileName, and speed
 similar to above.
 
+**AnimatorInteractiveView** This view is an extension of the AnimatorGraphicsView, with added interactivity. The panel is relatively
+self-explanatory, with a play to play the animation, a pause to pause, a toggle loopback function, a restart, and a speed setting
+function to change the speed in ticks per second.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+**AnimatorController**
+
+This interface functions as our controller for the interactive animator. This handles all the methods that carry out the capabilities of the
+interactive interface. Starts and stops the timer, restarts the animation, etc.
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
