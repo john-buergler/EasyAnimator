@@ -10,8 +10,14 @@ import javax.swing.*;
 
 import model.AnimatorModel;
 
+/**
+ * The interactive version of the AnimatorGraphicsView. Extends the regular view and adds
+ * functionality including pause, play, restart, loopback, and speed change. When the program is
+ * run, the functionalities are pretty self-explanatory, using Java Swing buttons and text fields
+ * to take user input.
+ */
 public class InteractiveAnimatorView extends AnimatorGraphicsView implements ActionListener,
-        IntercativeView {
+        InteractiveView {
   private final JLabel playStatus;
   private final JButton playButton;
   private final JButton pauseButton;
@@ -23,10 +29,12 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
   private final JButton speedSetButton;
   private final JPanel buttonPanel;
   private final List<IEventListeners> listenersList;
+
   /**
    * The constructor for the InteractiveAnimator. Takes in a model and a speed and then creates
-   * an animation from the information contained. the same as the original graphics view, plus
-   * other functionality including speed up, slow down, toggle loopback, pause, play, and rewind.
+   * an interactive animation from the information contained. the same as the original graphics
+   * view, plus other functionality including speed up, slow down, toggle loopback, pause, play,
+   * and rewind.
    *
    * @param model AnimatorModel that contains user-generated animation.
    * @param speed The speed of the animation being played in ticks per second.
@@ -47,6 +55,9 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
     this.initializeButtons();
   }
 
+  /**
+   * Initializes all the buttons in the interactive panel.
+   */
   protected void initializeButtons() {
     JPanel interactivePanel = new JPanel();
     interactivePanel.setLayout(new FlowLayout());
@@ -94,11 +105,6 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
     this.setVisible(true);
   }
 
-
-//  @Override
-//  public void renderAnimation() {
-//    panel.repaint();
-//  }
   @Override
   public void renderAnimation() {
     if (panel.getCurrentTick() == model.getShapesPerTick().size()) {
