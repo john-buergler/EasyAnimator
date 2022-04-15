@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.swing.*;
 
+import controller.AnimatorInteractiveController;
 import model.AnimatorModel;
 
 /**
@@ -28,7 +29,7 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
   private final JTextField speedSet;
   private final JButton speedSetButton;
   private final JPanel buttonPanel;
-  private final List<IEventListeners> listenersList;
+  private final List<AnimatorInteractiveController> listenersList;
 
   /**
    * The constructor for the InteractiveAnimator. Takes in a model and a speed and then creates
@@ -142,18 +143,18 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
   }
 
   @Override
-  public void addEventListener(IEventListeners listener) {
+  public void addEventListener(AnimatorInteractiveController listener) {
     listenersList.add(listener);
   }
 
   private void changeSpeed(int speed) {
-    for (IEventListeners eventListener : listenersList) {
+    for (AnimatorInteractiveController eventListener : listenersList) {
       eventListener.changeSpeed(speed);
     }
   }
 
   private void toggleLoopback() {
-    for (IEventListeners eventListener : listenersList) {
+    for (AnimatorInteractiveController eventListener : listenersList) {
       eventListener.toggleLoopback();
       eventListener.loop();
       if (this.countLoopback == 1) {
@@ -168,14 +169,14 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
   }
 
   private void pause() {
-    for (IEventListeners eventListener : listenersList) {
+    for (AnimatorInteractiveController eventListener : listenersList) {
       eventListener.pause();
       this.statusPause();
     }
   }
 
   private void play() {
-    for (IEventListeners eventListener : listenersList) {
+    for (AnimatorInteractiveController eventListener : listenersList) {
       eventListener.play();
       this.statusPlay();
     }
@@ -191,14 +192,14 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
 
   private void restart() {
     panel.restartTick();
-    for (IEventListeners eventListener : listenersList) {
+    for (AnimatorInteractiveController eventListener : listenersList) {
       eventListener.restart();
     }
   }
 
   private void loop() {
     panel.restartTick();
-    for (IEventListeners eventListener : listenersList) {
+    for (AnimatorInteractiveController eventListener : listenersList) {
       eventListener.loop();
       this.statusPlay();
     }

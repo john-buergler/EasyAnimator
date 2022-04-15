@@ -50,7 +50,13 @@ public class Main {
     AnimatorModel model = modelBuilder.build();
     int sp = Integer.parseInt(speed);
     IView v = new ViewsFactory().createView(view, model, sp, outputFile);
-    AnimatorControllerImpl controller = new AnimatorControllerImpl(model,
-            (InteractiveAnimatorView) v, sp);
+    if (v instanceof InteractiveAnimatorView) {
+      AnimatorControllerImpl controller = new AnimatorControllerImpl(model,
+              (InteractiveAnimatorView) v, sp);
+    }
+    else {
+      v.renderAnimation();
+    }
   }
+
 }

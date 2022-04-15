@@ -3,10 +3,9 @@ package controller;
 import javax.swing.Timer;
 
 import model.AnimatorModel;
-import view.IEventListeners;
 import view.InteractiveAnimatorView;
 
-public class AnimatorControllerImpl implements IEventListeners {
+public class AnimatorControllerImpl implements AnimatorInteractiveController {
   private final AnimatorModel model;
   private final InteractiveAnimatorView view;
   private final Timer timer;

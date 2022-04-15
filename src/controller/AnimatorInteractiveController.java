@@ -1,8 +1,6 @@
 package controller;
 
-import java.io.IOException;
-
-public interface AnimatorController {
+public interface AnimatorInteractiveController {
 
   public void changeSpeed(int speed);
 
@@ -13,5 +11,7 @@ public interface AnimatorController {
   public void play();
 
   public void restart();
+
+  public void loop();
 
 }
