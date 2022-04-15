@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import controller.AnimatorControllerImpl;
@@ -48,20 +49,27 @@ public class Main {
     AnimatorModel m = new EasyAnimatorModel();
     TweenModelBuilder<AnimatorModel> modelBuilder = new AnimationBuilder(m);
     AnimationFileReader reader = new AnimationFileReader();
-    reader.readFile(inputFile, modelBuilder);
+    try {
+      reader.readFile(inputFile, modelBuilder);
+    } catch (FileNotFoundException fnf) {
+      System.out.println(fnf.getMessage());
+      return;
+    }
     AnimatorModel model = modelBuilder.build();
     int sp = Integer.parseInt(speed);
     IView v = new ViewsFactory().createView(view, model, sp, outputFile);
+    if (v == null) {
+      System.out.println("The view type specified is not valid.");
+      return;
+    }
     if (v instanceof InteractiveAnimatorView) {
       AnimatorControllerImpl controller = new AnimatorControllerImpl(model,
               (InteractiveAnimatorView) v, sp);
-    }
-    else if (v instanceof AnimatorGraphicsView){
+    } else if (v instanceof AnimatorGraphicsView) {
       AnimatorVisualControllerImpl controller = new AnimatorVisualControllerImpl(model,
               (AnimatorGraphicsView) v, sp);
       controller.play();
-    }
-    else {
+    } else {
       v.renderAnimation();
     }
 
