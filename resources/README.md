@@ -6,7 +6,7 @@ Changes from Assignment 5 to take note of:
 animation, we designed a controller to handle that aspect of the application. We created a 
 controller interface specified for this type of view and implemented the interface to control the animation.
 2. We cleaned up our main method. We previously had our main method throwing a lot of errors
-with bad command line input but we changed it to have display more hints. 
+with bad command line input, but we changed it to have display more hints. 
 3. We also added a method to our JPanel. This method, called restartTick(), is used to restart the state of 
 the animation to it's first tick.
 
