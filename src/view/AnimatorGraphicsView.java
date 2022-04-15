@@ -4,7 +4,6 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-import javax.swing.Timer;
 
 import model.AnimatorModel;
 
@@ -39,20 +38,11 @@ public class AnimatorGraphicsView extends JFrame implements IView {
     JScrollPane scroll = new JScrollPane(panel,
             JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
     this.add(scroll);
+    this.setVisible(true);
   }
 
   @Override
   public void renderAnimation() {
-    this.setVisible(true);
-    Timer timer = new Timer(1000 / speed, null);
-    timer.addActionListener(e -> {
-      if (panel.getCurrentTick() == model.getShapesPerTick().size()) {
-        timer.stop();
-      }
-      else {
-        panel.repaint();
-      }
-    });
-    timer.start();
+    panel.repaint();
   }
 }

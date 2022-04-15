@@ -1,12 +1,14 @@
 import java.io.IOException;
 
 import controller.AnimatorControllerImpl;
+import controller.AnimatorVisualControllerImpl;
 import io.AnimationBuilder;
 import io.AnimationFileReader;
 import io.TweenModelBuilder;
 import io.ViewsFactory;
 import model.AnimatorModel;
 import model.EasyAnimatorModel;
+import view.AnimatorGraphicsView;
 import view.IView;
 import view.InteractiveAnimatorView;
 
@@ -54,9 +56,15 @@ public class Main {
       AnimatorControllerImpl controller = new AnimatorControllerImpl(model,
               (InteractiveAnimatorView) v, sp);
     }
+    else if (v instanceof AnimatorGraphicsView){
+      AnimatorVisualControllerImpl controller = new AnimatorVisualControllerImpl(model,
+              (AnimatorGraphicsView) v, sp);
+      controller.play();
+    }
     else {
       v.renderAnimation();
     }
+
   }
 
 }
