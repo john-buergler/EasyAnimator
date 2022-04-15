@@ -1,7 +1,7 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import controller.AnimatorControllerImpl;
+import controller.AnimatorInteractiveControllerImpl;
 import controller.AnimatorVisualControllerImpl;
 import io.AnimationBuilder;
 import io.AnimationFileReader;
@@ -57,13 +57,17 @@ public class Main {
     }
     AnimatorModel model = modelBuilder.build();
     int sp = Integer.parseInt(speed);
+    if (sp <= 0) {
+      System.out.println("The speed of the animation has to be positive.");
+      return;
+    }
     IView v = new ViewsFactory().createView(view, model, sp, outputFile);
     if (v == null) {
       System.out.println("The view type specified is not valid.");
       return;
     }
     if (v instanceof InteractiveAnimatorView) {
-      AnimatorControllerImpl controller = new AnimatorControllerImpl(model,
+      AnimatorInteractiveControllerImpl controller = new AnimatorInteractiveControllerImpl(model,
               (InteractiveAnimatorView) v, sp);
     } else if (v instanceof AnimatorGraphicsView) {
       AnimatorVisualControllerImpl controller = new AnimatorVisualControllerImpl(model,

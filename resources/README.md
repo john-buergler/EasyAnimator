@@ -1,20 +1,14 @@
 # Animator
 
-Changes from Assignment 4 to take note of:
+Changes from Assignment 5 to take note of:
 
-1. Build scene and time is handled differently. Build scene only builds canvas and time
-is updated in the model as shapes are added past the current duration.
-
-2. Shapes have startLife and endLife dictated by addShape
-
-3. Add Shape now adds a shape for every tick from the start of its life till the end instead of
-only keeping track of transformations. Move shape, color shape, and size change
-now update the status of the shape during its life as compared to just adding it.
-
-4. Shapes now have a log of all transformations that are kept by tracking the type of
-transformation and the details of the transformation.
-
-5. Added a getShapeAt which gets a specified shape at a specified tick in the animation.
+1. For our AnimatorGraphicsView class which we previously had handling the timer to render the 
+animation, we designed a controller to handle that aspect of the application. We created a 
+controller interface specified for this type of view and implemented the interface to control the animation.
+2. We cleaned up our main method. We previously had our main method throwing a lot of errors
+with bad command line input but we changed it to have display more hints. 
+3. We also added a method to our JPanel. This method, called restartTick(), is used to restart the state of 
+the animation to it's first tick.
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -91,10 +85,30 @@ self-explanatory, with a play to play the animation, a pause to pause, a toggle 
 function to change the speed in ticks per second.
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+**InteractiveViewInterface**
+This interface is designed to be a key factor in connecting the view and controller of this application.
+It offers a method which allows for a view to add listeners to itself, allowing controllers to be made aware
+when actions in the user interface happen. The interactive view class implemented this interface and used
+its singular method to add a controller so that when any of the buttons were pressed the controller would know.
 
-**AnimatorController**
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+**AnimatorControllers**
 
-This interface functions as our controller for the interactive animator. This handles all the methods that carry out the capabilities of the
-interactive interface. Starts and stops the timer, restarts the animation, etc.
+For this application we designed two specific interfaces to use as controllers. One interface, the
+AnimatorInteractiveController is used for interactive functionality. This includes play, pause, loop, etc.
+and works only with view that have interactive functionality. The other controller interface is AnimatorVisualController and 
+this interface is used to control views that are displayed graphically but don't include any 
+interactive features.
+
+**AnimatorInteractiveControllerImpl**
+This class is an implementation of the interactive controller interface and serves to control interactive
+animations by the use of a timer. This class takes in a model and a view so that 
+it can control the animation. It also takes in a speed so that it knows how fast to render the animation.
+Specific features are handled by starting or stopping the timer, restarting it, etc.
+
+**AnimatorVisualControllerImpl**
+This class is an implementation of the visual controller interface as serves much like the other controller class
+by having a timer control the animation. This class takes in a model, view, and a speed, so it can control what to render and how fast to do it. 
+However, since this class doesn't have interactive features it only starts the timer as its main function.
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

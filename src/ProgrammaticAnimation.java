@@ -2,20 +2,31 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import controller.AnimatorVisualController;
+import controller.AnimatorVisualControllerImpl;
 import io.AnimationBuilder;
 import io.AnimationFileReader;
 import io.TweenModelBuilder;
 import model.AnimatorModel;
 import model.EasyAnimatorModel;
 import view.AnimatorGraphicsView;
-import view.IView;
 
+/**
+ * This class represents a specific programmatic animation, dependent on the number of shapes given
+ * for the animation, this class will produce a program in which the shapes create a path of
+ * a diamond.
+ */
 public class ProgrammaticAnimation {
   private final StringBuilder str;
   private final int timeBetweenSquares;
   private final int moveTime;
   private final int countMoves;
 
+  /**
+   * Constructor for this class which is used to initialize values that are useful for the program.
+   * Including a string builder in which the text of the animation to be written to a file
+   * will be stored.
+   */
   public ProgrammaticAnimation() {
     str = new StringBuilder();
     timeBetweenSquares = 5;
@@ -93,25 +104,34 @@ public class ProgrammaticAnimation {
       }
     }
 
-    File file = new File("Diamond.txt");
+    File file = new File("diamond.txt");
     file.createNewFile();
     FileWriter fw = new FileWriter(file);
     fw.write(str.toString());
     fw.close();
   }
 
+  /**
+   * Run this animation on the console as a visual animation.
+   *
+   * @param args the first argument to this main method should be the number of squares desired
+   *             for the animation.
+   * @throws IOException due to output stream.
+   */
   public static void main(String[] args) throws IOException {
     int numShapes = Integer.parseInt(args[0]);
     ProgrammaticAnimation animation = new ProgrammaticAnimation();
+    int speed = numShapes / 2;
     try {
       animation.writeAnimation(numShapes);
       AnimatorModel m = new EasyAnimatorModel();
       TweenModelBuilder<AnimatorModel> modelBuilder = new AnimationBuilder(m);
       AnimationFileReader reader = new AnimationFileReader();
-      reader.readFile("Diamond.txt", modelBuilder);
+      reader.readFile("diamond.txt", modelBuilder);
       AnimatorModel model = modelBuilder.build();
-      IView view = new AnimatorGraphicsView(model, 100);
-      view.renderAnimation();
+      AnimatorGraphicsView view = new AnimatorGraphicsView(model, speed);
+      AnimatorVisualController controller = new AnimatorVisualControllerImpl(model, view, speed);
+      controller.play();
     } catch (IllegalArgumentException iae) {
       System.out.println(iae.getMessage());
     }

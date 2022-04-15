@@ -12,7 +12,7 @@ import view.InteractiveAnimatorView;
  * this is so the controller can know that buttons or keys or mouse clicks are being pressed
  * and will react accordingly.
  */
-public class AnimatorControllerImpl implements AnimatorInteractiveController {
+public class AnimatorInteractiveControllerImpl implements AnimatorInteractiveController {
   private final AnimatorModel model;
   private final InteractiveAnimatorView view;
   private final Timer timer;
@@ -28,7 +28,8 @@ public class AnimatorControllerImpl implements AnimatorInteractiveController {
    *              interactive view.
    * @param speed the speed at which this animation wants to be displayed initially.
    */
-  public AnimatorControllerImpl(AnimatorModel model, InteractiveAnimatorView view, int speed) {
+  public AnimatorInteractiveControllerImpl(AnimatorModel model,
+                                           InteractiveAnimatorView view, int speed) {
     this.tickCount = 1;
     this.speed = speed;
     this.model = model;
@@ -77,4 +78,5 @@ public class AnimatorControllerImpl implements AnimatorInteractiveController {
       play();
     }
   }
+
 }
