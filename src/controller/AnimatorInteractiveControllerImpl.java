@@ -13,8 +13,6 @@ import view.InteractiveAnimatorView;
  * and will react accordingly.
  */
 public class AnimatorInteractiveControllerImpl implements AnimatorInteractiveController {
-  private final AnimatorModel model;
-  private final InteractiveAnimatorView view;
   private final Timer timer;
   private int speed;
   private boolean canLoop;
@@ -32,8 +30,6 @@ public class AnimatorInteractiveControllerImpl implements AnimatorInteractiveCon
                                            InteractiveAnimatorView view, int speed) {
     this.tickCount = 1;
     this.speed = speed;
-    this.model = model;
-    this.view = view;
     this.canLoop = false;
     this.timer = new Timer(1000 / speed, null);
     this.timer.addActionListener(e -> {

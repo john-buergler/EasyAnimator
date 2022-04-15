@@ -23,12 +23,13 @@ public class AnimatorSVGView implements IView {
   /**
    * The constructor for an AnimatorSVGView, which produces the given model as an animation in SVG
    * format.
-   * @param m The AnimatorModel that contains the animation details.
+   *
+   * @param m        The AnimatorModel that contains the animation details.
    * @param fileName The name of the file that this SVG formatted text is being written to.
-   * @param speed The speed of the animation in ticks per second.
+   * @param speed    The speed of the animation in ticks per second.
    * @throws IOException In the event that createNewFile fails.
    */
-  public AnimatorSVGView(AnimatorModel m, String fileName, int speed)throws IOException {
+  public AnimatorSVGView(AnimatorModel m, String fileName, int speed) throws IOException {
     if (m == null || fileName == null || fileName.equals("") || speed <= 0) {
       throw new IllegalArgumentException("Invalid model, filename, or speed.");
     }
@@ -37,8 +38,7 @@ public class AnimatorSVGView implements IView {
     if (fileName.equals("System.out")) {
       outputSystem = System.out;
       outputFile = null;
-    }
-    else {
+    } else {
       File file = new File(fileName);
       file.createNewFile();
       outputFile = new FileWriter(file);
@@ -105,8 +105,7 @@ public class AnimatorSVGView implements IView {
       }
       if (type.equals("RECTANGLE")) {
         str.append("</rect>\n");
-      }
-      else {
+      } else {
         str.append("</ellipse>\n");
       }
     }
@@ -115,8 +114,7 @@ public class AnimatorSVGView implements IView {
     if (outputSystem == null) {
       outputFile.write(str.toString());
       outputFile.close();
-    }
-    else {
+    } else {
       outputSystem.append(str.toString());
     }
   }
@@ -131,8 +129,7 @@ public class AnimatorSVGView implements IView {
         if (type.equals("RECTANGLE")) {
           attributesChanging.add("x");
           attributesChanging.add("y");
-        }
-        else {
+        } else {
           attributesChanging.add("cx");
           attributesChanging.add("cy");
         }

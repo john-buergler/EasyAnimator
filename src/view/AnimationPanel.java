@@ -24,6 +24,7 @@ public class AnimationPanel extends JPanel {
 
   /**
    * The constructor for the AnimationPanel, taking in a model to access the Shapes to render.
+   *
    * @param m The AnimatorModel being rendered.
    */
   public AnimationPanel(AnimatorModel m) {
@@ -44,8 +45,7 @@ public class AnimationPanel extends JPanel {
       if (shape.getShapeType() == ShapeType.RECTANGLE) {
         g2d.fillRect(shape.getShapePosn().getX(), shape.getShapePosn().getY(),
                 shape.getWidth(), shape.getHeight());
-      }
-      else {
+      } else {
         g2d.fillOval(shape.getShapePosn().getX(), shape.getShapePosn().getY(),
                 shape.getWidth(), shape.getHeight());
       }

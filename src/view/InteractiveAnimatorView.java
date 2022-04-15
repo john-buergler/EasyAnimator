@@ -1,12 +1,19 @@
 package view;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import controller.AnimatorInteractiveController;
 import model.AnimatorModel;
@@ -111,8 +118,7 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
     if (panel.getCurrentTick() == model.getShapesPerTick().size()) {
       pause();
       loop();
-    }
-    else {
+    } else {
       panel.repaint();
     }
   }
@@ -160,8 +166,7 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
       if (this.countLoopback == 1) {
         loopbackStatus.setIcon(null);
         countLoopback = 0;
-      }
-      else {
+      } else {
         loopbackStatus.setIcon(new ImageIcon("check.jpg"));
         countLoopback = 1;
       }
