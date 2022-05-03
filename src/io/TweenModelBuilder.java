@@ -116,4 +116,23 @@ public interface TweenModelBuilder<T> {
    */
   T build();
 
+  /**
+   * Add a new plus to the model with the given specifications.
+   *
+   * @param name        the unique name given to this shape
+   * @param x          the minimum x-coordinate of a corner of the
+   *                    plus
+   * @param y          the minimum y-coordinate of a corner of the
+   *                    plus
+   * @param width       the width of the plus
+   * @param height      the height of the plus
+   * @param r         the red component of the color of the plus
+   * @param g     the green component of the color of the plus
+   * @param b     the blue component of the color of the plus
+   * @param start the time tick at which this plus appears
+   * @param end   the time tick at which this plus disappears
+   * @return the builder object
+   */
+  void addPlus(String name, float x, float y, float width, float height, float r, float g, float b,
+               int start, int end);
 }

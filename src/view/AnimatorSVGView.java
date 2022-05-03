@@ -51,63 +51,108 @@ public class AnimatorSVGView implements IView {
     StringBuilder str = new StringBuilder();
     initSVG(str);
     for (Shape shape : model.getShapes()) {
+      ArrayList ids = new ArrayList<String>();
+      ArrayList height = new ArrayList<Integer>();
+      ArrayList width = new ArrayList<Integer>();
+      ArrayList x = new ArrayList<Integer>();
+      ArrayList y = new ArrayList<Integer>();
+      int r;
+      int g;
+      int b;
+      int start;
+      int end;
       String shapeDef = shape.getLog().get(0);
       Scanner scan = new Scanner(shapeDef);
       scan.next();
       String id = scan.next();
       String type = scan.next();
-      int height = scan.nextInt();
-      int width = scan.nextInt();
-      int r = scan.nextInt();
-      int g = scan.nextInt();
-      int b = scan.nextInt();
-      int x = scan.nextInt();
-      int y = scan.nextInt();
-      int start = scan.nextInt();
-      int end = scan.nextInt();
-      str.append(toSVG(type, x, y, width, height, r, g, b, id));
-      str.append("  <animate attributeType=\"xml\" begin=\"base.begin\" dur=\"" +
-              ((start * 1000) / speed) + "ms\" attributeName=\"visibility\" from=\"hidden\" to=\"" +
-              "visible\"></animate>\n");
-      if (shape.getLog().size() > 1) {
-        for (int i = 1; i < shape.getLog().size(); i++) {
-          ArrayList<String> attributesChanging = new ArrayList<String>();
-          ArrayList<String> valuesStarting = new ArrayList<String>();
-          ArrayList<String> valuesEnding = new ArrayList<String>();
-          String motion = shape.getLog().get(i);
-          Scanner scan2 = new Scanner(motion);
-          scan2.next();
-          String motionType = scan2.next();
-          scan2.next();
-          int startTime = scan2.nextInt();
-          int xs = scan2.nextInt();
-          int ys = scan2.nextInt();
-          int hs = scan2.nextInt();
-          int ws = scan2.nextInt();
-          int rs = scan2.nextInt();
-          int gs = scan2.nextInt();
-          int bs = scan2.nextInt();
-          int endTime = scan2.nextInt();
-          int xe = scan2.nextInt();
-          int ye = scan2.nextInt();
-          int he = scan2.nextInt();
-          int we = scan2.nextInt();
-          int re = scan2.nextInt();
-          int ge = scan2.nextInt();
-          int be = scan2.nextInt();
-          assignAttributes(motionType, attributesChanging, valuesStarting, valuesEnding, startTime,
-                  xs, ys, hs, ws, rs, gs, bs, endTime, xe, ye, he, we, re, ge, be, type);
-          for (int j = 0; j < attributesChanging.size(); j++) {
-            str.append(svgmove(startTime, endTime, valuesStarting.get(j), valuesEnding.get(j),
-                    attributesChanging.get(j)));
-          }
-        }
-      }
-      if (type.equals("RECTANGLE")) {
-        str.append("</rect>\n");
+      if (!type.equals("PLUS")) {
+        ids.add(id);
+        height.add(scan.nextInt());
+        width.add(scan.nextInt());
+        r = scan.nextInt();
+        g = scan.nextInt();
+        b = scan.nextInt();
+        x.add(scan.nextInt());
+        y.add(scan.nextInt());
+        start = scan.nextInt();
+        end = scan.nextInt();
       }
       else {
-        str.append("</ellipse>\n");
+        ids.add(id);
+        ids.add(id + "(2)");
+        int h = scan.nextInt();
+        int w = scan.nextInt();
+        height.add(h / 2);
+        height.add(h);
+        width.add(w);
+        width.add(w / 2);
+        r = scan.nextInt();
+        g = scan.nextInt();
+        b = scan.nextInt();
+        int x1 = scan.nextInt();
+        int y1 = scan.nextInt();
+        x.add(x1);
+        x.add(x1 + (h / 4));
+        y.add(y1 + (w / 4));
+        y.add(y1);
+        start = scan.nextInt();
+        end = scan.nextInt();
+      }
+      for (int k = 0; k < height.size(); k++) {
+        str.append(toSVG(type, (Integer) x.get(k), (Integer) y.get(k), (Integer) width.get(k),
+                (Integer) height.get(k), r, g, b,
+                (String) ids.get(k)));
+        str.append("  <animate attributeType=\"xml\" begin=\"base.begin\" dur=\"" +
+                ((start * 1000) / speed) + "ms\" attributeName=\"visibility\" from=\"hidden\" to=\"" +
+                "visible\"></animate>\n");
+        if (shape.getLog().size() > 1) {
+          for (int i = 1; i < shape.getLog().size(); i++) {
+            ArrayList<String> attributesChanging = new ArrayList<String>();
+            ArrayList<String> valuesStarting = new ArrayList<String>();
+            ArrayList<String> valuesEnding = new ArrayList<String>();
+            String motion = shape.getLog().get(i);
+            Scanner scan2 = new Scanner(motion);
+            scan2.next();
+            String motionType = scan2.next();
+            scan2.next();
+            int startTime = scan2.nextInt();
+            int xs = scan2.nextInt();
+            int ys = scan2.nextInt();
+            int hs = scan2.nextInt();
+            int ws = scan2.nextInt();
+            int rs = scan2.nextInt();
+            int gs = scan2.nextInt();
+            int bs = scan2.nextInt();
+            int endTime = scan2.nextInt();
+            int xe = scan2.nextInt();
+            int ye = scan2.nextInt();
+            if (k == 1 && type.equals("PLUS")) {
+              xs = xs + ((Integer) height.get(k) / 4);
+              xe = xe + ((Integer) height.get(k) / 4);
+            }
+            if (k == 0 && type.equals("PLUS")) {
+              ys = ys + ((Integer) width.get(k) / 4);
+              ye = ye + ((Integer) width.get(k) / 4);
+            }
+            int he = scan2.nextInt();
+            int we = scan2.nextInt();
+            int re = scan2.nextInt();
+            int ge = scan2.nextInt();
+            int be = scan2.nextInt();
+            assignAttributes(motionType, attributesChanging, valuesStarting, valuesEnding, startTime,
+                    xs, ys, hs, ws, rs, gs, bs, endTime, xe, ye, he, we, re, ge, be, type);
+            for (int j = 0; j < attributesChanging.size(); j++) {
+              str.append(svgmove(startTime, endTime, valuesStarting.get(j), valuesEnding.get(j),
+                      attributesChanging.get(j)));
+            }
+          }
+        }
+        if (type.equals("RECTANGLE") || type.equals("PLUS")) {
+          str.append("</rect>\n");
+        } else {
+          str.append("</ellipse>\n");
+        }
       }
     }
     str.append("</svg>");
@@ -128,7 +173,8 @@ public class AnimatorSVGView implements IView {
                                 int be, String type) {
     switch (motionType) {
       case "move":
-        if (type.equals("RECTANGLE")) {
+        if (type.equals("RECTANGLE") ||
+                type.equals("PLUS")) {
           attributesChanging.add("x");
           attributesChanging.add("y");
         }
@@ -174,6 +220,7 @@ public class AnimatorSVGView implements IView {
     StringBuilder str = new StringBuilder();
     switch (type) {
       case "RECTANGLE":
+      case "PLUS":
         str.append("<").append("rect").append(" id=").append('"').append(id)
                 .append('"').append(" x=").append('"').append(x)
                 .append('"').append(" y=").append('"').append(y)

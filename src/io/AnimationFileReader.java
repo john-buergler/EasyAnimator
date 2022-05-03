@@ -60,6 +60,15 @@ public class AnimationFileReader {
                   cinfo.getR(), cinfo.getG(), cinfo.getB(),
                   cinfo.getStart(), cinfo.getEnd());
           break;
+        case "plus":
+          PlusInfo pinfo = readPlusInfo(sc);
+          builder.addPlus(
+                  pinfo.getName(),
+                  pinfo.getX(), pinfo.getY(),
+                  pinfo.getWidth(), pinfo.getHeight(),
+                  pinfo.getR(), pinfo.getG(), pinfo.getB(),
+                  pinfo.getStart(), pinfo.getEnd());
+          break;
         case "move":
           MoveInfo minfo = readMoveInfo(sc);
           builder.addMove(
@@ -145,6 +154,48 @@ public class AnimationFileReader {
         default:
           throw new IllegalStateException("Invalid attribute " + command + " for "
                   + "rectangle");
+      }
+    }
+
+    return info;
+  }
+
+  private PlusInfo readPlusInfo(Scanner sc) throws
+          IllegalStateException, InputMismatchException {
+    PlusInfo info = new PlusInfo();
+
+    while (!info.isAllInitialized()) {
+      String command = sc.next();
+      switch (command) {
+        case "min-x":
+          info.setX(sc.nextFloat());
+          break;
+        case "min-y":
+          info.setY(sc.nextFloat());
+          break;
+        case "width":
+          info.setWidth(sc.nextFloat());
+          break;
+        case "height":
+          info.setHeight(sc.nextFloat());
+          break;
+        case "color":
+          info.setR(sc.nextFloat());
+          info.setG(sc.nextFloat());
+          info.setB(sc.nextFloat());
+          break;
+        case "name":
+          info.setName(sc.next());
+          break;
+        case "from":
+          info.setStart(sc.nextInt());
+          break;
+        case "to":
+          info.setEnd(sc.nextInt());
+          break;
+        default:
+          throw new IllegalStateException("Invalid attribute " + command + " for "
+                  + "plus");
       }
     }
 
@@ -411,6 +462,57 @@ public class AnimationFileReader {
     private float height;
 
     RectangleInfo() {
+      super();
+      valueFlags.put("x", false);
+      valueFlags.put("y", false);
+      valueFlags.put("width", false);
+      valueFlags.put("height", false);
+    }
+
+    void setX(float x) {
+      this.x = x;
+      valueFlags.replace("x", true);
+    }
+
+    void setY(float y) {
+      this.y = y;
+      valueFlags.replace("y", true);
+    }
+
+    void setWidth(float width) {
+      this.width = width;
+      valueFlags.replace("width", true);
+    }
+
+    void setHeight(float height) {
+      this.height = height;
+      valueFlags.replace("height", true);
+    }
+
+    float getX() {
+      return x;
+    }
+
+    float getY() {
+      return y;
+    }
+
+    float getWidth() {
+      return width;
+    }
+
+    float getHeight() {
+      return height;
+    }
+  }
+
+  class PlusInfo extends ShapeInfo {
+    private float x;
+    private float y;
+    private float width;
+    private float height;
+
+    PlusInfo() {
       super();
       valueFlags.put("x", false);
       valueFlags.put("y", false);

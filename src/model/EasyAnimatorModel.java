@@ -65,6 +65,9 @@ public class EasyAnimatorModel implements AnimatorModel {
     if (shapeType == ShapeType.RECTANGLE) {
       shape = new Rect(height, width, color, posn, shapeID, shapeType);
     }
+    if (shapeType == ShapeType.PLUS) {
+      shape = new Plus(height, width, color, posn, shapeID, shapeType);
+    }
     else {
       shape = new Oval(height, width, color, posn, shapeID, shapeType);
     }
@@ -80,6 +83,10 @@ public class EasyAnimatorModel implements AnimatorModel {
       Shape s1;
       if (shapeType == ShapeType.RECTANGLE) {
         s1 = new Rect(s.getHeight(), s.getWidth(), s.getColor(), s.getShapePosn(),
+                s.getShapeID(), s.getShapeType());
+      }
+      if (shapeType == ShapeType.PLUS) {
+        s1 = new Plus(s.getHeight(), s.getWidth(), s.getColor(), s.getShapePosn(),
                 s.getShapeID(), s.getShapeType());
       }
       else {
@@ -280,6 +287,14 @@ public class EasyAnimatorModel implements AnimatorModel {
           }
           return shape;
         }
+        if (s.getShapeType() == ShapeType.PLUS) {
+          shape = new Plus(s.getHeight(), s.getWidth(), s.getColor(),
+                  s.getShapePosn(), s.getShapeID(), s.getShapeType());
+          for (int i = 0; i < s.getLog().size(); i++) {
+            shape.getLog().add(s.getLog().get(i));
+          }
+          return shape;
+        }
         else {
           shape = new Rect(s.getHeight(), s.getWidth(), s.getColor(),
                   s.getShapePosn(), s.getShapeID(), s.getShapeType());
@@ -438,6 +453,10 @@ public class EasyAnimatorModel implements AnimatorModel {
         Shape shape;
         if (s.getShapeType() == ShapeType.OVAL) {
           shape = new Oval(s.getHeight(), s.getWidth(), s.getColor(),
+                  s.getShapePosn(), s.getShapeID(), s.getShapeType());
+        }
+        if (s.getShapeType() == ShapeType.PLUS) {
+          shape = new Plus(s.getHeight(), s.getWidth(), s.getColor(),
                   s.getShapePosn(), s.getShapeID(), s.getShapeType());
         }
         else {

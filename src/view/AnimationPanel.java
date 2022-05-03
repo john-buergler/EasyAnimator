@@ -45,6 +45,12 @@ public class AnimationPanel extends JPanel {
         g2d.fillRect(shape.getShapePosn().getX(), shape.getShapePosn().getY(),
                 shape.getWidth(), shape.getHeight());
       }
+      if (shape.getShapeType() == ShapeType.PLUS) {
+        g2d.fillRect(shape.getShapePosn().getX(), shape.getShapePosn().getY(),
+                shape.getWidth() / 2, shape.getHeight());
+        g2d.fillRect(shape.getShapePosn().getX(), shape.getShapePosn().getY(),
+                shape.getWidth(), shape.getHeight() / 2);
+      }
       else {
         g2d.fillOval(shape.getShapePosn().getX(), shape.getShapePosn().getY(),
                 shape.getWidth(), shape.getHeight());

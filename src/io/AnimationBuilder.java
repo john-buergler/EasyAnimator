@@ -88,4 +88,14 @@ public class AnimationBuilder implements TweenModelBuilder<AnimatorModel> {
     return m;
   }
 
+  @Override
+  public void addPlus(String name, float x, float y, float width, float height, float r, float g,
+                      float b, int start, int end) {
+    Color color = new Color(r, g, b);
+    Posn posn = new Posn((int) x, (int) y);
+    int w = (int) width;
+    int h = (int) height;
+    m.addShape(ShapeType.PLUS, h, w, color, posn, name, start, end);
+  }
+
 }
