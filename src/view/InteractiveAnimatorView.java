@@ -6,14 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import controller.AnimatorInteractiveController;
 import model.AnimatorModel;
@@ -36,6 +31,8 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
   private final JTextField speedSet;
   private final JButton speedSetButton;
   private final JPanel buttonPanel;
+  private final JPanel renderShapePanel;
+  private final JComboBox<String> shapeRenderType;
   private final List<AnimatorInteractiveController> listenersList;
 
   /**
@@ -60,6 +57,10 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
     this.restartButton = new JButton("Restart");
     this.speedSet = new JTextField(String.valueOf(speed), 10);
     this.speedSetButton = new JButton("Enter");
+    this.renderShapePanel = new JPanel();
+    String[] renderTypes = new String[]{" ", "fill", "outline"};
+    this.shapeRenderType = new JComboBox<>(renderTypes);
+    shapeRenderType.setBorder(BorderFactory.createTitledBorder("How to render shapes?"));
     this.initializeButtons();
   }
 
@@ -110,6 +111,11 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
     speedSetButton.setActionCommand("Set");
     speedSetButton.addActionListener(this);
     buttonPanel.add(speedSetButton);
+
+    shapeRenderType.setActionCommand("RenderType");
+    shapeRenderType.addActionListener(this);
+    interactivePanel.add(shapeRenderType);
+
     this.setVisible(true);
   }
 
@@ -142,6 +148,10 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
       case "Set":
         int speed = Integer.parseInt(speedSet.getText());
         changeSpeed(speed);
+        break;
+      case "RenderType":
+        String str = Objects.requireNonNull(shapeRenderType.getSelectedItem()).toString();
+        checkRenderType(str);
         break;
       default:
         break;
@@ -207,6 +217,13 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
     for (AnimatorInteractiveController eventListener : listenersList) {
       eventListener.loop();
       this.statusPlay();
+    }
+  }
+
+  private void checkRenderType(String str) {
+    String currentRenderType = panel.getRenderType();
+    if (!currentRenderType.equals(str)) {
+      panel.setRenderType(str);
     }
   }
 
