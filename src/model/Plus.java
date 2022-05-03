@@ -16,4 +16,8 @@ public class Plus extends Rect {
   public Plus(int height, int width, Color color, Posn position, String shapeID, ShapeType type) {
     super(height, width, color, position, shapeID, type);
   }
+  public Plus(int height, int width, Color color, Posn position, String shapeID, ShapeType type,
+              boolean startingMotion) {
+    super(height, width, color, position, shapeID, type, startingMotion);
+  }
 }

@@ -22,6 +22,7 @@ public class AnimationPanel extends JPanel {
   private List<Shape> shapes;
   private int currentTick;
   private String renderType;
+  private boolean discreteMode;
 
   /**
    * The constructor for the AnimationPanel, taking in a model to access the Shapes to render.
@@ -32,6 +33,7 @@ public class AnimationPanel extends JPanel {
     this.currentTick = 1;
     this.model = m;
     this.shapes = new ArrayList<>();
+    this.discreteMode = false;
     this.renderType = "fill";
   }
 
@@ -41,7 +43,31 @@ public class AnimationPanel extends JPanel {
 
     Graphics2D g2d = (Graphics2D) g;
 
-    this.shapes = model.getShapesPerTick().get(currentTick);
+    if (discreteMode) {
+      ArrayList discreteTicks = new ArrayList<List<Shape>>();
+      for (List<Shape> tick : model.getShapesPerTick()) {
+        for (Shape shape : tick) {
+          if (shape.getStartingMotion()) {
+            discreteTicks.add(tick);
+          }
+        }
+      }
+      if (currentTick == discreteTicks.size()) {
+        currentTick = 1;
+        this.repaint();
+      }
+      this.shapes = (List<Shape>) discreteTicks.get(currentTick);
+      paintTick(g2d);
+      currentTick++;
+    }
+    else {
+      this.shapes = model.getShapesPerTick().get(currentTick);
+      paintTick(g2d);
+      currentTick += 1;
+    }
+  }
+
+  private void paintTick(Graphics2D g2d) {
     for (Shape shape : shapes) {
       g2d.setColor(shape.getColor());
       if (renderType.equals("fill") || renderType.equals(" ")) {
@@ -107,7 +133,6 @@ public class AnimationPanel extends JPanel {
         }
       }
     }
-    currentTick += 1;
   }
 
   int getCurrentTick() {
@@ -116,6 +141,11 @@ public class AnimationPanel extends JPanel {
 
   void restartTick() {
     currentTick = 1;
+  }
+
+  void toggleDiscrete() {
+    this.currentTick = 1;
+    this.discreteMode = !discreteMode;
   }
 
   String getRenderType() {

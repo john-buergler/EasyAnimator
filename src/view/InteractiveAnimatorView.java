@@ -30,6 +30,7 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
   private final JButton restartButton;
   private final JTextField speedSet;
   private final JButton speedSetButton;
+  private final JButton discreteButton;
   private final JPanel buttonPanel;
   private final JPanel renderShapePanel;
   private final JComboBox<String> shapeRenderType;
@@ -55,6 +56,7 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
     this.countLoopback = 0;
     this.loopbackStatus = new JLabel();
     this.restartButton = new JButton("Restart");
+    this.discreteButton = new JButton("Toggle Discrete");
     this.speedSet = new JTextField(String.valueOf(speed), 10);
     this.speedSetButton = new JButton("Enter");
     this.renderShapePanel = new JPanel();
@@ -116,6 +118,10 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
     shapeRenderType.addActionListener(this);
     interactivePanel.add(shapeRenderType);
 
+    discreteButton.setActionCommand("Discrete");
+    discreteButton.addActionListener(this);
+    interactivePanel.add(discreteButton);
+
     this.setVisible(true);
   }
 
@@ -153,6 +159,8 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
         String str = Objects.requireNonNull(shapeRenderType.getSelectedItem()).toString();
         checkRenderType(str);
         break;
+      case "Discrete":
+        panel.toggleDiscrete();
       default:
         break;
     }

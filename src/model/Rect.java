@@ -20,4 +20,8 @@ public class Rect extends AbstractShape {
   public Rect(int height, int width, Color color, Posn position, String shapeID, ShapeType type) {
     super(height, width, color, position, shapeID, type);
   }
+  public Rect(int height, int width, Color color, Posn position, String shapeID, ShapeType type,
+              boolean startingMotion) {
+    super(height, width, color, position, shapeID, type, startingMotion);
+  }
 }

@@ -173,13 +173,20 @@ public class EasyAnimatorModel implements AnimatorModel {
       if (shapesPerTick.get(t).stream().anyMatch(s -> s.getShapeID().equals(shapeID))) {
         Optional<Shape> optional = getShapeAt(shapeID, t);
         if (optional.isPresent()) {
+          Shape movingShape = optional.get();
+          if (t  == startTime + 1) {
+            movingShape.flagStartMotion();
+            int newXMove = getActualShape(shapeID).getShapePosn().getX() + xPerTick;
+            int newYMove = getActualShape(shapeID).getShapePosn().getY() + yPerTick;
+            Posn newPosn = new Posn(newXMove, newYMove);
+            movingShape.setPos(newPosn);
+            getActualShape(shapeID).moveShape(xPerTick, yPerTick);
+          }
           if (t == endTime) {
-            Shape movingShape = optional.get();
             movingShape.setPos(endPos);
             Posn newEndPos = new Posn(endPos.getX(), endPos.getY());
             getActualShape(shapeID).setPos(newEndPos);
           } else {
-            Shape movingShape = optional.get();
             int newXMove = getActualShape(shapeID).getShapePosn().getX() + xPerTick;
             int newYMove = getActualShape(shapeID).getShapePosn().getY() + yPerTick;
             Posn newPosn = new Posn(newXMove, newYMove);
@@ -357,6 +364,14 @@ public class EasyAnimatorModel implements AnimatorModel {
         Optional<Shape> optional = getShapeAt(shapeID, t);
         if (optional.isPresent()) {
           Shape changingColor = optional.get();
+          if (t == startTime + 1) {
+            changingColor.flagStartMotion();
+            int newRed = getActualShape(shapeID).getColor().getRed() + redRate;
+            int newGreen = getActualShape(shapeID).getColor().getGreen() + greenRate;
+            int newBlue = getActualShape(shapeID).getColor().getBlue() + blueRate;
+            changingColor.changeColor(new Color(newRed, newGreen, newBlue));
+            getActualShape(shapeID).changeColor(new Color(newRed, newGreen, newBlue));
+          }
           if (t == endTime) {
             changingColor.changeColor(endColor);
             getShape(shapeID).changeColor(endColor);
@@ -423,6 +438,13 @@ public class EasyAnimatorModel implements AnimatorModel {
         Optional<Shape> optional = getShapeAt(shapeID, t);
         if (optional.isPresent()) {
           Shape changingShape = optional.get();
+          if (t == startTime + 1) {
+            changingShape.flagStartMotion();
+            int newHeight = getActualShape(shapeID).getHeight() + changeHRate;
+            int newWidth = getActualShape(shapeID).getWidth() + changeWRate;
+            changingShape.changeShapeDimensions(newHeight, newWidth);
+            getActualShape(shapeID).changeShapeDimensions(newHeight, newWidth);
+          }
           if (t == endTime) {
             changingShape.changeShapeDimensions(endHeight, endWidth);
             getActualShape(shapeID).changeShapeDimensions(endHeight, endWidth);
@@ -453,15 +475,15 @@ public class EasyAnimatorModel implements AnimatorModel {
         Shape shape;
         if (s.getShapeType() == ShapeType.OVAL) {
           shape = new Oval(s.getHeight(), s.getWidth(), s.getColor(),
-                  s.getShapePosn(), s.getShapeID(), s.getShapeType());
+                  s.getShapePosn(), s.getShapeID(), s.getShapeType(), s.getStartingMotion());
         }
         if (s.getShapeType() == ShapeType.PLUS) {
           shape = new Plus(s.getHeight(), s.getWidth(), s.getColor(),
-                  s.getShapePosn(), s.getShapeID(), s.getShapeType());
+                  s.getShapePosn(), s.getShapeID(), s.getShapeType(), s.getStartingMotion());
         }
         else {
           shape = new Rect(s.getHeight(), s.getWidth(), s.getColor(),
-                  s.getShapePosn(), s.getShapeID(), s.getShapeType());
+                  s.getShapePosn(), s.getShapeID(), s.getShapeType(), s.getStartingMotion());
         }
         innerList.add(shape);
       }

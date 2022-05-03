@@ -79,4 +79,14 @@ public interface Shape {
    * @return an array of strings describing the motion of the shape during animation.
    */
   public List<String> getLog();
+
+  /**
+   * Marks when a shape starts motion.
+   */
+  void flagStartMotion();
+
+  /**
+   * Checks if shape is starting motion.
+   */
+  boolean getStartingMotion();
 }

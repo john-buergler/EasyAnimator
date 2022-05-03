@@ -16,6 +16,7 @@ public abstract class AbstractShape implements Shape {
   protected Posn position;
   protected final ShapeType type;
   protected final List<String> log;
+  protected boolean startingMotion;
 
   /**
    * Constructor for shapes with all the same parameters.
@@ -39,6 +40,23 @@ public abstract class AbstractShape implements Shape {
     this.position = position;
     this.type = type;
     this.log = new ArrayList<>();
+  }
+
+  public AbstractShape(int height,
+                       int width,
+                       Color color,
+                       Posn position,
+                       String shapeID,
+                       ShapeType type,
+                       boolean startingMotion) {
+    this.shapeID = shapeID;
+    this.width = width;
+    this.height = height;
+    this.color = color;
+    this.position = position;
+    this.type = type;
+    this.log = new ArrayList<>();
+    this.startingMotion = startingMotion;
   }
 
   @Override
@@ -131,6 +149,16 @@ public abstract class AbstractShape implements Shape {
   @Override
   public List<String> getLog() {
     return log;
+  }
+
+  @Override
+  public void flagStartMotion() {
+    this.startingMotion = true;
+  }
+
+  @Override
+  public boolean getStartingMotion() {
+    return startingMotion;
   }
 }
 
