@@ -24,6 +24,7 @@ public class AnimationPanel extends JPanel {
 
   /**
    * The constructor for the AnimationPanel, taking in a model to access the Shapes to render.
+   *
    * @param m The AnimatorModel being rendered.
    */
   public AnimationPanel(AnimatorModel m) {

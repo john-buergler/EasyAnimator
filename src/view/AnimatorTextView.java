@@ -21,9 +21,9 @@ public class AnimatorTextView implements IView {
   /**
    * Constructor for class, initializing the following fields.
    *
-   * @param m the model that is to be displayed.
+   * @param m        the model that is to be displayed.
    * @param fileName the file to write to, default is System.out.
-   * @param speed the speed of the animation, used to calculate the real time of the motions.
+   * @param speed    the speed of the animation, used to calculate the real time of the motions.
    * @throws IOException In the event that createNewFile fails.
    */
   public AnimatorTextView(AnimatorModel m, String fileName, int speed) throws IOException {
@@ -34,8 +34,7 @@ public class AnimatorTextView implements IView {
     if (fileName.equals("System.out")) {
       outputSystem = System.out;
       outputFile = null;
-    }
-    else {
+    } else {
       File file = new File(fileName);
       file.createNewFile();
       outputFile = new FileWriter(file);
@@ -56,8 +55,7 @@ public class AnimatorTextView implements IView {
         String logStr = log.get(j);
         if (j == 0) {
           str.append(logStr + "\n");
-        }
-        else {
+        } else {
           Scanner scan = new Scanner(logStr);
           String str1 = scan.next();
           str.append(str1 + " ");
@@ -71,7 +69,7 @@ public class AnimatorTextView implements IView {
           int count = 5;
           while (count < 12) {
             str.append(scan.next() + " ");
-            count ++;
+            count++;
           }
           int num2 = scan.nextInt();
           double time2 = (double) num2 / speed;
@@ -87,8 +85,7 @@ public class AnimatorTextView implements IView {
     if (outputSystem == null) {
       outputFile.write(str.toString());
       outputFile.close();
-    }
-    else {
+    } else {
       outputSystem.append(str.toString());
     }
   }

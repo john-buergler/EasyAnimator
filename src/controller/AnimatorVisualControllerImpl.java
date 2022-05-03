@@ -2,7 +2,7 @@ package controller;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.swing.*;
+import javax.swing.Timer;
 
 import model.AnimatorModel;
 import view.AnimatorGraphicsView;
@@ -14,10 +14,7 @@ import view.AnimatorGraphicsView;
  * features.
  */
 public class AnimatorVisualControllerImpl implements AnimatorVisualController {
-  private final AnimatorModel model;
-  private final AnimatorGraphicsView view;
   private final Timer timer;
-  private final int speed;
 
   /**
    * Represents the controller for this class which initializes the timer as well as other useful
@@ -30,9 +27,6 @@ public class AnimatorVisualControllerImpl implements AnimatorVisualController {
    */
   public AnimatorVisualControllerImpl(AnimatorModel model,
                                       AnimatorGraphicsView view, int speed) {
-    this.model = model;
-    this.view = view;
-    this.speed = speed;
     AtomicInteger currentTick = new AtomicInteger(1);
     this.timer = new Timer(1000 / speed, null);
     timer.addActionListener(e -> {
