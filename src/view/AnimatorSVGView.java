@@ -137,6 +137,12 @@ public class AnimatorSVGView implements IView {
             }
             int he = scan2.nextInt();
             int we = scan2.nextInt();
+            if (k == 1 && type.equals("PLUS")) {
+              ws = ws / 2;
+            }
+            if (k == 0 && type.equals("PLUS")) {
+              he = he / 2;
+            }
             int re = scan2.nextInt();
             int ge = scan2.nextInt();
             int be = scan2.nextInt();

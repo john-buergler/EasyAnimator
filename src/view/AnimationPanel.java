@@ -48,16 +48,19 @@ public class AnimationPanel extends JPanel {
       for (List<Shape> tick : model.getShapesPerTick()) {
         for (Shape shape : tick) {
           if (shape.getStartingMotion()) {
-            discreteTicks.add(tick);
+            discreteTicks.add(model.getShapesPerTick().indexOf(tick));
           }
         }
       }
-      if (currentTick == discreteTicks.size()) {
-        currentTick = 1;
-        this.repaint();
+
+      if (discreteTicks.contains(currentTick)) {
+        this.shapes = model.getShapesPerTick().get(currentTick);
+        paintTick(g2d);
+
       }
-      this.shapes = (List<Shape>) discreteTicks.get(currentTick);
-      paintTick(g2d);
+      else {
+        paintTick(g2d);
+      }
       currentTick++;
     }
     else {
@@ -144,7 +147,6 @@ public class AnimationPanel extends JPanel {
   }
 
   void toggleDiscrete() {
-    this.currentTick = 1;
     this.discreteMode = !discreteMode;
   }
 

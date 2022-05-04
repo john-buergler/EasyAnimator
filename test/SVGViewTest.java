@@ -4,6 +4,8 @@ import org.junit.Test;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Scanner;
 
 import model.AnimatorModel;
@@ -336,5 +338,44 @@ public class SVGViewTest {
     assertEquals("</ellipse>", closeOval);
     assertEquals("</svg>", closeSVG);
     assertFalse(scan.hasNext());
+  }
+
+  @Test
+  public void testPlus() throws IOException {
+    int sceneWidth = 200;
+    int sceneHeight = 250;
+    m.buildScene(sceneWidth, sceneHeight);
+    m.addShape(ShapeType.PLUS, 10, 15, new Color(0, 0, 0),
+            new Posn(100, 125), "plus1", 1, 5);
+    m.moveShape(2, 3, new Posn(100, 125),
+            new Posn(150, 150), "plus1");
+    File file = new File("TextViewTest");
+    IView textView = new AnimatorSVGView(m, "TextViewTest", 10);
+    textView.renderAnimation();
+    assertEquals("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"800\" " +
+            "version=\"1.1\">\n" +
+            "<rect>\n" +
+            " <animate id=\"base\" begin=\"0;base.end\" dur=\"600ms\"" +
+            " attributeName=\"visibility\" from=\"hide\" to =\"hide\"></animate>\n" +
+            "</rect>\n" +
+            "<rect id=\"plus1\" x=\"100\" y=\"128\" width=\"15\" height=\"5\"" +
+            " fill=\"rgb(0, 0, 0)\" visibility=\"visible\">\n" +
+            "  <animate attributeType=\"xml\" begin=\"base.begin\" dur=\"100ms\" " +
+            "attributeName=\"visibility\" from=\"hidden\" to=\"visible\"></animate>\n" +
+            "  <animate attributeType=\"xml\" begin=\"base.begin+200ms\" dur=\"100ms\"" +
+            " attributeName=\"x\" from=\"100\" to=\"150\" fill=\"freeze\"></animate>\n" +
+            "  <animate attributeType=\"xml\" begin=\"base.begin+200ms\" dur=\"100ms\" " +
+            "attributeName=\"y\" from=\"128\" to=\"153\" fill=\"freeze\"></animate>\n" +
+            "</rect>\n" +
+            "<rect id=\"plus1(2)\" x=\"102\" y=\"125\" width=\"7\" height=\"10\"" +
+            " fill=\"rgb(0, 0, 0)\" visibility=\"visible\">\n" +
+            "  <animate attributeType=\"xml\" begin=\"base.begin\" dur=\"100ms\"" +
+            " attributeName=\"visibility\" from=\"hidden\" to=\"visible\"></animate>\n" +
+            "  <animate attributeType=\"xml\" begin=\"base.begin+200ms\" dur=\"100ms\" " +
+            "attributeName=\"x\" from=\"102\" to=\"152\" fill=\"freeze\"></animate>\n" +
+            "  <animate attributeType=\"xml\" begin=\"base.begin+200ms\" dur=\"100ms\"" +
+            " attributeName=\"y\" from=\"125\" to=\"150\" fill=\"freeze\"></animate>\n" +
+            "</rect>\n" +
+            "</svg>", Files.readString(Path.of("TextViewTest")));
   }
 }
