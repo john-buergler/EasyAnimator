@@ -129,6 +129,8 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
   public void renderAnimation() {
     if (panel.getCurrentTick() == model.getShapesPerTick().size()) {
       pause();
+      int speed = Integer.parseInt(speedSet.getText());
+      changeSpeed(speed);
       loop();
     } else {
       panel.repaint();

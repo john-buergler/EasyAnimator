@@ -92,14 +92,14 @@ public class AnimatorInteractiveControllerImpl implements AnimatorInteractiveCon
   @Override
   public void restart() {
     this.currentTempo = null;
-    timer.setDelay(1000 / this.initialSpeed);
+    tickCount = 1;
     timer.restart();
   }
 
   @Override
   public void loop() {
     if (canLoop) {
-      play();
+      restart();
     }
   }
 
