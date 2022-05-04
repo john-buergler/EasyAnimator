@@ -5,6 +5,7 @@ import java.awt.Color;
 import model.AnimatorModel;
 import model.Posn;
 import model.ShapeType;
+import model.Tempo;
 
 /**
  * As the AnimationFileReader parses a file, this builds an instance of AnimationModel with our
@@ -96,6 +97,12 @@ public class AnimationBuilder implements TweenModelBuilder<AnimatorModel> {
     int w = (int) width;
     int h = (int) height;
     m.addShape(ShapeType.PLUS, h, w, color, posn, name, start, end);
+  }
+
+  @Override
+  public void addTempo(int speed, int startTime, int endTime) {
+    Tempo t = new Tempo(speed, startTime, endTime);
+    m.addTempo(t);
   }
 
 }

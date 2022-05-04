@@ -17,6 +17,7 @@ public class EasyAnimatorModel implements AnimatorModel {
   private int sceneWidth;
   private final List<Shape> shapes;
   private final List<ArrayList<Shape>> shapesPerTick;
+  private final List<Tempo> tempos;
 
   /**
    * Constructor for class, which only initializes the shapes and shapes per tick of our model.
@@ -24,7 +25,7 @@ public class EasyAnimatorModel implements AnimatorModel {
   public EasyAnimatorModel() {
     this.shapes = new ArrayList<>();
     this.shapesPerTick = new ArrayList<ArrayList<Shape>>();
-
+    this.tempos = new ArrayList<>();
   }
 
   @Override
@@ -526,6 +527,29 @@ public class EasyAnimatorModel implements AnimatorModel {
             shapesPerTick.get(tick).stream().filter(s -> s.getShapeID().equals(shapeID))
                     .findFirst();
     return optional;
+  }
+
+  @Override
+  public void addTempo(Tempo tempo) {
+    for (Tempo t : tempos) {
+      if (t.getStartTime() <= tempo.getStartTime() && tempo.getEndTime() <= t.getEndTime()) {
+        throw new IllegalArgumentException("Can't have overlapping tempos.");
+      }
+      else if (t.getStartTime() < tempo.getEndTime() && tempo.getEndTime() <= t.getEndTime()) {
+        throw new IllegalArgumentException("Can't have overlapping tempos.");
+      }
+    }
+    this.tempos.add(tempo);
+  }
+
+  @Override
+  public List<Tempo> getTempos() {
+    List<Tempo> copyTempos = new ArrayList<>();
+    for (Tempo t : tempos) {
+      Tempo newTempo = new Tempo(t.getSpeed(), t.getStartTime(), t.getEndTime());
+      copyTempos.add(newTempo);
+    }
+    return copyTempos;
   }
 
 }

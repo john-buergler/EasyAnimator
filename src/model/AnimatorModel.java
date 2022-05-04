@@ -148,4 +148,8 @@ public interface AnimatorModel {
    *     Instead, it will return a non-present optional object.
    */
   public Optional<Shape> getShapeAt(String shapeID, int tick);
+
+  public void addTempo(Tempo tempo);
+
+  public List<Tempo> getTempos();
 }

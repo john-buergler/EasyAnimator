@@ -102,6 +102,10 @@ public class AnimationFileReader {
                   scaleByInfo.getStart(),
                   scaleByInfo.getEnd());
           break;
+        case "tempo":
+          TempoInfo tempoInfo = readTempoInfo(sc);
+          builder.addTempo(tempoInfo.getSpeed(), tempoInfo.getStartTime(), tempoInfo.getEndTime());
+          break;
         default:
           throw new IllegalStateException("Unidentified token " + command + " "
                   + "read from file");
@@ -333,6 +337,30 @@ public class AnimationFileReader {
         default:
           throw new IllegalStateException("Invalid attribute " + command + " for "
                   + "scale-to");
+      }
+    }
+
+    return info;
+  }
+
+  private TempoInfo readTempoInfo(Scanner sc) {
+    TempoInfo info = new TempoInfo();
+
+    while (!info.isAllInitialized()) {
+      String command = sc.next();
+      switch (command) {
+        case "speed":
+          info.setSpeed(sc.nextInt());
+          break;
+        case "start":
+          info.setStartTime(sc.nextInt());
+          break;
+        case "end":
+          info.setEndTime(sc.nextInt());
+          break;
+        default:
+          throw new IllegalStateException("Invalid attribute " + command + " for "
+                  + "tempo");
       }
     }
 
@@ -895,5 +923,47 @@ public class AnimationFileReader {
     int getEnd() {
       return end;
     }
+  }
+
+  class TempoInfo extends Inputable {
+    private int speed;
+    private int startTime;
+    private int endTime;
+
+    TempoInfo() {
+      super();
+
+      valueFlags.put("speed", false);
+      valueFlags.put("startTime", false);
+      valueFlags.put("endTime", false);
+    }
+
+    void setSpeed(int speed) {
+      this.speed = speed;
+      valueFlags.replace("speed", true);
+    }
+
+    void setStartTime(int startTime) {
+      this.startTime = startTime;
+      valueFlags.replace("startTime", true);
+    }
+
+    void setEndTime(int endTime) {
+      this.endTime = endTime;
+      valueFlags.replace("endTime", true);
+    }
+
+    int getSpeed() {
+      return speed;
+    }
+
+    int getStartTime() {
+      return startTime;
+    }
+
+    int getEndTime() {
+      return endTime;
+    }
+
   }
 }

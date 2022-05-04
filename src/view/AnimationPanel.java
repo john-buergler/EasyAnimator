@@ -123,7 +123,7 @@ public class AnimationPanel extends JPanel {
           double seventhX = sixthX - (0.5 * shape.getWidth());
           g2d.drawLine((int) sixthX, (int) sixthY, (int) seventhX, (int) sixthY);
           double seventhY = sixthY + (0.25 * shape.getHeight());
-          g2d.drawLine((int) seventhX, (int) sixthY, (int) seventhX, (int) sixthY);
+          g2d.drawLine((int) seventhX, (int) sixthY, (int) seventhX, (int) seventhY);
         }
         else {
           int x = shape.getShapePosn().getX();

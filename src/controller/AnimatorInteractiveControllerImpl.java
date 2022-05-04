@@ -1,8 +1,11 @@
 package controller;
 
+import java.util.List;
+
 import javax.swing.Timer;
 
 import model.AnimatorModel;
+import model.Tempo;
 import view.InteractiveAnimatorView;
 
 /**
@@ -13,10 +16,12 @@ import view.InteractiveAnimatorView;
  * and will react accordingly.
  */
 public class AnimatorInteractiveControllerImpl implements AnimatorInteractiveController {
+  private final int initialSpeed;
   private final Timer timer;
   private int speed;
   private boolean canLoop;
   private int tickCount;
+  private Tempo currentTempo;
 
   /**
    * Constructor for class which initializes and takes care of many values.
@@ -28,11 +33,32 @@ public class AnimatorInteractiveControllerImpl implements AnimatorInteractiveCon
    */
   public AnimatorInteractiveControllerImpl(AnimatorModel model,
                                            InteractiveAnimatorView view, int speed) {
+    this.initialSpeed = speed;
+    List<Tempo> tempos = model.getTempos();
+    for (Tempo t : tempos) {
+      System.out.println(t);
+    }
     this.tickCount = 1;
     this.speed = speed;
     this.canLoop = false;
+    this.currentTempo = null;
     this.timer = new Timer(1000 / speed, null);
     this.timer.addActionListener(e -> {
+      for (Tempo t : tempos) {
+        if (currentTempo == null) {
+          if (t.getStartTime() == tickCount) {
+            currentTempo = t;
+            break;
+          }
+        }
+        else if (currentTempo.getEndTime() == tickCount) {
+          currentTempo = null;
+          changeSpeed(initialSpeed);
+        }
+      }
+      if (!(currentTempo == null)) {
+        changeSpeed(currentTempo.getSpeed());
+      }
       view.renderAnimation();
       tickCount += 1;
     });
@@ -65,6 +91,8 @@ public class AnimatorInteractiveControllerImpl implements AnimatorInteractiveCon
 
   @Override
   public void restart() {
+    this.currentTempo = null;
+    timer.setDelay(1000 / this.initialSpeed);
     timer.restart();
   }
 

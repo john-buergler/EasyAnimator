@@ -135,4 +135,6 @@ public interface TweenModelBuilder<T> {
    */
   void addPlus(String name, float x, float y, float width, float height, float r, float g, float b,
                int start, int end);
+
+  void addTempo(int speed, int startTime, int endTime);
 }
