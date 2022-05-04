@@ -1,4 +1,6 @@
 canvas 800 800
+tempo speed 10 start 150 end 180
+tempo speed 10 start 300 end 320
 oval name FACE center-x 1300 center-y 1300 x-radius 700 y-radius 700 color 1 1 0 from 1 to 400
 oval name EYE1 center-x 675 center-y 900 x-radius 30 y-radius 30 color 0 0 0 from 1 to 400
 oval name EYE2 center-x 325 center-y 900 x-radius 30 y-radius 30 color 0 0 0 from 1 to 400

@@ -12,6 +12,7 @@ import model.Posn;
 import model.Rect;
 import model.ShapeType;
 import model.Shape;
+import model.Tempo;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -640,4 +641,33 @@ public class AnimatorModelTest {
     assertEquals("50506060java.awt.Color[r=255,g=0,b=0]redov1OVAL",
             model.getShapes().get(0).toString());
   }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testAddTempoOverlap1() {
+    Tempo t1 = new Tempo(20, 50, 100);
+    Tempo t2 = new Tempo(10, 80, 100);
+    model.addTempo(t1);
+    model.addTempo(t2);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testAddTempoOverlapEndTime() {
+    Tempo t1 = new Tempo(20, 50, 100);
+    Tempo t2 = new Tempo(10, 40, 55);
+    model.addTempo(t1);
+    model.addTempo(t2);
+  }
+
+  @Test
+  public void testAddMultipleTempos() {
+    Tempo t1 = new Tempo(20, 50, 60);
+    Tempo t2 = new Tempo(10, 60, 80);
+    Tempo t3 = new Tempo(5, 100, 190);
+    model.addTempo(t1);
+    model.addTempo(t2);
+    model.addTempo(t3);
+    assertEquals(3, model.getTempos().size());
+  }
+
+
 }

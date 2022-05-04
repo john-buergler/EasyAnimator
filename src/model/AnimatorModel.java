@@ -149,7 +149,14 @@ public interface AnimatorModel {
    */
   public Optional<Shape> getShapeAt(String shapeID, int tick);
 
+  /**
+   * @param tempo a tempo to be added to the animation.
+   * @throws IllegalArgumentException if given tempo overlaps with current tempos in the animation.
+   */
   public void addTempo(Tempo tempo);
 
+  /**
+   * @return the list of tempos for the animation.
+   */
   public List<Tempo> getTempos();
 }

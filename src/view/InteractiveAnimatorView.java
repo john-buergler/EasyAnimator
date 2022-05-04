@@ -218,6 +218,8 @@ public class InteractiveAnimatorView extends AnimatorGraphicsView implements Act
   private void restart() {
     panel.restartTick();
     for (AnimatorInteractiveController eventListener : listenersList) {
+      int speed = Integer.parseInt(speedSet.getText());
+      changeSpeed(speed);
       eventListener.restart();
     }
   }
