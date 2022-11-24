@@ -8,7 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
+import javax.swing.BorderFactory;
+import javax.swing.JTextField;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 
 import controller.AnimatorInteractiveController;
 import model.AnimatorModel;
