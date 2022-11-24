@@ -112,3 +112,24 @@ by having a timer control the animation. This class takes in a model, view, and 
 However, since this class doesn't have interactive features it only starts the timer as its main function.
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Changes to the code for this Extra Credit assignment:
+
+There was an addition to the shape pool, now including a plus shape that can do the same
+functions as the other shapes.
+
+There was also an outline mode addition, this adds more functionality, allowing the user to switch
+their shapes to an outline mode instead of filled. This option can be selected in the interactive
+view during the animation.
+
+Along with these changes, we added a button that can switch the animation to play in discrete mode,
+only showing the frames during which a movement begins. This button can be seen in the interactive
+panel and it acts like a toggle.
+
+Finally, we added a slo-mo feature, where you can designate certain times at which you want the
+speed of the animation to change. This is done by adding another line to your input file with this
+format:
+
+tempo speed 10 start 150 end 180
+
+for example.
